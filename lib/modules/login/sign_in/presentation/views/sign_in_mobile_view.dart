@@ -32,27 +32,35 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 50, right: 200),
-              child: Text(
-                'Sign In',
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
+            const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 50, left: 25),
+                  child: Text(
+                    'Sign In',
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
             const SizedBox(height: 5),
-            const Padding(
-              padding: EdgeInsets.only(right: 30),
-              child: Text(
-                'Add or select your details to continue',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color.fromARGB(255, 113, 113, 113),
+            const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 25),
+                  child: Text(
+                    'Add or select your details to continue',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 105, 104, 104),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
             const SizedBox(height: 35),
             Form(
@@ -72,7 +80,11 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                           ),
                         ),
                         labelText: 'Employee UID',
-                        prefixIcon: const Icon(Icons.mail),
+                        hintStyle: const TextStyle(fontSize: 20),
+                        prefixIcon: const Icon(
+                          Icons.mail,
+                          color: Color.fromARGB(255, 157, 37, 116),
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -97,7 +109,11 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                           ),
                         ),
                         labelText: 'Password',
-                        prefixIcon: const Icon(Icons.lock),
+                        hintStyle: const TextStyle(fontSize: 20),
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          color: Color.fromARGB(255, 157, 37, 116),
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -159,7 +175,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: SizedBox(
                 width: double.infinity,
-                height: 45,
+                height: 50,
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -178,7 +194,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                     'SIGN IN',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
