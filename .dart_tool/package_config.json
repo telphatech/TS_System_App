@@ -32,12 +32,6 @@
       "languageVersion": "2.18"
     },
     {
-      "name": "cupertino_icons",
-      "rootUri": "file:///C:/Users/wable/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.6",
-      "packageUri": "lib/",
-      "languageVersion": "2.19"
-    },
-    {
       "name": "fake_async",
       "rootUri": "file:///C:/Users/wable/AppData/Local/Pub/Cache/hosted/pub.dev/fake_async-1.3.1",
       "packageUri": "lib/",
@@ -51,9 +45,9 @@
     },
     {
       "name": "flutter_lints",
-      "rootUri": "file:///C:/Users/wable/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.3",
+      "rootUri": "file:///C:/Users/wable/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-3.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "flutter_test",
@@ -63,7 +57,7 @@
     },
     {
       "name": "lints",
-      "rootUri": "file:///C:/Users/wable/AppData/Local/Pub/Cache/hosted/pub.dev/lints-2.1.1",
+      "rootUri": "file:///C:/Users/wable/AppData/Local/Pub/Cache/hosted/pub.dev/lints-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -152,7 +146,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-02-05T02:10:39.840248Z",
+  "generated": "2024-02-05T16:21:25.533937Z",
   "generator": "pub",
   "generatorVersion": "3.2.6"
 }
