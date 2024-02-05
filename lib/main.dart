@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ts_system/modules/login/sign_in/presentation/views/sign_in_mobile_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      home: const SignInMobileView(),
     );
   }
 }
