@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ts_system/modules/splash/presentation/views/splash_screen_mobile_view.dart';
 
-// TODO: NIKITA
-
 class HomeEmployeeMobileView extends StatelessWidget {
   const HomeEmployeeMobileView({super.key});
 
@@ -10,7 +8,7 @@ class HomeEmployeeMobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
       ),
       drawer: Drawer(
         child: Container(
@@ -18,7 +16,7 @@ class HomeEmployeeMobileView extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              UserAccountsDrawerHeader(
+              const UserAccountsDrawerHeader(
                 accountName: Row(
                   children: [
                     CircleAvatar(
@@ -52,84 +50,89 @@ class HomeEmployeeMobileView extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.dashboard, color: Colors.white),
-                title: Text('Dashboard', style: TextStyle(color: Colors.white)),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SplashScreenMobileView()),
-                  );
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.access_time, color: Colors.white),
-                title: Text('Timesheet', style: TextStyle(color: Colors.white)),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SplashScreenMobileView()),
-                  );
-                },
-              ),
-              ListTile(
-                leading:
-                    Icon(Icons.assignment_turned_in_sharp, color: Colors.white),
-                title:
-                    Text('Attendance', style: TextStyle(color: Colors.white)),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SplashScreenMobileView()),
-                  );
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.assignment, color: Colors.white),
-                title: Text('Leave', style: TextStyle(color: Colors.white)),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SplashScreenMobileView()),
-                  );
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.settings, color: Colors.white),
-                title: Text('Settings', style: TextStyle(color: Colors.white)),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SplashScreenMobileView()),
-                  );
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.help, color: Colors.white),
-                title: Text('Help and Support',
+                leading: const Icon(Icons.dashboard, color: Colors.white),
+                title: const Text('Dashboard',
                     style: TextStyle(color: Colors.white)),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SplashScreenMobileView()),
+                        builder: (context) => const SplashScreenMobileView()),
                   );
                 },
               ),
-              SizedBox(height: 140),
-              Divider(color: Colors.grey),
               ListTile(
-                leading: Icon(Icons.logout, color: Colors.white),
-                title: Text('Logout', style: TextStyle(color: Colors.white)),
+                leading: const Icon(Icons.access_time, color: Colors.white),
+                title: const Text('Timesheet',
+                    style: TextStyle(color: Colors.white)),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SplashScreenMobileView()),
+                        builder: (context) => const SplashScreenMobileView()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.assignment_turned_in_sharp,
+                    color: Colors.white),
+                title: const Text('Attendance',
+                    style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashScreenMobileView()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.assignment, color: Colors.white),
+                title:
+                    const Text('Leave', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashScreenMobileView()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings, color: Colors.white),
+                title: const Text('Settings',
+                    style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashScreenMobileView()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.help, color: Colors.white),
+                title: const Text('Help and Support',
+                    style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashScreenMobileView()),
+                  );
+                },
+              ),
+              const SizedBox(height: 140),
+              const Divider(color: Colors.grey),
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.white),
+                title:
+                    const Text('Logout', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashScreenMobileView()),
                   );
                 },
               ),

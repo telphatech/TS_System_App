@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ts_system/modules/login/sign_in/presentation/views/sign_in_mobile_view.dart';
 
-// TODO: PRANJAL
-
 class HomeAdminMobileView extends StatelessWidget {
   const HomeAdminMobileView({super.key});
 
@@ -10,12 +8,11 @@ class HomeAdminMobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 157, 37, 116),
         title: const Text(
           'TM System',
           style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 48,
-            color: Color.fromARGB(255, 157, 37, 116),
+            color: Colors.white,
           ),
         ),
       ),
@@ -23,44 +20,41 @@ class HomeAdminMobileView extends StatelessWidget {
         child: Container(
           color: const Color.fromARGB(255, 157, 37, 116),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 157, 37, 116),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              const UserAccountsDrawerHeader(
+                accountName: Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: CircleAvatar(
-                        radius: 30,
-                        backgroundImage: AssetImage('assets/profilepic.png'),
-                      ),
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundImage: AssetImage(''),
                     ),
                     SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+                      children: [
                         Text(
-                          'John Williams',
-                          style: TextStyle(color: Colors.white, fontSize: 22),
+                          "John Williams",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          'admin@telphatech.com',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          "admin@telphatech.com",
+                          style: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ],
                     ),
-                    Divider(
-                      color: Colors.white,
-                    ),
                   ],
                 ),
+                accountEmail: Text(""),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.grey, width: 0.1),
+                  ),
+                ),
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 5),
               ListTile(
                 leading: const Icon(Icons.dashboard, color: Colors.white),
                 title: const Text(
@@ -147,24 +141,31 @@ class HomeAdminMobileView extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 200),
-              const Divider(
-                color: Colors.white,
-                thickness: 1,
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.white),
-                title: const Text(
-                  'Logout',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+              const SizedBox(height: 100),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  children: [
+                    const Divider(
+                      color: Colors.white,
+                      thickness: 1,
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.logout, color: Colors.white),
+                      title: const Text(
+                        'Logout',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignInMobileView()),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignInMobileView()),
-                  );
-                },
               ),
             ],
           ),

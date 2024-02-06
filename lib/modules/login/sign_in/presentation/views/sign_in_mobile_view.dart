@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-// TODO: Pranjal - Work on Sign In Screen
-
 class SignInMobileView extends StatefulWidget {
   const SignInMobileView({super.key});
 
@@ -20,47 +18,48 @@ class _SignInMobileViewState extends State<SignInMobileView> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 67, left: 15),
-              child: Text(
-                'TM System',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 48,
-                  color: Color.fromARGB(255, 157, 37, 116),
+            Align(
+              alignment: Alignment.center,
+              child: const Padding(
+                padding: EdgeInsets.only(top: 67, left: 24),
+                child: Text(
+                  'TM System',
+                  // textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 48,
+                    color: Color.fromARGB(255, 157, 37, 116),
+                  ),
                 ),
               ),
             ),
-            const Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 50, left: 25),
-                  child: Text(
-                    'Sign In',
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+            Padding(
+              padding: EdgeInsets.only(top: 50, left: 25),
+              child: Text(
+                'Sign In',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
                 ),
-              ],
+              ),
             ),
             const SizedBox(height: 5),
-            const Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 25),
-                  child: Text(
-                    'Add or select your details to continue',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color.fromARGB(255, 105, 104, 104),
-                    ),
+            Padding(
+              padding: EdgeInsets.only(left: 25),
+              child: Expanded(
+                child: Text(
+                  'Add or select your details to continue',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 105, 104, 104),
                   ),
                 ),
-              ],
+              ),
             ),
             const SizedBox(height: 35),
             Form(
@@ -132,24 +131,13 @@ class _SignInMobileViewState extends State<SignInMobileView> {
               child: Row(
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: rememberMe,
-                          onChanged: (value) {
-                            setState(() {
-                              rememberMe = value!;
-                            });
-                          },
-                        ),
-                        const Text(
-                          'Remember me',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                  ),
+                      flex: 1,
+                      child: CheckboxListTile(
+                        title: Text('Remember Me'),
+                        value: false,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        onChanged: (value) {},
+                      )),
                   Expanded(
                     flex: 1,
                     child: Align(
@@ -158,6 +146,8 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                         onTap: () {},
                         child: const Text(
                           'Forget Password?',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 157, 37, 116),
