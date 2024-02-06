@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 
-<<<<<<< Updated upstream
-=======
-import './modules/splash/presentation/views/splash_screen_mobile_view.dart';
-import './modules/home_employee/presentation/views/home_employee_mobile_view.dart';
-
->>>>>>> Stashed changes
 void main() {
   runApp(MyApp());
 }
@@ -16,8 +10,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-<<<<<<< Updated upstream
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -126,10 +120,6 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-=======
-      debugShowCheckedModeBanner: false,
-      home: HomeEmployeeMobileView(),
->>>>>>> Stashed changes
     );
   }
 }
