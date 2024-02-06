@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ts_system/modules/home_admin/presentation/views/home_admin_mobile_view.dart';
+import 'package:ts_system/modules/splash/presentation/views/splash_screen_mobile_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeAdminMobileView(),
+      home: const SplashScreenMobileView(),
     );
   }
 }
