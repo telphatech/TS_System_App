@@ -20,9 +20,9 @@ class _SignInMobileViewState extends State<SignInMobileView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align(
+            const Align(
               alignment: Alignment.center,
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.only(top: 67, left: 24),
                 child: Text(
                   'TM System',
@@ -35,7 +35,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 50, left: 25),
               child: Text(
                 'Sign In',
@@ -47,7 +47,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
               ),
             ),
             const SizedBox(height: 5),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 25),
               child: Expanded(
                 child: Text(
@@ -88,6 +88,9 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your Employee UID';
+                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value)) {
+                          return 'Please enter a valid email address';
                         }
                         return null;
                       },
@@ -117,6 +120,8 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
+                        } else if (value.length < 5) {
+                          return 'Password must be at least 5 characters long';
                         }
                         return null;
                       },
@@ -133,7 +138,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                   Expanded(
                       flex: 1,
                       child: CheckboxListTile(
-                        title: Text('Remember Me'),
+                        title: const Text('Remember Me'),
                         value: false,
                         controlAffinity: ListTileControlAffinity.leading,
                         onChanged: (value) {},
@@ -169,6 +174,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      // ignore: avoid_print
                       print('Login Successful.');
                       uidController.clear();
                       passwordController.clear();
