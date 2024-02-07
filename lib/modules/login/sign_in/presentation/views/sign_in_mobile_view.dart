@@ -12,6 +12,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
   TextEditingController uidController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: TextFormField(
                       controller: passwordController,
-                      obscureText: true,
+                      obscureText: _obscureText,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
@@ -115,6 +116,19 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                         prefixIcon: const Icon(
                           Icons.lock,
                           color: Color.fromARGB(255, 157, 37, 116),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureText
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
                         ),
                       ),
                       validator: (value) {
