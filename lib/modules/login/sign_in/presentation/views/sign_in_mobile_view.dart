@@ -150,13 +150,18 @@ class _SignInMobileViewState extends State<SignInMobileView> {
               child: Row(
                 children: [
                   Expanded(
-                      flex: 1,
-                      child: CheckboxListTile(
-                        title: const Text('Remember Me'),
-                        value: false,
-                        controlAffinity: ListTileControlAffinity.leading,
-                        onChanged: (value) {},
-                      )),
+                    flex: 1,
+                    child: CheckboxListTile(
+                      title: const Text('Remember Me'),
+                      value: rememberMe,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      onChanged: (value) {
+                        setState(() {
+                          rememberMe = value!;
+                        });
+                      },
+                    ),
+                  ),
                   Expanded(
                     flex: 1,
                     child: Align(
