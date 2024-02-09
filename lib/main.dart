@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ts_system/modules/employee/home_employee/presentation/views/home_employee_mobile_view.dart';
-import 'package:ts_system/modules/employee/leave/presentation/views/apply_leave_mobile_view.dart';
 import 'package:ts_system/modules/home_admin/presentation/views/home_admin_mobile_view.dart';
 import 'package:ts_system/modules/splash/presentation/views/splash_screen_mobile_view.dart';
 import './modules/employee/leave/presentation/views/leave_dashboard_mobile_view.dart';

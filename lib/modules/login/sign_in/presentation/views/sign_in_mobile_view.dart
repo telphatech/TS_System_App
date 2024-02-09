@@ -12,6 +12,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
   TextEditingController uidController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +21,9 @@ class _SignInMobileViewState extends State<SignInMobileView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align(
+            const Align(
               alignment: Alignment.center,
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.only(top: 67, left: 24),
                 child: Text(
                   'TM System',
@@ -35,7 +36,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 50, left: 25),
               child: Text(
                 'Sign In',
@@ -47,7 +48,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
               ),
             ),
             const SizedBox(height: 5),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 25),
               child: Expanded(
                 child: Text(
@@ -88,6 +89,9 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your Employee UID';
+                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value)) {
+                          return 'Please enter a valid email address';
                         }
                         return null;
                       },
@@ -98,7 +102,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: TextFormField(
                       controller: passwordController,
-                      obscureText: true,
+                      obscureText: _obscureText,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
@@ -113,10 +117,25 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                           Icons.lock,
                           color: Color.fromARGB(255, 157, 37, 116),
                         ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureText
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          color: const Color.fromARGB(255, 157, 37, 116),
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
+                        } else if (value.length < 5) {
+                          return 'Password must be at least 5 characters long';
                         }
                         return null;
                       },
@@ -131,13 +150,19 @@ class _SignInMobileViewState extends State<SignInMobileView> {
               child: Row(
                 children: [
                   Expanded(
-                      flex: 1,
-                      child: CheckboxListTile(
-                        title: Text('Remember Me'),
-                        value: false,
-                        controlAffinity: ListTileControlAffinity.leading,
-                        onChanged: (value) {},
-                      )),
+                    flex: 1,
+                    child: CheckboxListTile(
+                      title: const Text('Remember Me'),
+                      activeColor: const Color.fromARGB(255, 157, 37, 116),
+                      value: rememberMe,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      onChanged: (value) {
+                        setState(() {
+                          rememberMe = value!;
+                        });
+                      },
+                    ),
+                  ),
                   Expanded(
                     flex: 1,
                     child: Align(
@@ -169,6 +194,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      // ignore: avoid_print
                       print('Login Successful.');
                       uidController.clear();
                       passwordController.clear();
