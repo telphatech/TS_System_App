@@ -122,8 +122,8 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                             _obscureText
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                            color: Colors.grey,
                           ),
+                          color: const Color.fromARGB(255, 157, 37, 116),
                           onPressed: () {
                             setState(() {
                               _obscureText = !_obscureText;
@@ -153,6 +153,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                     flex: 1,
                     child: CheckboxListTile(
                       title: const Text('Remember Me'),
+                      activeColor: const Color.fromARGB(255, 157, 37, 116),
                       value: rememberMe,
                       controlAffinity: ListTileControlAffinity.leading,
                       onChanged: (value) {
