@@ -8,18 +8,10 @@ class ApplyLeaveMobileView extends StatefulWidget {
 }
 
 class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
-  late DateTime fromDate;
-  late DateTime toDate;
-  late int duration;
+  DateTime? fromDate;
+  DateTime? toDate;
+  int duration = 1;
   String selectedLeaveType = '';
-
-  @override
-  void initState() {
-    super.initState();
-    fromDate = DateTime.now();
-    toDate = DateTime.now();
-    duration = 1;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +38,7 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -88,71 +80,80 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedLeaveType = 'Earned Leave';
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.all(20),
-                        primary: selectedLeaveType == 'Earned Leave'
-                            ? Colors.pink[800]
-                            : Colors.white,
-                        onPrimary: selectedLeaveType == 'Earned Leave'
-                            ? Colors.white
-                            : Colors.pink[800],
-                        side: BorderSide(
-                          color: selectedLeaveType == 'Earned Leave'
-                              ? Colors.pink[800]!
-                              : Colors.grey.withOpacity(0.5),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedLeaveType = 'Earned Leave';
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.all(16),
+                          primary: selectedLeaveType == 'Earned Leave'
+                              ? Colors.pink[800]
+                              : Colors.white,
+                          onPrimary: selectedLeaveType == 'Earned Leave'
+                              ? Colors.white
+                              : Colors.pink[800],
+                          side: BorderSide(
+                            color: selectedLeaveType == 'Earned Leave'
+                                ? Colors.pink[800]!
+                                : Colors.grey.withOpacity(0.5),
+                          ),
                         ),
+                        child: Text('Earned Leave'),
                       ),
-                      child: Text('Earned Leave'),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedLeaveType = 'Sick Leave';
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.all(20),
-                        primary: selectedLeaveType == 'Sick Leave'
-                            ? Colors.pink[800]
-                            : Colors.white,
-                        onPrimary: selectedLeaveType == 'Sick Leave'
-                            ? Colors.white
-                            : Colors.pink[800],
-                        side: BorderSide(
-                          color: selectedLeaveType == 'Sick Leave'
-                              ? Colors.pink[800]!
-                              : Colors.grey.withOpacity(0.5),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedLeaveType = 'Sick Leave';
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.all(16),
+                          primary: selectedLeaveType == 'Sick Leave'
+                              ? Colors.pink[800]
+                              : Colors.white,
+                          onPrimary: selectedLeaveType == 'Sick Leave'
+                              ? Colors.white
+                              : Colors.pink[800],
+                          side: BorderSide(
+                            color: selectedLeaveType == 'Sick Leave'
+                                ? Colors.pink[800]!
+                                : Colors.grey.withOpacity(0.5),
+                          ),
                         ),
+                        child: Text('Sick Leave'),
                       ),
-                      child: Text('Sick Leave'),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedLeaveType = 'Casual Leave';
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.all(20),
-                        primary: selectedLeaveType == 'Casual Leave'
-                            ? Colors.pink[800]
-                            : Colors.white,
-                        onPrimary: selectedLeaveType == 'Casual Leave'
-                            ? Colors.white
-                            : Colors.pink[800],
-                        side: BorderSide(
-                          color: selectedLeaveType == 'Casual Leave'
-                              ? Colors.pink[800]!
-                              : Colors.grey.withOpacity(0.5),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedLeaveType = 'Casual Leave';
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.all(16),
+                          primary: selectedLeaveType == 'Casual Leave'
+                              ? Colors.pink[800]
+                              : Colors.white,
+                          onPrimary: selectedLeaveType == 'Casual Leave'
+                              ? Colors.white
+                              : Colors.pink[800],
+                          side: BorderSide(
+                            color: selectedLeaveType == 'Casual Leave'
+                                ? Colors.pink[800]!
+                                : Colors.grey.withOpacity(0.5),
+                          ),
                         ),
+                        child: Text('Casual Leave'),
                       ),
-                      child: Text('Casual Leave'),
                     ),
                   ],
                 ),
@@ -176,13 +177,15 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                     Icons.calendar_today,
                     color: Colors.pink[800],
                   ),
-                  subtitle: Text(
-                    '${fromDate.day}/${fromDate.month}/${fromDate.year}',
-                  ),
+                  subtitle: fromDate != null
+                      ? Text(
+                          '${fromDate!.day}/${fromDate!.month}/${fromDate!.year}',
+                        )
+                      : Text('Select date'),
                   onTap: () async {
                     final DateTime? pickedDate = await showDatePicker(
                       context: context,
-                      initialDate: fromDate,
+                      initialDate: fromDate ?? DateTime.now(),
                       firstDate: DateTime.now(),
                       lastDate: DateTime(DateTime.now().year + 1),
                     );
@@ -190,6 +193,10 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                       setState(() {
                         fromDate = pickedDate;
                         _calculateDuration();
+
+                        if (toDate == null || fromDate!.isAfter(toDate!)) {
+                          toDate = fromDate!.add(Duration(days: 1));
+                        }
                       });
                     }
                   },
@@ -214,14 +221,17 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                     Icons.calendar_today,
                     color: Colors.pink[800],
                   ),
-                  subtitle: Text(
-                    '${toDate.day}/${toDate.month}/${toDate.year}',
-                  ),
+                  subtitle: toDate != null
+                      ? Text(
+                          '${toDate!.day}/${toDate!.month}/${toDate!.year}',
+                        )
+                      : Text('Select date'),
                   onTap: () async {
                     final DateTime? pickedDate = await showDatePicker(
                       context: context,
-                      initialDate: toDate,
-                      firstDate: fromDate,
+                      initialDate: toDate ??
+                          (fromDate ?? DateTime.now()).add(Duration(days: 1)),
+                      firstDate: fromDate ?? DateTime.now(),
                       lastDate: DateTime(DateTime.now().year + 1),
                     );
                     if (pickedDate != null && pickedDate != toDate) {
@@ -302,9 +312,11 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
   }
 
   void _calculateDuration() {
-    final difference = toDate.difference(fromDate).inDays;
-    setState(() {
-      duration = difference + 1;
-    });
+    if (fromDate != null && toDate != null) {
+      final difference = toDate!.difference(fromDate!).inDays;
+      setState(() {
+        duration = difference + 1;
+      });
+    }
   }
 }

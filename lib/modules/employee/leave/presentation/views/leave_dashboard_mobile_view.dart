@@ -58,6 +58,7 @@ class LeaveDashboardMobileView extends StatelessWidget {
                         fontSize: 18,
                         color: Colors.pink[800],
                         decoration: TextDecoration.underline,
+                        decorationColor: Colors.pink[800],
                       ),
                     ),
                   ),
@@ -115,7 +116,7 @@ class LeaveDashboardMobileView extends StatelessWidget {
                     status: LeaveStatus.Approved,
                   ),
                   LeaveCard(
-                    leaveType: 'SickLeave',
+                    leaveType: 'Sick Leave',
                     icon: Icons.sick_outlined,
                     date: 'Mar 1 - Apr 1, 2024',
                     days: 32,
