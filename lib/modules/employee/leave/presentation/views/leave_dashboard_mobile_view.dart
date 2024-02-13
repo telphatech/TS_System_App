@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './leave_policies.dart';
 import 'package:ts_system/modules/employee/leave/presentation/views/apply_leave_mobile_view.dart';
 
 class LeaveDashboardMobileView extends StatelessWidget {
@@ -16,7 +17,7 @@ class LeaveDashboardMobileView extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           ),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
             onPressed: () {},
           ),
           actions: [
@@ -50,15 +51,25 @@ class LeaveDashboardMobileView extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Leave Policies',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.pink[800],
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.pink[800],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LeavePolicies(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Leave Policies',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.pink[800],
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.pink[800],
+                        ),
                       ),
                     ),
                   ),
@@ -132,50 +143,59 @@ class LeaveDashboardMobileView extends StatelessWidget {
   }
 }
 
-enum LeaveStatus { Pending, Approved, Cancelled }
-
 class BalanceLeaveCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 200,
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: CircularProgressIndicator(
-                    value: 0.8,
-                    color: Colors.pink[800],
-                  ),
-                ),
-                Positioned(
-                  child: Text(
-                    '1/4',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: SizedBox(
+        width: 100,
+        child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    height: 60,
+                    width: 60,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: CircularProgressIndicator(
+                        value: 0.8,
+                        color: Colors.pink[800],
+                        strokeWidth: 4,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.sick_outlined),
-                SizedBox(width: 4),
-                Text('Sick Leave'),
-              ],
-            ),
-          ],
+                  Positioned(
+                    child: Text(
+                      '1/4',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.sick_outlined),
+                  SizedBox(width: 6),
+                  Text(
+                    'Sick Leave',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+              SizedBox(height: 6),
+            ],
+          ),
         ),
       ),
     );
@@ -294,3 +314,5 @@ class LeaveCard extends StatelessWidget {
     );
   }
 }
+
+enum LeaveStatus { Pending, Approved, Cancelled }
