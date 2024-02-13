@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:ts_system/modules/employee/tasks/presentation/views/task_dashboard_mobile_view.dart';
 
 class AddTaskMobileView extends StatefulWidget {
-  const AddTaskMobileView({super.key});
+  const AddTaskMobileView({Key? key});
 
   @override
   State<AddTaskMobileView> createState() => _AddTaskMobileViewState();
@@ -13,6 +13,9 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
   bool isWholeDaySelected = false;
   TimeOfDay startTime = const TimeOfDay(hour: 9, minute: 0);
   TimeOfDay endTime = const TimeOfDay(hour: 10, minute: 0);
+  String selectedProject = '';
+  String selectedTaskType = '';
+  String taskName = '';
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +37,14 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
             );
           },
         ),
-        title: const Align(
-          alignment: Alignment.center,
-          child: Text(
-            'Add Task',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w700,
-            ),
+        title: const Text(
+          'Add Task',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
           ),
         ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -111,7 +112,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                               child: TextFormField(
                                 style: const TextStyle(fontSize: 16),
                                 decoration: InputDecoration(
-                                  hintText: DateFormat.jm().format(
+                                  hintText: DateFormat.Hm().format(
                                     DateTime(
                                       2024,
                                       1,
@@ -122,6 +123,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                   ),
                                   border: InputBorder.none,
                                 ),
+                                readOnly: true,
                                 onTap: () async {
                                   TimeOfDay? selectedTime =
                                       await showTimePicker(
@@ -174,7 +176,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                               child: TextFormField(
                                 style: const TextStyle(fontSize: 16),
                                 decoration: InputDecoration(
-                                  hintText: DateFormat.jm().format(
+                                  hintText: DateFormat.Hm().format(
                                     DateTime(
                                       2024,
                                       1,
@@ -185,6 +187,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                   ),
                                   border: InputBorder.none,
                                 ),
+                                readOnly: true,
                                 onTap: () async {
                                   TimeOfDay? selectedTime =
                                       await showTimePicker(
@@ -257,8 +260,10 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: TextFormField(
-                            style: const TextStyle(color: Colors.black),
+                          child: DropdownButtonFormField<String>(
+                            iconEnabledColor:
+                                const Color.fromARGB(255, 157, 37, 116),
+                            iconSize: 35,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -270,15 +275,26 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide.none,
                               ),
-                              suffixIcon: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down_sharp,
-                                    size: 30,
-                                  )),
-                              suffixIconColor:
-                                  const Color.fromARGB(255, 157, 37, 116),
                             ),
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'Project 1',
+                                child: Text('Project 1'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Project 2',
+                                child: Text('Project 2'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Project 3',
+                                child: Text('Project 3'),
+                              ),
+                            ],
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedProject = value ?? '';
+                              });
+                            },
                           ),
                         ),
                       ],
@@ -298,8 +314,10 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: TextFormField(
-                            style: const TextStyle(color: Colors.black),
+                          child: DropdownButtonFormField<String>(
+                            iconEnabledColor:
+                                const Color.fromARGB(255, 157, 37, 116),
+                            iconSize: 35,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -311,13 +329,26 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide.none,
                               ),
-                              suffixIcon: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.arrow_drop_down_sharp,
-                                      size: 30)),
-                              suffixIconColor:
-                                  const Color.fromARGB(255, 157, 37, 116),
                             ),
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'Task Type 1',
+                                child: Text('Task Type 1'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Task Type 2',
+                                child: Text('Task Type 2'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Task Type 3',
+                                child: Text('Task Type 3'),
+                              ),
+                            ],
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedTaskType = value ?? '';
+                              });
+                            },
                           ),
                         ),
                       ],
@@ -351,6 +382,11 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                 borderSide: BorderSide.none,
                               ),
                             ),
+                            onChanged: (value) {
+                              setState(() {
+                                taskName = value;
+                              });
+                            },
                           ),
                         ),
                       ],
@@ -369,7 +405,17 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                               child: SizedBox(
                                 height: 45,
                                 child: ElevatedButton.icon(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    // ignore: avoid_print
+                                    print('$durationText');
+                                    // ignore: avoid_print
+                                    print('Selected Project: $selectedProject');
+                                    // ignore: avoid_print
+                                    print(
+                                        'Selected Task Type: $selectedTaskType');
+                                    // ignore: avoid_print
+                                    print('Task Name: $taskName');
+                                  },
                                   icon: const Icon(Icons.check,
                                       color: Colors.white),
                                   label: const Text(
@@ -379,6 +425,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
                                     ),
+                                    maxLines: 1,
                                   ),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor:
@@ -402,7 +449,14 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                               child: SizedBox(
                                 height: 45,
                                 child: ElevatedButton.icon(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const TaskDashboard()),
+                                    );
+                                  },
                                   icon: const Icon(
                                     Icons.close,
                                     color: Color.fromARGB(255, 157, 37, 116),
@@ -414,6 +468,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                       fontWeight: FontWeight.w600,
                                       color: Color.fromARGB(255, 157, 37, 116),
                                     ),
+                                    maxLines: 1,
                                   ),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,

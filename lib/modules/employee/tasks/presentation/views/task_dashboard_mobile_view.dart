@@ -2,8 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ts_system/modules/employee/tasks/presentation/views/add_task_mobile_view.dart';
 
-class TaskDashboard extends StatelessWidget {
+class TaskDashboard extends StatefulWidget {
   const TaskDashboard({super.key});
+
+  @override
+  State<TaskDashboard> createState() => _TaskDashboardState();
+}
+
+class _TaskDashboardState extends State<TaskDashboard> {
+  late DateTime selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDate = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,22 +24,21 @@ class TaskDashboard extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: const Icon(Icons.arrow_back_ios_new),
-        title: const Align(
-          alignment: Alignment.center,
-          child: Text(
-            'Timesheet',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w700,
-            ),
+        title: const Text(
+          'Timesheet',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
           ),
         ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
@@ -52,7 +64,7 @@ class TaskDashboard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      DateFormat('dd MMMM yyyy').format(DateTime.now()),
+                      DateFormat('dd MMMM yyyy').format(selectedDate),
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           color: Colors.black,
@@ -61,7 +73,9 @@ class TaskDashboard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _selectDate(context);
+                    },
                     icon: const Icon(Icons.filter_list, color: Colors.black),
                   ),
                 ],
@@ -79,42 +93,50 @@ class TaskDashboard extends StatelessWidget {
                         DateTime.now().add(Duration(days: index - 2));
                     String formattedDate = DateFormat('dd').format(currentDate);
                     String formattedDay = DateFormat('E').format(currentDate);
+
                     bool isCurrent = index == 2;
 
-                    return Container(
-                      width: 50,
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        color: isCurrent
-                            ? const Color.fromARGB(255, 157, 37, 116)
-                            : null,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            formattedDate,
-                            style: TextStyle(
-                              color: isCurrent
-                                  ? Colors.white
-                                  : const Color.fromARGB(255, 157, 37, 116),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedDate = currentDate;
+                        });
+                      },
+                      child: Container(
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          color: isCurrent
+                              ? const Color.fromARGB(255, 157, 37, 116)
+                              : null,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              formattedDate,
+                              style: TextStyle(
+                                color: isCurrent
+                                    ? Colors.white
+                                    : const Color.fromARGB(255, 157, 37, 116),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                          Text(
-                            formattedDay,
-                            style: TextStyle(
-                              color: isCurrent
-                                  ? Colors.white
-                                  : const Color.fromARGB(255, 157, 37, 116),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
+                            Text(
+                              formattedDay,
+                              style: TextStyle(
+                                color: isCurrent
+                                    ? Colors.white
+                                    : const Color.fromARGB(255, 157, 37, 116),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -122,74 +144,80 @@ class TaskDashboard extends StatelessWidget {
               ),
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 600,
+                  height: 1500,
                   width: 100,
                   child: Container(
                     color: Colors.grey[200],
                     child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: 10,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 15,
                       itemBuilder: (context, index) {
-                        DateTime startTime = DateTime(DateTime.now().year,
-                            DateTime.now().month, DateTime.now().day, 9, 0);
+                        DateTime startTime = DateTime(
+                          selectedDate.year,
+                          selectedDate.month,
+                          selectedDate.day,
+                          9,
+                          0,
+                        );
 
                         DateTime currentDate =
                             startTime.add(Duration(hours: index));
 
                         String formattedTime =
                             DateFormat('hh:mm').format(currentDate);
-
                         String formattedDay =
                             DateFormat('a').format(currentDate);
 
-                        return Expanded(
-                          child: Container(
-                            height: 85,
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  formattedTime,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 20,
-                                  ),
+                        return Container(
+                          height: 98,
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                formattedTime,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20,
                                 ),
-                                Text(
-                                  formattedDay,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 79, 78, 78),
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 16,
-                                  ),
+                              ),
+                              Text(
+                                formattedDay,
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 79, 78, 78),
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 16,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         );
                       },
                     ),
                   ),
                 ),
-                Flexible(
+                Expanded(
                   child: SizedBox(
-                    height: 600,
+                    height: 1500,
                     child: Container(
                       color: Colors.grey[200],
                       child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: 10,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 15,
                         itemBuilder: (context, index) {
-                          DateTime startTime = DateTime(DateTime.now().year,
-                              DateTime.now().month, DateTime.now().day, 9, 0);
+                          DateTime startTime = DateTime(
+                            selectedDate.year,
+                            selectedDate.month,
+                            selectedDate.day,
+                            9,
+                            0,
+                          );
                           startTime = startTime.add(Duration(hours: index));
                           DateTime endTime =
                               startTime.add(const Duration(hours: 1));
@@ -224,6 +252,7 @@ class TaskDashboard extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 18,
                                           ),
+                                          maxLines: 1,
                                         ),
                                         const Text(
                                           'Project Name\n',
@@ -244,6 +273,7 @@ class TaskDashboard extends StatelessWidget {
                                             fontWeight: FontWeight.normal,
                                             fontSize: 14,
                                           ),
+                                          maxLines: 1,
                                         ),
                                       ],
                                     ),
@@ -277,5 +307,19 @@ class TaskDashboard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
   }
 }
