@@ -149,7 +149,7 @@ class BalanceLeaveCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: SizedBox(
-        width: 100,
+        width: 115,
         child: Card(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -182,16 +182,24 @@ class BalanceLeaveCard extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.sick_outlined),
-                  SizedBox(width: 6),
-                  Text(
-                    'Sick Leave',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 10), // Increase width by 2 pixels
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.sick_outlined),
+                    SizedBox(width: 6),
+                    Padding(
+                      padding:
+                          EdgeInsets.only(top: 2), // Adjust padding as needed
+                      child: Text(
+                        'Sick Leave',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 6),
             ],

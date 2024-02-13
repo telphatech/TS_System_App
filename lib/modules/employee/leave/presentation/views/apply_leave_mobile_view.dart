@@ -325,7 +325,7 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                     selectedLeaveType = '';
                   });
                   reasonController
-                      .clear(); // Clear text field after resetting state variables
+                      .clear(); 
                 },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
