@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:ts_system/modules/employee/tasks/presentation/views/task_dashboard_mobile_view.dart';
 
 class AddTaskMobileView extends StatefulWidget {
-  const AddTaskMobileView({Key? key});
+  const AddTaskMobileView({super.key});
 
   @override
   State<AddTaskMobileView> createState() => _AddTaskMobileViewState();
@@ -12,19 +12,34 @@ class AddTaskMobileView extends StatefulWidget {
 class _AddTaskMobileViewState extends State<AddTaskMobileView> {
   bool isWholeDaySelected = false;
   TimeOfDay startTime = const TimeOfDay(hour: 9, minute: 0);
-  TimeOfDay endTime = const TimeOfDay(hour: 10, minute: 0);
+  TimeOfDay endTime = const TimeOfDay(hour: 9, minute: 0);
+
   String selectedProject = '';
   String selectedTaskType = '';
   String taskName = '';
+  String durationText = 'Duration: 00 Hours';
+
+  void calculateDuration() {
+    if (isWholeDaySelected) {
+      int durationHours = 9 + endTime.hour - startTime.hour;
+      setState(() {
+        durationText =
+            'Duration: ${durationHours.toString().padLeft(2, '0')} Hours';
+      });
+    } else {
+      final start = DateTime(2024, 1, 1, startTime.hour, startTime.minute);
+      final end = DateTime(2024, 1, 1, endTime.hour, endTime.minute);
+      final duration = end.difference(start);
+
+      setState(() {
+        durationText =
+            'Duration: ${(duration.inHours).toString().padLeft(2, '0')} Hours';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    String durationText = 'Duration: 00 Hours';
-
-    if (isWholeDaySelected) {
-      int durationHours = endTime.hour - startTime.hour;
-      durationText = 'Duration: $durationHours Hours';
-    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -65,6 +80,18 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                 onChanged: (newValue) {
                   setState(() {
                     isWholeDaySelected = newValue!;
+
+                    if (isWholeDaySelected) {
+                      calculateDuration();
+                    } else {
+                      final start = DateTime(
+                          2024, 1, 1, startTime.hour, startTime.minute);
+                      final end =
+                          DateTime(2024, 1, 1, endTime.hour, endTime.minute);
+                      final duration = end.difference(start);
+                      durationText =
+                          'Duration: ${(duration.inHours).toString().padLeft(2, '0')} Hours';
+                    }
                   });
                 },
               ),
@@ -112,6 +139,8 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                               child: TextFormField(
                                 style: const TextStyle(fontSize: 16),
                                 decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 18.0),
                                   hintText: DateFormat.Hm().format(
                                     DateTime(
                                       2024,
@@ -133,6 +162,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                   if (selectedTime != null) {
                                     setState(() {
                                       startTime = selectedTime;
+                                      calculateDuration();
                                     });
                                   }
                                 },
@@ -151,6 +181,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                 if (selectedTime != null) {
                                   setState(() {
                                     startTime = selectedTime;
+                                    calculateDuration();
                                   });
                                 }
                               },
@@ -176,6 +207,8 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                               child: TextFormField(
                                 style: const TextStyle(fontSize: 16),
                                 decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 18.0),
                                   hintText: DateFormat.Hm().format(
                                     DateTime(
                                       2024,
@@ -197,6 +230,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                   if (selectedTime != null) {
                                     setState(() {
                                       endTime = selectedTime;
+                                      calculateDuration();
                                     });
                                   }
                                 },
@@ -215,6 +249,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                 if (selectedTime != null) {
                                   setState(() {
                                     endTime = selectedTime;
+                                    calculateDuration();
                                   });
                                 }
                               },
