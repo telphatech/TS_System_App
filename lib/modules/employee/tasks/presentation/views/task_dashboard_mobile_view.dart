@@ -64,7 +64,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
                 children: [
                   Expanded(
                     child: Text(
-                      DateFormat('dd MMMM yyyy').format(selectedDate),
+                      DateFormat('dd MMMM yyyy').format(DateTime.now()),
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           color: Colors.black,
@@ -94,7 +94,9 @@ class _TaskDashboardState extends State<TaskDashboard> {
                     String formattedDate = DateFormat('dd').format(currentDate);
                     String formattedDay = DateFormat('E').format(currentDate);
 
-                    bool isCurrent = index == 2;
+                    bool isSelected = currentDate.year == selectedDate.year &&
+                        currentDate.month == selectedDate.month &&
+                        currentDate.day == selectedDate.day;
 
                     return GestureDetector(
                       onTap: () {
@@ -106,7 +108,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
                         width: 50,
                         margin: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
-                          color: isCurrent
+                          color: isSelected
                               ? const Color.fromARGB(255, 157, 37, 116)
                               : null,
                           borderRadius: BorderRadius.circular(10),
@@ -118,7 +120,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
                             Text(
                               formattedDate,
                               style: TextStyle(
-                                color: isCurrent
+                                color: isSelected
                                     ? Colors.white
                                     : const Color.fromARGB(255, 157, 37, 116),
                                 fontWeight: FontWeight.w700,
@@ -128,7 +130,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
                             Text(
                               formattedDay,
                               style: TextStyle(
-                                color: isCurrent
+                                color: isSelected
                                     ? Colors.white
                                     : const Color.fromARGB(255, 157, 37, 116),
                                 fontWeight: FontWeight.w600,
@@ -309,11 +311,11 @@ class _TaskDashboardState extends State<TaskDashboard> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  void _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2000),
+      firstDate: DateTime(2001),
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != selectedDate) {
