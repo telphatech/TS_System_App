@@ -183,19 +183,16 @@ class BalanceLeaveCard extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 10), 
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.sick_outlined),
                     SizedBox(width: 6),
-                    Padding(
-                      padding:
-                          EdgeInsets.only(top: 2), 
+                    Expanded(
                       child: Text(
                         'Sick Leave',
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 10),
                       ),
                     ),
                   ],

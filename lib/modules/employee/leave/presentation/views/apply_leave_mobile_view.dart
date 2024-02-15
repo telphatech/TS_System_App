@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ts_system/modules/employee/leave/presentation/views/leave_dashboard_mobile_view.dart';
 
 class ApplyLeaveMobileView extends StatefulWidget {
   const ApplyLeaveMobileView({Key? key}) : super(key: key);
@@ -288,19 +289,16 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                 ),
               ),
               SizedBox(height: 10),
-              Card(
-                color: Colors.white,
-                elevation: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      hintText: 'Leave reason',
-                      border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
-                    ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: TextField(
+                  controller: reasonController,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    hintText: 'Leave reason',
+                    border: OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
                   ),
                 ),
               ),
@@ -324,8 +322,12 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                     duration = 1;
                     selectedLeaveType = '';
                   });
-                  reasonController
-                      .clear(); 
+                  reasonController.clear();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LeaveDashboardMobileView()),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
