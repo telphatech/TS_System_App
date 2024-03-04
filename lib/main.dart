@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ts_system/modules/employee/leave/presentation/views/leave_dashboard_mobile_view.dart';
-import 'package:ts_system/modules/employee/tasks/presentation/views/task_dashboard_mobile_view.dart';
 import 'package:ts_system/modules/splash/presentation/views/splash_screen_mobile_view.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,10 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // home: const SplashScreenMobileView(),
-      // home: const ApplyLeaveMobileView(),
-      // home: const TaskDashboard(),
-      home: const LeaveDashboardMobileView(),
+      home: const SplashScreenMobileView(),
     );
   }
 }

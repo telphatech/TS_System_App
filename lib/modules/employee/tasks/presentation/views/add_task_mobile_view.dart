@@ -304,8 +304,8 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                               fillColor: Colors.white,
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
-                              hintText: 'Select Project',
-                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              hintText: 'Select Group Name',
+                              hintStyle: TextStyle(color: Colors.grey[600]),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide.none,
@@ -313,16 +313,16 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                             ),
                             items: const [
                               DropdownMenuItem(
-                                value: 'Project 1',
-                                child: Text('Project 1'),
+                                value: 'Group 1',
+                                child: Text('Group 1'),
                               ),
                               DropdownMenuItem(
-                                value: 'Project 2',
-                                child: Text('Project 2'),
+                                value: 'Group 2',
+                                child: Text('Group 2'),
                               ),
                               DropdownMenuItem(
-                                value: 'Project 3',
-                                child: Text('Project 3'),
+                                value: 'Group 3',
+                                child: Text('Group 3'),
                               ),
                             ],
                             onChanged: (String? value) {
@@ -338,7 +338,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                   const Padding(
                     padding: EdgeInsets.only(left: 20, top: 20),
                     child: Text(
-                      'Team Lead Name',
+                      'Task',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
@@ -349,39 +349,22 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: DropdownButtonFormField<String>(
-                            iconEnabledColor:
-                                const Color.fromARGB(255, 157, 37, 116),
-                            iconSize: 35,
+                          child: TextFormField(
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
-                              hintText: 'Select Task Type',
-                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              hintText: 'Insert Task Name',
+                              hintStyle: TextStyle(color: Colors.grey[600]),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide.none,
                               ),
                             ),
-                            items: const [
-                              DropdownMenuItem(
-                                value: 'Task Type 1',
-                                child: Text('Task Type 1'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Task Type 2',
-                                child: Text('Task Type 2'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Task Type 3',
-                                child: Text('Task Type 3'),
-                              ),
-                            ],
-                            onChanged: (String? value) {
+                            onChanged: (value) {
                               setState(() {
-                                selectedTaskType = value ?? '';
+                                selectedTaskType = value;
                               });
                             },
                           ),
@@ -392,7 +375,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                   const Padding(
                     padding: EdgeInsets.only(left: 20, top: 20),
                     child: Text(
-                      'Task Name',
+                      'Task Description',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
@@ -405,13 +388,14 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                         Expanded(
                           child: TextFormField(
                             style: const TextStyle(color: Colors.black),
+                            maxLines: 4,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
                               contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              hintText: 'Insert Task',
-                              hintStyle: TextStyle(color: Colors.grey[800]),
+                                  const EdgeInsets.only(left: 10, top: 30),
+                              hintText: 'Insert Task Description',
+                              hintStyle: TextStyle(color: Colors.grey[600]),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide.none,
