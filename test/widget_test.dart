@@ -7,8 +7,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:ts_system/main.dart';
 import 'package:ts_system/modules/splash/presentation/views/splash_screen_mobile_view.dart';
 
 void main() {

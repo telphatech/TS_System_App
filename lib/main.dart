@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ts_system/modules/splash/presentation/views/splash_screen_mobile_view.dart';
+import 'package:ts_system/utils/components/tt_string.dart';
+import 'package:ts_system/utils/theme/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,12 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TM System',
+      title: TTStrings.appTitle,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      themeMode: ThemeMode.dark,
+      theme: TAppTheme.darkTheme,
       home: const SplashScreenMobileView(),
     );
   }
