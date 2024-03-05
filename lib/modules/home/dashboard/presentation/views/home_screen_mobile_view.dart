@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ts_system/modules/login/sign_in/presentation/views/sign_in_mobile_view.dart';
 
-class HomeAdminMobileView extends StatelessWidget {
-  const HomeAdminMobileView({super.key});
+class HomeScreenMobileView extends StatelessWidget {
+  const HomeScreenMobileView({super.key});
 
   @override
   Widget build(BuildContext context) {

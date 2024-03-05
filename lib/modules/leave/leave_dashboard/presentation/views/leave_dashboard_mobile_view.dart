@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './leave_policies.dart';
-import 'package:ts_system/modules/employee/leave/presentation/views/apply_leave_mobile_view.dart';
+import '../../../apply_leave/presentation/pages/leave_policies.dart';
+import 'package:ts_system/modules/leave/apply_leave/presentation/views/apply_leave_mobile_view.dart';
 
 class LeaveDashboardMobileView extends StatelessWidget {
   const LeaveDashboardMobileView({Key? key}) : super(key: key);

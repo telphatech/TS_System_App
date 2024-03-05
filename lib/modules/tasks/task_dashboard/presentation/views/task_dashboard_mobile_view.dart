@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ts_system/modules/employee/tasks/presentation/views/add_task_mobile_view.dart';
+import 'package:ts_system/modules/tasks/add_task/presentation/views/add_task_mobile_view.dart';
 
 class TaskDashboard extends StatefulWidget {
   const TaskDashboard({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ts_system/modules/employee/leave/presentation/views/leave_dashboard_mobile_view.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/views/leave_dashboard_mobile_view.dart';
 
 class ApplyLeaveMobileView extends StatefulWidget {
   const ApplyLeaveMobileView({Key? key}) : super(key: key);
