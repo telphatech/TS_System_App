@@ -284,6 +284,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/wable/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.19.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "io",
       "rootUri": "file:///C:/Users/wable/AppData/Local/Pub/Cache/hosted/pub.dev/io-1.0.4",
       "packageUri": "lib/",
@@ -596,7 +602,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-03-05T12:38:39.385703Z",
+  "generated": "2024-03-05T12:47:02.876841Z",
   "generator": "pub",
   "generatorVersion": "3.3.0"
 }
