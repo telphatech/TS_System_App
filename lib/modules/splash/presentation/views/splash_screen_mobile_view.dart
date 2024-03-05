@@ -5,7 +5,9 @@ import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
+import 'package:auto_route/auto_route.dart';
 
+@RoutePage()
 class SplashScreenMobileView extends StatelessWidget {
   const SplashScreenMobileView({super.key});
 
