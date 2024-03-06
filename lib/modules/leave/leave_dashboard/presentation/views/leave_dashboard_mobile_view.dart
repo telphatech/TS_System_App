@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../apply_leave/presentation/pages/leave_policies.dart';
-import 'package:ts_system/modules/leave/apply_leave/presentation/views/apply_leave_mobile_view.dart';
+import 'package:ts_system/modules/leave/apply_leave/presentation/pages/leave_policies.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_appbar.dart';
 
 class LeaveDashboardMobileView extends StatelessWidget {
   const LeaveDashboardMobileView({Key? key}) : super(key: key);
@@ -10,31 +10,9 @@ class LeaveDashboardMobileView extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.pink[800],
-          title: Text(
-            'Leave',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-            onPressed: () {},
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.add, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ApplyLeaveMobileView(),
-                  ),
-                );
-              },
-            ),
-          ],
-          centerTitle: true,
-        ),
+        appBar: const PreferredSize(
+            preferredSize: Size(double.infinity, kToolbarHeight),
+            child: LeaveAppBar()),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -43,7 +21,7 @@ class LeaveDashboardMobileView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Balance Leaves',
                     style: TextStyle(
                       fontSize: 18,
@@ -56,12 +34,12 @@ class LeaveDashboardMobileView extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LeavePolicies(),
+                          builder: (context) => const LeavePolicies(),
                         ),
                       );
                     },
                     child: Container(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Leave Policies',
                         style: TextStyle(
@@ -92,7 +70,7 @@ class LeaveDashboardMobileView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'All Leaves',
                     style: TextStyle(
                       fontSize: 18,
@@ -101,7 +79,7 @@ class LeaveDashboardMobileView extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.filter_alt),
+                    icon: const Icon(Icons.filter_alt),
                     onPressed: () {},
                     color: Colors.pink[800],
                   ),
@@ -112,21 +90,21 @@ class LeaveDashboardMobileView extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  LeaveCard(
+                  const LeaveCard(
                     leaveType: 'Casual Leave',
                     icon: Icons.beach_access,
                     date: 'Feb 1 - Feb 5, 2024',
                     days: 5,
                     status: LeaveStatus.Pending,
                   ),
-                  LeaveCard(
+                  const LeaveCard(
                     leaveType: 'Sick Leave',
                     icon: Icons.sick_outlined,
                     date: 'Feb 10 - Feb 12, 2024',
                     days: 3,
                     status: LeaveStatus.Approved,
                   ),
-                  LeaveCard(
+                  const LeaveCard(
                     leaveType: 'Sick Leave',
                     icon: Icons.sick_outlined,
                     date: 'Mar 1 - Apr 1, 2024',
@@ -169,7 +147,7 @@ class BalanceLeaveCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     child: Text(
                       '1/4',
                       style: TextStyle(
@@ -181,8 +159,8 @@ class BalanceLeaveCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
-              Padding(
+              const SizedBox(height: 8),
+              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -198,7 +176,7 @@ class BalanceLeaveCard extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
             ],
           ),
         ),
@@ -240,7 +218,7 @@ class LeaveCard extends StatelessWidget {
 
     return Card(
       color: Colors.white,
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -261,7 +239,7 @@ class LeaveCard extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
               flex: 2,
               child: Column(
@@ -269,32 +247,32 @@ class LeaveCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.calendar_today,
                         color: Colors.grey,
                       ),
-                      SizedBox(width: 5),
+                      const SizedBox(width: 5),
                       Expanded(
                         child: Text(
                           date,
-                          style: TextStyle(color: Colors.grey),
+                          style: const TextStyle(color: Colors.grey),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.access_time,
                         color: Colors.grey,
                       ),
-                      SizedBox(width: 5),
+                      const SizedBox(width: 5),
                       Expanded(
                         child: Text(
                           '$days days',
-                          style: TextStyle(color: Colors.grey),
+                          style: const TextStyle(color: Colors.grey),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -303,14 +281,14 @@ class LeaveCard extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               color: statusColor,
               child: Text(
                 status.toString().split('.').last,
                 textAlign: TextAlign.right,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ],
