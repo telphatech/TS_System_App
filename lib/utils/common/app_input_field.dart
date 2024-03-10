@@ -149,8 +149,10 @@ class _AppInputFieldState extends State<AppInputField> {
             ),
             labelStyle:
                 const TextStyle(fontSize: 16, color: TTColors.textPrimary),
-            hintStyle:
-                const TextStyle(fontSize: 16, color: TTColors.textPrimary),
+            hintStyle: const TextStyle(
+              fontSize: 16,
+              color: TTColors.grey,
+            ),
           ),
         ),
       ),
