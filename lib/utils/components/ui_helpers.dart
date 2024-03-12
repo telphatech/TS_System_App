@@ -49,6 +49,11 @@ class UIHelpers {
     thickness: 1,
   );
 
+  static Widget listDividerWhite = const Divider(
+    color: TTColors.white,
+    thickness: 1,
+  );
+
   static Widget verticalSpace(double height) => SizedBox(height: height);
 
   static double screenHeightFraction(BuildContext context,

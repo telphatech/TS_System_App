@@ -18,4 +18,9 @@ class TTStrings {
   static const String faq = "FAQ";
   static const String login = "LOGIN";
   static const String settings = "SETTINGS";
+
+  /// ********************* DRAWER OF HOME SCREEN *******************
+
+  static const String name = "John Williams";
+  static const String email = "admin@telphatech.com";
 }
