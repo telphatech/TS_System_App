@@ -24,7 +24,6 @@ class CheckLogin extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              // ignore: avoid_print
               print('Login Successful.');
               uidController.clear();
               passwordController.clear();

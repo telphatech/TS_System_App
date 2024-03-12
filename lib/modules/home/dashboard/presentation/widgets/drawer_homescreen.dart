@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ts_system/modules/login/sign_in/presentation/views/sign_in_mobile_view.dart';
+import 'package:ts_system/modules/login/sign_in/presentation/views/sign_in_screen_view.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_image.dart';
@@ -67,7 +67,7 @@ class DrawerHomeScreen extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SignInMobileView()),
+              MaterialPageRoute(builder: (context) => SignInScreenView()),
             );
           },
         ),
@@ -81,7 +81,7 @@ class DrawerHomeScreen extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SignInMobileView()),
+              MaterialPageRoute(builder: (context) => SignInScreenView()),
             );
           },
         ),
@@ -95,7 +95,7 @@ class DrawerHomeScreen extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SignInMobileView()),
+              MaterialPageRoute(builder: (context) => SignInScreenView()),
             );
           },
         ),
@@ -109,7 +109,7 @@ class DrawerHomeScreen extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SignInMobileView()),
+              MaterialPageRoute(builder: (context) => SignInScreenView()),
             );
           },
         ),
@@ -123,7 +123,7 @@ class DrawerHomeScreen extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SignInMobileView()),
+              MaterialPageRoute(builder: (context) => SignInScreenView()),
             );
           },
         ),
@@ -142,8 +142,7 @@ class DrawerHomeScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignInMobileView()),
+                    MaterialPageRoute(builder: (context) => SignInScreenView()),
                   );
                 },
               ),
