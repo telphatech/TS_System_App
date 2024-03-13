@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/modules/login/sign_in/presentation/views/sign_in_desktop_view.dart';
+import 'package:ts_system/modules/login/sign_in/presentation/views/sign_in_mobile_view.dart';
 import 'package:ts_system/responsive.dart';
 import 'package:ts_system/utils/common/text_style.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
@@ -18,9 +20,11 @@ class SplashScreenMobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
       if (Responsive.isMobile(context)) {
-        serviceLocator<AppRouter>().popAndPush(const SignInMobileView());
+        serviceLocator<AppRouter>()
+            .popAndPush(const SignInMobileView() as PageRouteInfo);
       } else {
-        serviceLocator<AppRouter>().popAndPush(const SignInDesktopView());
+        serviceLocator<AppRouter>()
+            .popAndPush(const SignInDesktopView() as PageRouteInfo);
       }
     });
 

@@ -10,6 +10,8 @@ import 'package:ts_system/utils/components/ui_helpers.dart';
 
 @RoutePage()
 class SignInDesktopView extends StatelessWidget {
+  static var page;
+
   const SignInDesktopView({super.key});
 
   @override

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class SignInMobileView extends StatefulWidget {
+  static var page;
+
   const SignInMobileView({super.key});
 
   @override
