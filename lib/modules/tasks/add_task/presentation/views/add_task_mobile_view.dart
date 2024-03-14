@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/presentation/views/task_dashboard_mobile_view.dart';
+import 'package:ts_system/modules/tasks/add_task/presentation/widgets/appbar_add_task.dart';
+import 'package:ts_system/modules/tasks/add_task/presentation/widgets/duration.dart';
+import 'package:ts_system/modules/tasks/add_task/presentation/widgets/savechanges_discard_buttons.dart';
+import 'package:ts_system/modules/tasks/add_task/presentation/widgets/start_end_time.dart';
+import 'package:ts_system/utils/components/tt_colors.dart';
+import 'package:ts_system/utils/components/tt_icons.dart';
+import 'package:ts_system/utils/components/tt_typography.dart';
+import 'package:ts_system/utils/components/ui_helpers.dart';
 
 class AddTaskMobileView extends StatefulWidget {
   const AddTaskMobileView({super.key});
@@ -41,42 +48,25 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const TaskDashboard()),
-            );
-          },
-        ),
-        title: const Text(
-          'Add Task',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const PreferredSize(
+          preferredSize: Size(double.infinity, kToolbarHeight),
+          child: AddTaskAppbar()),
       body: SingleChildScrollView(
         child: Container(
           height: 1000,
-          color: const Color.fromRGBO(238, 238, 238, 1),
+          color: TTColors.borderSecondary,
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CheckboxListTile(
-                title: const Text(
+                title: Text(
                   "Whole Day",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                  style: TTypography.text18Black,
                 ),
                 value: isWholeDaySelected,
                 controlAffinity: ListTileControlAffinity.leading,
-                activeColor: const Color.fromARGB(255, 157, 37, 116),
+                activeColor: TTColors.primary,
                 onChanged: (newValue) {
                   setState(() {
                     isWholeDaySelected = newValue!;
@@ -95,30 +85,8 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                   });
                 },
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Row(
-                  children: [
-                    Icon(Icons.not_started_outlined),
-                    Expanded(
-                      child: Text(
-                        " Start Time",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                    Icon(Icons.stop_circle_outlined),
-                    Expanded(
-                      child: Text(
-                        " End Time",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 5),
+              const StartEndTimeText(),
+              UIHelpers.verticalSpaceTiny,
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
@@ -126,18 +94,18 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: TTColors.white,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color.fromARGB(255, 209, 209, 209),
-                            width: 2.0,
+                            color: TTColors.black,
+                            width: 1.0,
                           ),
                         ),
                         child: Row(
                           children: [
                             Expanded(
                               child: TextFormField(
-                                style: const TextStyle(fontSize: 16),
+                                style: TTypography.text18Black,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 18.0),
@@ -170,8 +138,8 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                             ),
                             IconButton(
                               icon: const Icon(
-                                Icons.access_time,
-                                color: Color.fromARGB(255, 157, 37, 116),
+                                TTIcons.time,
+                                color: TTColors.primary,
                               ),
                               onPressed: () async {
                                 TimeOfDay? selectedTime = await showTimePicker(
@@ -190,22 +158,22 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    UIHelpers.horizontalSpaceRegular,
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: TTColors.white,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color.fromARGB(255, 209, 209, 209),
-                            width: 2.0,
+                            color: TTColors.black,
+                            width: 1.0,
                           ),
                         ),
                         child: Row(
                           children: [
                             Expanded(
                               child: TextFormField(
-                                style: const TextStyle(fontSize: 16),
+                                style: TTypography.text18Black,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 18.0),
@@ -238,8 +206,8 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                             ),
                             IconButton(
                               icon: const Icon(
-                                Icons.access_time,
-                                color: Color.fromARGB(255, 157, 37, 116),
+                                TTIcons.time,
+                                color: TTColors.primary,
                               ),
                               onPressed: () async {
                                 TimeOfDay? selectedTime = await showTimePicker(
@@ -261,33 +229,13 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 20),
-                child: Row(
-                  children: [
-                    const Icon(Icons.access_time, size: 20),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        durationText,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              DurationText(durationText: durationText),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20, top: 20),
-                    child: Text(
-                      'Group Name',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, top: 20),
+                    child: Text('Group Name', style: TTypography.text16Black),
                   ),
                   Padding(
                     padding:
@@ -296,16 +244,16 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                       children: [
                         Expanded(
                           child: DropdownButtonFormField<String>(
-                            iconEnabledColor:
-                                const Color.fromARGB(255, 157, 37, 116),
+                            iconEnabledColor: TTColors.primary,
                             iconSize: 35,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: TTColors.white,
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               hintText: 'Select Group Name',
-                              hintStyle: TextStyle(color: Colors.grey[600]),
+                              hintStyle: const TextStyle(
+                                  color: TTColors.textSecondary),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide.none,
@@ -335,12 +283,11 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20, top: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, top: 20),
                     child: Text(
                       'Task',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      style: TTypography.text16Black,
                     ),
                   ),
                   Padding(
@@ -352,11 +299,12 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                           child: TextFormField(
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: TTColors.white,
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               hintText: 'Insert Task Name',
-                              hintStyle: TextStyle(color: Colors.grey[600]),
+                              hintStyle: const TextStyle(
+                                  color: TTColors.textSecondary),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide.none,
@@ -372,13 +320,10 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20, top: 20),
-                    child: Text(
-                      'Task Description',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, top: 20),
+                    child: Text('Task Description',
+                        style: TTypography.text16Black),
                   ),
                   Padding(
                     padding:
@@ -387,15 +332,16 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                       children: [
                         Expanded(
                           child: TextFormField(
-                            style: const TextStyle(color: Colors.black),
+                            style: const TextStyle(color: TTColors.black),
                             maxLines: 4,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: TTColors.white,
                               contentPadding:
                                   const EdgeInsets.only(left: 10, top: 30),
                               hintText: 'Insert Task Description',
-                              hintStyle: TextStyle(color: Colors.grey[600]),
+                              hintStyle: const TextStyle(
+                                  color: TTColors.textSecondary),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide.none,
@@ -411,102 +357,11 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                       ],
                     ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 70, left: 20, right: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                height: 45,
-                                child: ElevatedButton.icon(
-                                  onPressed: () {
-                                    // ignore: avoid_print
-                                    print('$durationText');
-                                    // ignore: avoid_print
-                                    print('Selected Project: $selectedProject');
-                                    // ignore: avoid_print
-                                    print(
-                                        'Selected Task Type: $selectedTaskType');
-                                    // ignore: avoid_print
-                                    print('Task Name: $taskName');
-                                  },
-                                  icon: const Icon(Icons.check,
-                                      color: Colors.white),
-                                  label: const Text(
-                                    'Save Changes',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                    maxLines: 1,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 157, 37, 116),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 25, left: 20, right: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                height: 45,
-                                child: ElevatedButton.icon(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const TaskDashboard()),
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.close,
-                                    color: Color.fromARGB(255, 157, 37, 116),
-                                  ),
-                                  label: const Text(
-                                    'Discard',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromARGB(255, 157, 37, 116),
-                                    ),
-                                    maxLines: 1,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      side: const BorderSide(
-                                        color:
-                                            Color.fromARGB(255, 157, 37, 116),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  SaveChangesDiscardButtons(
+                      durationText: durationText,
+                      selectedProject: selectedProject,
+                      selectedTaskType: selectedTaskType,
+                      taskName: taskName),
                 ],
               ),
             ],
