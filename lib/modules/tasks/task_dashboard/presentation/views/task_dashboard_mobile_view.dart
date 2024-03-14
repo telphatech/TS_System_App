@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ts_system/modules/tasks/add_task/presentation/views/add_task_mobile_view.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/date_day_container.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/floating_button.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/listview_time_cards.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/searchfield.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/timesheet_appbar.dart';
+import 'package:ts_system/utils/components/tt_colors.dart';
+import 'package:ts_system/utils/components/tt_icons.dart';
+import 'package:ts_system/utils/components/tt_typography.dart';
+import 'package:ts_system/utils/components/ui_helpers.dart';
 
 class TaskDashboard extends StatefulWidget {
   const TaskDashboard({super.key});
@@ -21,42 +29,16 @@ class _TaskDashboardState extends State<TaskDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: const Icon(Icons.arrow_back_ios_new),
-        title: const Text(
-          'Timesheet',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const PreferredSize(
+          preferredSize: Size(double.infinity, kToolbarHeight),
+          child: TimesheetAppbar()),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextFormField(
-              style: const TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[200],
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
-                hintText: 'Search',
-                hintStyle: TextStyle(color: Colors.grey[600]),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                  borderSide: BorderSide.none,
-                ),
-                prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
+          const SearchField(),
+          UIHelpers.verticalSpaceSmall,
           Container(
-            color: Colors.grey[200],
+            color: TTColors.borderSecondary,
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,18 +47,15 @@ class _TaskDashboardState extends State<TaskDashboard> {
                   child: Text(
                     DateFormat('dd MMMM yyyy').format(DateTime.now()),
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TTypography.text22Black,
                   ),
                 ),
                 IconButton(
                   onPressed: () {
                     _selectDate(context);
                   },
-                  icon: const Icon(Icons.filter_list, color: Colors.black),
+                  icon: const Icon(TTIcons.filter,
+                      color: TTColors.black, size: 28),
                 ),
               ],
             ),
@@ -84,7 +63,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
           SizedBox(
             height: 60,
             child: Container(
-              color: Colors.grey[200],
+              color: TTColors.borderSecondary,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount:
@@ -106,223 +85,19 @@ class _TaskDashboardState extends State<TaskDashboard> {
                         selectedDate = currentDate;
                       });
                     },
-                    child: Container(
-                      width: 50,
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? const Color.fromARGB(255, 157, 37, 116)
-                            : null,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            formattedDate,
-                            style: TextStyle(
-                              color: isSelected
-                                  ? Colors.white
-                                  : const Color.fromARGB(255, 157, 37, 116),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            formattedDay,
-                            style: TextStyle(
-                              color: isSelected
-                                  ? Colors.white
-                                  : const Color.fromARGB(255, 157, 37, 116),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: DateDayContainer(
+                        isSelected: isSelected,
+                        formattedDate: formattedDate,
+                        formattedDay: formattedDay),
                   );
                 },
               ),
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 2000,
-                        width: 100,
-                        child: Container(
-                          color: Colors.grey[200],
-                          child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 20,
-                            itemBuilder: (context, index) {
-                              DateTime startTime = DateTime(
-                                selectedDate.year,
-                                selectedDate.month,
-                                selectedDate.day,
-                                9,
-                                0,
-                              );
-
-                              DateTime currentDate =
-                                  startTime.add(Duration(hours: index));
-
-                              String formattedTime =
-                                  DateFormat('hh:mm').format(currentDate);
-                              String formattedDay =
-                                  DateFormat('a').format(currentDate);
-
-                              return Container(
-                                height: 98,
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                alignment: Alignment.center,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      formattedTime,
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    Text(
-                                      formattedDay,
-                                      style: const TextStyle(
-                                        color: Color.fromARGB(255, 79, 78, 78),
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          height: 2000,
-                          child: Container(
-                            color: Colors.grey[200],
-                            child: ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: 20,
-                              itemBuilder: (context, index) {
-                                DateTime startTime = DateTime(
-                                  selectedDate.year,
-                                  selectedDate.month,
-                                  selectedDate.day,
-                                  9,
-                                  0,
-                                );
-                                startTime =
-                                    startTime.add(Duration(hours: index));
-                                DateTime endTime =
-                                    startTime.add(const Duration(hours: 1));
-
-                                String timeRange =
-                                    '${DateFormat('hh:00 a').format(startTime)}-${DateFormat('hh:00 a').format(endTime)}';
-
-                                return Card(
-                                  color: Colors.white,
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Icon(
-                                          Icons.assignment_turned_in_rounded,
-                                          color:
-                                              Color.fromARGB(255, 157, 37, 116),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                'Task Name',
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 157, 37, 116),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 18,
-                                                ),
-                                                maxLines: 1,
-                                              ),
-                                              const Text(
-                                                'Project Name\n',
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 69, 69, 69),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              Text(
-                                                timeRange,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 104, 104, 104),
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 14,
-                                                ),
-                                                maxLines: 1,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          ListviewTimeCards(selectedDate: selectedDate),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddTaskMobileView()),
-          );
-        },
-        backgroundColor: const Color.fromARGB(255, 157, 37, 116),
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 40,
-        ),
-      ),
+      floatingActionButton: const TaskDashboardFloatingButton(),
     );
   }
 
