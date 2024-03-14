@@ -91,13 +91,13 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(16),
-                          primary: selectedLeaveType == 'Earned Leave'
-                              ? Colors.pink[800]
-                              : Colors.white,
-                          onPrimary: selectedLeaveType == 'Earned Leave'
+                          foregroundColor: selectedLeaveType == 'Earned Leave'
                               ? Colors.white
                               : Colors.pink[800],
+                          backgroundColor: selectedLeaveType == 'Earned Leave'
+                              ? Colors.pink[800]
+                              : Colors.white,
+                          padding: EdgeInsets.all(16),
                           side: BorderSide(
                             color: selectedLeaveType == 'Earned Leave'
                                 ? Colors.pink[800]!
@@ -116,13 +116,13 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(16),
-                          primary: selectedLeaveType == 'Sick Leave'
-                              ? Colors.pink[800]
-                              : Colors.white,
-                          onPrimary: selectedLeaveType == 'Sick Leave'
+                          foregroundColor: selectedLeaveType == 'Sick Leave'
                               ? Colors.white
                               : Colors.pink[800],
+                          backgroundColor: selectedLeaveType == 'Sick Leave'
+                              ? Colors.pink[800]
+                              : Colors.white,
+                          padding: EdgeInsets.all(16),
                           side: BorderSide(
                             color: selectedLeaveType == 'Sick Leave'
                                 ? Colors.pink[800]!
@@ -141,13 +141,13 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(16),
-                          primary: selectedLeaveType == 'Casual Leave'
-                              ? Colors.pink[800]
-                              : Colors.white,
-                          onPrimary: selectedLeaveType == 'Casual Leave'
+                          foregroundColor: selectedLeaveType == 'Casual Leave'
                               ? Colors.white
                               : Colors.pink[800],
+                          backgroundColor: selectedLeaveType == 'Casual Leave'
+                              ? Colors.pink[800]
+                              : Colors.white,
+                          padding: EdgeInsets.all(16),
                           side: BorderSide(
                             color: selectedLeaveType == 'Casual Leave'
                                 ? Colors.pink[800]!
@@ -306,7 +306,7 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.pink[800],
+                  backgroundColor: Colors.pink[800],
                 ),
                 child: Text(
                   'Apply Leave',
