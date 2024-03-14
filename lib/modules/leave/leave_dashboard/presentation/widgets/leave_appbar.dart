@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ts_system/modules/leave/apply_leave/presentation/views/apply_leave_mobile_view.dart';
+import 'package:ts_system/utils/components/tt_colors.dart';
 
 class LeaveAppBar extends StatelessWidget {
   const LeaveAppBar({
@@ -9,7 +10,7 @@ class LeaveAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.pink[800],
+      backgroundColor: TTColors.primary,
       title: Text(
         'Leave',
         style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
