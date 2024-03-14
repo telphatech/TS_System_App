@@ -1,19 +1,22 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ts_system/modules/leave/apply_leave/presentation/pages/leave_policies.dart';
+import 'package:ts_system/modules/home/dashboard/presentation/widgets/drawer_homescreen.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_appbar.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_dashboard_body.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_dashboard_padding.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 
+@RoutePage()
 class LeaveDashboardMobileView extends StatelessWidget {
-  const LeaveDashboardMobileView({Key? key}) : super(key: key);
+  const LeaveDashboardMobileView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: const PreferredSize(
+        drawer: DrawerHomeScreen(),
+        appBar: PreferredSize(
             preferredSize: Size(double.infinity, kToolbarHeight),
             child: LeaveAppBar()),
         body: LeaveDashboardBody(),
@@ -23,9 +26,11 @@ class LeaveDashboardMobileView extends StatelessWidget {
 }
 
 class BalanceLeaveCard extends StatelessWidget {
+  const BalanceLeaveCard({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return LeaveDashboardPadding();
+    return const LeaveDashboardPadding();
   }
 }
 
@@ -50,13 +55,13 @@ class LeaveCard extends StatelessWidget {
     Color statusColor;
     switch (status) {
       case LeaveStatus.Pending:
-        statusColor = TTColors.secondary!;
+        statusColor = TTColors.secondary;
         break;
       case LeaveStatus.Approved:
-        statusColor = TTColors.success!;
+        statusColor = TTColors.success;
         break;
       case LeaveStatus.Cancelled:
-        statusColor = TTColors.danger!;
+        statusColor = TTColors.danger;
         break;
     }
 
@@ -78,7 +83,7 @@ class LeaveCard extends StatelessWidget {
                   ),
                   Text(
                     leaveType,
-                    style: TextStyle(color: TTColors.primary),
+                    style: const TextStyle(color: TTColors.primary),
                   ),
                 ],
               ),

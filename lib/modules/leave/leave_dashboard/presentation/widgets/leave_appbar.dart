@@ -11,13 +11,10 @@ class LeaveAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: TTColors.primary,
+      iconTheme: IconThemeData(color: TTColors.white),
       title: Text(
         'Leave',
         style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-        onPressed: () {},
       ),
       actions: [
         IconButton(

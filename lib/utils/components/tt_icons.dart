@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TTIcons {
   TTIcons._();
 
-  static const IconData logo = Icons.admin_panel_settings_rounded;
+  static const String logo = "assets/logo.png";
   static const IconData search = Icons.search_outlined;
   static const IconData close = Icons.close_rounded;
   static const IconData home = Icons.home;

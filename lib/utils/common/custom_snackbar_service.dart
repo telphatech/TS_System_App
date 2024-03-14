@@ -5,15 +5,13 @@ class CustomSnackBarService {
   void showInfoSnackBar(BuildContext context,
       {String? message, String? title}) {
     final snackBar = SnackBar(
-      backgroundColor: TTColors.darkContainer,
+      backgroundColor: TTColors.warning,
       behavior: SnackBarBehavior.floating,
       dismissDirection: DismissDirection.down,
       showCloseIcon: true,
-      closeIconColor: TTColors.warning,
+      closeIconColor: TTColors.white,
       duration: const Duration(seconds: 3),
-      content: ListTile(
-        title: Text(message ?? ''),
-      ),
+      content: Text(message ?? ''),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -21,12 +19,12 @@ class CustomSnackBarService {
   void showWarningSnackBar(BuildContext context,
       {String? message, String? title}) {
     final snackBar = SnackBar(
-      backgroundColor: const Color(0xFFFFF3CD),
+      backgroundColor: TTColors.warning,
       behavior: SnackBarBehavior.floating,
       dismissDirection: DismissDirection.down,
       duration: const Duration(seconds: 3),
       showCloseIcon: true,
-      closeIconColor: TTColors.warning,
+      closeIconColor: TTColors.white,
       content: ListTile(
         title: Text(message ?? ''),
       ),
@@ -37,15 +35,14 @@ class CustomSnackBarService {
   void showSuccessSnackBar(BuildContext context,
       {String? message, String? title}) {
     final snackBar = SnackBar(
-        backgroundColor: TTColors.success,
-        behavior: SnackBarBehavior.floating,
-        dismissDirection: DismissDirection.endToStart,
-        showCloseIcon: true,
-        closeIconColor: TTColors.white,
-        duration: const Duration(seconds: 3),
-        content: ListTile(
-          title: Text(message ?? ""),
-        ));
+      backgroundColor: TTColors.success,
+      behavior: SnackBarBehavior.floating,
+      dismissDirection: DismissDirection.endToStart,
+      showCloseIcon: true,
+      closeIconColor: TTColors.white,
+      duration: const Duration(seconds: 3),
+      content: Text(message ?? ""),
+    );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -53,15 +50,13 @@ class CustomSnackBarService {
   void showErrorSnackBar(BuildContext context,
       {String? message, String? title}) {
     final snackBar = SnackBar(
-      backgroundColor: const Color(0xFFF8D7DA),
+      backgroundColor: TTColors.danger,
       behavior: SnackBarBehavior.floating,
       dismissDirection: DismissDirection.endToStart,
       duration: const Duration(seconds: 3),
       showCloseIcon: true,
-      closeIconColor: TTColors.danger,
-      content: ListTile(
-        title: Text(message ?? ''),
-      ),
+      closeIconColor: TTColors.white,
+      content: Text(message ?? ''),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

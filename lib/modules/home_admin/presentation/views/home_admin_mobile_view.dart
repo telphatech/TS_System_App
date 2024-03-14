@@ -8,7 +8,7 @@ class HomeAdminMobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 157, 37, 116),
+        backgroundColor: const Color.fromARGB(255, 157, 37, 116),
         title: const Text(
           'TM System',
           style: TextStyle(

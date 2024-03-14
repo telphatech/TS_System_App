@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/date_day_container.dart';
@@ -10,6 +11,7 @@ import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
+@RoutePage()
 class TaskDashboard extends StatefulWidget {
   const TaskDashboard({super.key});
 

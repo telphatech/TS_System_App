@@ -11,6 +11,7 @@ class AppBarHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: TTColors.primary,
+      centerTitle: true,
       title: const Text(
         TTStrings.appName,
         style: TextStyle(

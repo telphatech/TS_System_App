@@ -96,10 +96,6 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                         decoration: BoxDecoration(
                           color: TTColors.white,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: TTColors.black,
-                            width: 1.0,
-                          ),
                         ),
                         child: Row(
                           children: [
@@ -118,7 +114,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                       startTime.minute,
                                     ),
                                   ),
-                                  border: InputBorder.none,
+                                  //border: InputBorder.none,
                                 ),
                                 readOnly: true,
                                 onTap: () async {
@@ -164,10 +160,6 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                         decoration: BoxDecoration(
                           color: TTColors.white,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: TTColors.black,
-                            width: 1.0,
-                          ),
                         ),
                         child: Row(
                           children: [
