@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:ts_system/modules/login/sign_in/presentation/widgets/app_title.dart';
 import 'package:ts_system/modules/login/sign_in/presentation/widgets/check_login_details.dart';
 import 'package:ts_system/modules/login/sign_in/presentation/widgets/employee_uid.dart';
-import 'package:ts_system/modules/login/sign_in/presentation/widgets/forget_password.dart';
 import 'package:ts_system/responsive.dart';
 import 'package:ts_system/utils/common/app_input_field.dart';
 import 'package:ts_system/utils/common/app_input_validations.dart';
 import 'package:ts_system/utils/common/text_style.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
-import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
