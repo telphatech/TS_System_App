@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ts_system/modules/leave/apply_leave/presentation/views/apply_leave_mobile_view.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 
 class LeaveAppBar extends StatelessWidget {
@@ -11,6 +10,7 @@ class LeaveAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: TTColors.primary,
+<<<<<<< Updated upstream
       title: Text(
         'Leave',
         style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -32,6 +32,13 @@ class LeaveAppBar extends StatelessWidget {
           },
         ),
       ],
+=======
+      iconTheme: const IconThemeData(color: TTColors.white),
+      title: const Text(
+        'LEAVE',
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+>>>>>>> Stashed changes
       centerTitle: true,
     );
   }

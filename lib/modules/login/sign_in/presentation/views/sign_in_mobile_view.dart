@@ -16,7 +16,6 @@ class _SignInMobileViewState extends State<SignInMobileView> {
   TextEditingController uidController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
-  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +218,41 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                     ),
                   ),
                 ),
+<<<<<<< Updated upstream
               ),
+=======
+                UIHelpers.verticalSpaceMedium,
+                CheckboxMenuButton(
+                    value: rememberMe,
+                    onChanged: (value) {
+                      setState(() {
+                        rememberMe = value ?? false;
+                      });
+                    },
+                    child: Text(
+                      'Keep me logged In',
+                      style: TTypography.text16Black,
+                    )),
+                UIHelpers.verticalSpaceMedium,
+                CustomElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        print("success");
+                        uidController.clear();
+                        passwordController.clear();
+                        serviceLocator<AppRouter>()
+                            .replace(DashboardMobileView());
+                      } else {
+                        CustomSnackBarService().showErrorSnackBar(context,
+                            message: 'Please enter all fields');
+                      }
+                    },
+                    backgroundColor: TTColors.primary,
+                    borderColor: TTColors.primary,
+                    child: const Text('Sign In'),
+                    iconColor: TTColors.white)
+              ],
+>>>>>>> Stashed changes
             ),
           ],
         ),

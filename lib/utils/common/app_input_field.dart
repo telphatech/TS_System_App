@@ -23,6 +23,7 @@ class AppInputField extends StatefulWidget {
   final void Function()? trailingTapped;
   final void Function(String)? onChanged;
   final FormFieldValidator<String>? validator;
+  final Color? enabledBorderColor;
 
   const AppInputField(
       {super.key,
@@ -46,7 +47,8 @@ class AppInputField extends StatefulWidget {
       this.textInputType = TextInputType.name,
       this.textCapitalization = TextCapitalization.sentences,
       TextStyle? hintStyle,
-      this.validator});
+      this.validator,
+      this.enabledBorderColor});
 
   @override
   State<AppInputField> createState() => _AppInputFieldState();
@@ -140,8 +142,8 @@ class _AppInputFieldState extends State<AppInputField> {
               borderSide: const BorderSide(color: TTColors.primary),
             ),
             enabledBorder: (widget.inputBorder ?? circularBorder).copyWith(
-              borderSide: const BorderSide(
-                color: TTColors.primary,
+              borderSide: BorderSide(
+                color: widget.enabledBorderColor ?? TTColors.grey,
               ),
             ),
             disabledBorder: (widget.inputBorder ?? circularBorder).copyWith(

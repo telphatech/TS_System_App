@@ -7,7 +7,20 @@ import 'package:ts_system/modules/login/sign_in/presentation/views/sign_in_mobil
 class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
+<<<<<<< Updated upstream
         AutoRoute(page: SplashRouteMobileView.page, initial: true, path: '/'),
         AutoRoute(page: SignInRouteView.page, path: '/sign-in'),
+=======
+        AutoRoute(
+          page: SplashRouteMobileView.page,
+        ),
+        AutoRoute(page: SignInMobileView.page, path: '/sign-in'),
+        AutoRoute(page: DashboardMobileView.page, initial: true, path: '/'),
+        AutoRoute(page: LeaveDashboardMobileView.page),
+        AutoRoute(page: ApplyLeaveMobileView.page),
+        AutoRoute(page: TaskDashboard.page),
+        AutoRoute(page: LeavePolicies.page),
+        AutoRoute(page: AddTaskMobileView.page),
+>>>>>>> Stashed changes
       ];
 }

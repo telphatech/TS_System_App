@@ -1,14 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/modules/tasks/add_task/presentation/widgets/appbar_add_task.dart';
-import 'package:ts_system/modules/tasks/add_task/presentation/widgets/duration.dart';
-import 'package:ts_system/modules/tasks/add_task/presentation/widgets/savechanges_discard_buttons.dart';
-import 'package:ts_system/modules/tasks/add_task/presentation/widgets/start_end_time.dart';
+import 'package:ts_system/utils/common/app_input_field.dart';
+import 'package:ts_system/utils/common/custom_button.dart';
+import 'package:ts_system/utils/common/custom_dropdown.dart';
+import 'package:ts_system/utils/common/custom_snackbar_service.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
+@RoutePage()
 class AddTaskMobileView extends StatefulWidget {
   const AddTaskMobileView({super.key});
 
@@ -20,6 +24,8 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
   bool isWholeDaySelected = false;
   TimeOfDay startTime = const TimeOfDay(hour: 9, minute: 0);
   TimeOfDay endTime = const TimeOfDay(hour: 9, minute: 0);
+  TextEditingController startTimeController = TextEditingController();
+  TextEditingController endTimeController = TextEditingController();
 
   String selectedProject = '';
   String selectedTaskType = '';
@@ -47,6 +53,7 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size(double.infinity, kToolbarHeight),
@@ -231,140 +238,222 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
               ),
               DurationText(durationText: durationText),
               Column(
+=======
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
+        UIHelpers.hideKeyBoard();
+        serviceLocator<AppRouter>().pop();
+      },
+      child: Scaffold(
+        backgroundColor: TTColors.white,
+        appBar: const PreferredSize(
+            preferredSize: Size(double.infinity, 64), child: AddTaskAppbar()),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+            child: Form(
+              child: Column(
+>>>>>>> Stashed changes
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, top: 20),
-                    child: Text('Group Name', style: TTypography.text16Black),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, top: 10, right: 20),
-                    child: Row(
+                  CheckboxMenuButton(
+                      value: isWholeDaySelected,
+                      onChanged: (value) {
+                        setState(() {
+                          isWholeDaySelected = value ?? false;
+                          if (isWholeDaySelected) {
+                            startTimeController.text =
+                                startTime.format(context);
+                            endTimeController.text = endTime.format(context);
+                            calculateDuration();
+                          } else {
+                            final start = DateTime(
+                                2024, 1, 1, startTime.hour, startTime.minute);
+                            final end = DateTime(
+                                2024, 1, 1, endTime.hour, endTime.minute);
+
+                            final duration = end.difference(start);
+
+                            durationText =
+                                'Duration: ${(duration.inHours).toString().padLeft(2, '0')} Hours';
+                          }
+                        });
+                      },
+                      child: Text('Whole Day', style: TTypography.normal)),
+                  UIHelpers.verticalSpaceTiny,
+                  // Start and End Time
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: DropdownButtonFormField<String>(
-                            iconEnabledColor: TTColors.primary,
-                            iconSize: 35,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: TTColors.white,
-                              contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              hintText: 'Select Group Name',
-                              hintStyle: const TextStyle(
-                                  color: TTColors.textSecondary),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                                borderSide: BorderSide.none,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(Icons.play_circle,
+                                      color: TTColors.primary),
+                                  UIHelpers.horizontalSpaceTiny,
+                                  const Text('Start Time'),
+                                ],
                               ),
-                            ),
-                            items: const [
-                              DropdownMenuItem(
-                                value: 'Group 1',
-                                child: Text('Group 1'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Group 2',
-                                child: Text('Group 2'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Group 3',
-                                child: Text('Group 3'),
+                              UIHelpers.verticalSpaceSmall,
+                              AppInputField(
+                                readOnly: true,
+                                hint: '09:00 PM',
+                                controller: startTimeController,
+                                trailing: const Icon(
+                                  Icons.timer,
+                                  color: TTColors.primary,
+                                ),
+                                trailingTapped: () async {
+                                  if (!isWholeDaySelected) {
+                                    TimeOfDay? pickedDate =
+                                        await showTimePicker(
+                                            context: context,
+                                            initialTime: startTime);
+
+                                    if (pickedDate != null) {
+                                      startTime = pickedDate;
+                                      startTimeController.text =
+                                          startTime.format(context);
+                                      calculateDuration();
+                                    }
+                                  } else {
+                                    CustomSnackBarService().showWarningSnackBar(
+                                        context,
+                                        message:
+                                            'Please uncheck the whole day.');
+                                  }
+                                },
                               ),
                             ],
-                            onChanged: (String? value) {
-                              setState(() {
-                                selectedProject = value ?? '';
-                              });
-                            },
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, top: 20),
-                    child: Text(
-                      'Task',
-                      style: TTypography.text16Black,
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, top: 10, right: 20),
-                    child: Row(
-                      children: [
+                        UIHelpers.horizontalSpaceSmall,
                         Expanded(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: TTColors.white,
-                              contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              hintText: 'Insert Task Name',
-                              hintStyle: const TextStyle(
-                                  color: TTColors.textSecondary),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                                borderSide: BorderSide.none,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(Icons.stop_circle,
+                                      color: TTColors.primary),
+                                  UIHelpers.horizontalSpaceTiny,
+                                  const Text('End Time'),
+                                ],
                               ),
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedTaskType = value;
-                              });
-                            },
+                              UIHelpers.verticalSpaceSmall,
+                              AppInputField(
+                                readOnly: true,
+                                hint: '09:00 PM',
+                                controller: endTimeController,
+                                trailing: const Icon(
+                                  Icons.timer,
+                                  color: TTColors.primary,
+                                ),
+                                trailingTapped: () async {
+                                  if (!isWholeDaySelected) {
+                                    TimeOfDay? pickedDate =
+                                        await showTimePicker(
+                                            context: context,
+                                            initialTime: endTime);
+                                    if (pickedDate != null) {
+                                      if (!isWholeDaySelected) {
+                                        endTime = pickedDate;
+                                        endTimeController.text =
+                                            endTime.format(context);
+                                        calculateDuration();
+                                      }
+                                    }
+                                  } else {
+                                    CustomSnackBarService().showWarningSnackBar(
+                                        context,
+                                        message:
+                                            'Please uncheck the whole day.');
+                                  }
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ]),
+                  UIHelpers.verticalSpaceMedium,
+
+                  // Duration
+                  Row(
+                    children: [
+                      const Icon(
+                        TTIcons.time,
+                        color: TTColors.primary,
+                      ),
+                      UIHelpers.horizontalSpaceTiny,
+                      Text(durationText),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, top: 20),
-                    child: Text('Task Description',
-                        style: TTypography.text16Black),
+                  UIHelpers.verticalSpaceMedium,
+                  Text(
+                    "Group Name",
+                    style: TTypography.normal
+                        .copyWith(color: TTColors.black, fontSize: 14),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, top: 10, right: 20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            style: const TextStyle(color: TTColors.black),
-                            maxLines: 4,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: TTColors.white,
-                              contentPadding:
-                                  const EdgeInsets.only(left: 10, top: 30),
-                              hintText: 'Insert Task Description',
-                              hintStyle: const TextStyle(
-                                  color: TTColors.textSecondary),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                taskName = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                  UIHelpers.verticalSpaceSmall,
+                  const CustomSearchDropdown(
+                    items: [],
+                    showSearchBox: false,
+                    isMenu: true,
+                    hintText: 'Select Group Name',
                   ),
-                  SaveChangesDiscardButtons(
-                      durationText: durationText,
-                      selectedProject: selectedProject,
-                      selectedTaskType: selectedTaskType,
-                      taskName: taskName),
+                  UIHelpers.verticalSpaceMedium,
+                  Text(
+                    "Task Name",
+                    style: TTypography.normal
+                        .copyWith(color: TTColors.black, fontSize: 14),
+                  ),
+                  UIHelpers.verticalSpaceSmall,
+                  const AppInputField(
+                    hint: 'Insert Task Name',
+                  ),
+                  UIHelpers.verticalSpaceMedium,
+                  Text(
+                    "Task Description",
+                    style: TTypography.normal
+                        .copyWith(color: TTColors.black, fontSize: 14),
+                  ),
+                  UIHelpers.verticalSpaceSmall,
+                  const AppInputField(
+                    hint: 'Insert Task Description',
+                    maxLines: 5,
+                  ),
+                  UIHelpers.verticalSpaceMedium,
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomElevatedButton(
+                        onPressed: () {},
+                        backgroundColor: TTColors.primary,
+                        borderColor: TTColors.primary,
+                        iconColor: TTColors.white,
+                        child: const Text('Save Changes')),
+                  ),
+                  UIHelpers.verticalSpaceMedium,
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomElevatedButton(
+                        onPressed: () {
+                          serviceLocator<AppRouter>().pop();
+                        },
+                        backgroundColor: TTColors.white,
+                        borderColor: TTColors.primary,
+                        iconData: Icons.delete,
+                        iconColor: TTColors.primary,
+                        child: const Text(
+                          'Discard Changes',
+                          style: TextStyle(color: TTColors.primary),
+                        )),
+                  ),
+                  UIHelpers.verticalSpaceMedium,
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

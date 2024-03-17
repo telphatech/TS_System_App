@@ -1,13 +1,19 @@
+<<<<<<< Updated upstream
+=======
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/date_day_container.dart';
+import 'package:flutter/widgets.dart';
+import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/config/router/app_router.gr.dart';
+import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/modules/home/dashboard/presentation/widgets/menu_drawer.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/calender_view.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/floating_button.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/listview_time_cards.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/searchfield.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/task_lists.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/timesheet_appbar.dart';
-import 'package:ts_system/utils/components/tt_colors.dart';
-import 'package:ts_system/utils/components/tt_icons.dart';
-import 'package:ts_system/utils/components/tt_typography.dart';
+import 'package:ts_system/utils/common_widgets/empty_widget.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
 class TaskDashboard extends StatefulWidget {
@@ -28,90 +34,47 @@ class _TaskDashboardState extends State<TaskDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const PreferredSize(
-          preferredSize: Size(double.infinity, kToolbarHeight),
-          child: TimesheetAppbar()),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SearchField(),
-          UIHelpers.verticalSpaceSmall,
-          Container(
-            color: TTColors.borderSecondary,
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    DateFormat('dd MMMM yyyy').format(DateTime.now()),
-                    overflow: TextOverflow.ellipsis,
-                    style: TTypography.text22Black,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    _selectDate(context);
-                  },
-                  icon: const Icon(TTIcons.filter,
-                      color: TTColors.black, size: 28),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 60,
-            child: Container(
-              color: TTColors.borderSecondary,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount:
-                    DateTime(DateTime.now().year, DateTime.now().month + 1, 0)
-                        .day,
-                itemBuilder: (context, index) {
-                  DateTime currentDate = DateTime(
-                      DateTime.now().year, DateTime.now().month, index + 1);
-                  String formattedDate = DateFormat('dd').format(currentDate);
-                  String formattedDay = DateFormat('E').format(currentDate);
-
-                  bool isSelected = currentDate.year == selectedDate.year &&
-                      currentDate.month == selectedDate.month &&
-                      currentDate.day == selectedDate.day;
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedDate = currentDate;
-                      });
-                    },
-                    child: DateDayContainer(
-                        isSelected: isSelected,
-                        formattedDate: formattedDate,
-                        formattedDay: formattedDay),
-                  );
-                },
-              ),
-            ),
-          ),
-          ListviewTimeCards(selectedDate: selectedDate),
-        ],
-      ),
-      floatingActionButton: const TaskDashboardFloatingButton(),
-    );
-  }
-
-  void _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2001),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
+    bool isSameDay(DateTime date1, DateTime date2) {
+      return date1.year == date2.year &&
+          date1.month == date2.month &&
+          date1.day == date2.day;
     }
+
+    // final DateTime selectedDate =
+    //     Provider.of<TimesheetBloc>(context).getSelectedDate;
+    final DateTime currentDate = DateTime.now();
+
+    final bool isCurrentDate = isSameDay(currentDate, DateTime.now());
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) async {
+        UIHelpers.hideKeyBoard();
+        serviceLocator<AppRouter>().popAndPush(DashboardMobileView());
+      },
+      child: Scaffold(
+        drawer: const MenuDrawer(),
+        appBar: PreferredSize(
+          preferredSize:
+              Size(double.infinity, UIHelpers.screenHeight(context) * 0.14),
+          child: const TimesheetAppbar(),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const CalenderView(),
+            UIHelpers.verticalSpaceSmall,
+            Visibility(visible: false, child: emptyWidget()),
+            const Visibility(visible: true, child: TaskLists()),
+          ],
+        ),
+        floatingActionButton: isCurrentDate == true
+            ? TaskDashboardFloatingButton(
+                onTap: () {
+                  serviceLocator<AppRouter>().push(const AddTaskMobileView());
+                },
+              )
+            : null,
+      ),
+    );
   }
 }

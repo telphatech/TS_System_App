@@ -1,7 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/views/leave_dashboard_mobile_view.dart';
+=======
+import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/core/services/locator.dart';
+>>>>>>> Stashed changes
 import 'package:ts_system/utils/components/tt_colors.dart';
 
+@RoutePage()
 class ApplyLeaveMobileView extends StatefulWidget {
   const ApplyLeaveMobileView({Key? key}) : super(key: key);
 
@@ -18,6 +25,7 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
     return AppBar(
       backgroundColor: TTColors.primary,
       title: Text(
@@ -34,9 +42,24 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
         IconButton(
           icon: Icon(Icons.note_alt_outlined, color: TTColors.white),
           onPressed: () {},
+=======
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: TTColors.primary,
+        title: const Text(
+          'Apply Leave',
+          style: TextStyle(fontWeight: FontWeight.bold, color: TTColors.white),
+>>>>>>> Stashed changes
         ),
-      ],
-      centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: TTColors.white),
+          onPressed: () {
+            serviceLocator<AppRouter>().pop();
+          },
+        ),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(),
     );
   }
 }
