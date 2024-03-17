@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 
 @RoutePage()

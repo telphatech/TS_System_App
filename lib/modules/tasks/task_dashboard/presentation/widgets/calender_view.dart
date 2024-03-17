@@ -21,11 +21,11 @@ class CalenderView extends StatelessWidget {
       headerProps: EasyHeaderProps(
         selectedDateStyle: TextStyle(
             color: TTColors.primary,
-            fontSize: UIHelpers.getResponsiveFontSize(context) * 0.40),
+            fontSize: UIHelpers.getResponsiveFontSize(context) * 0.60),
         padding: const EdgeInsets.all(10),
         monthStyle: TextStyle(
             color: TTColors.primary,
-            fontSize: UIHelpers.getResponsiveFontSize(context) * 0.40),
+            fontSize: UIHelpers.getResponsiveFontSize(context) * 0.60),
         monthPickerType: MonthPickerType.switcher,
         showHeader: true,
         dateFormatter: const DateFormatter.fullDateDMonthAsStrY(),

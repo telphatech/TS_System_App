@@ -52,7 +52,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
         drawer: const MenuDrawer(),
         appBar: PreferredSize(
           preferredSize:
-              Size(double.infinity, UIHelpers.screenHeight(context) * 0.14),
+              Size(double.infinity, UIHelpers.screenHeight(context) * 0.18),
           child: const TimesheetAppbar(),
         ),
         body: Column(

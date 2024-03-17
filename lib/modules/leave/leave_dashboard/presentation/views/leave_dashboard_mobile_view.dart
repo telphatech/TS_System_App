@@ -1,5 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/config/router/app_router.gr.dart';
+import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/modules/home/dashboard/presentation/widgets/menu_drawer.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_appbar.dart';
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
@@ -32,17 +36,15 @@ class LeaveDashboardMobileView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppText.body5("Balance Leaves"),
-                  AppText.body5underline(
-                    "Leaves Policies",
-                    color: TTColors.primary,
-                  ),
+                  Expanded(child: AppText.body5("Balance Leaves")),
+                  AppText.body5underline("Leaves Policies",
+                      color: TTColors.primary),
                 ],
               ),
             ),
             UIHelpers.verticalSpaceRegular,
             Container(
-              height: 170,
+              height: UIHelpers.screenHeight(context) * 0.27,
               margin: const EdgeInsets.symmetric(
                 horizontal: 05,
               ),
@@ -144,6 +146,7 @@ class LeaveDashboardMobileView extends StatelessWidget {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return Container(
+                        width: double.infinity,
                         margin: const EdgeInsets.only(left: 10, right: 10),
                         padding: const EdgeInsets.fromLTRB(12, 11, 07, 12),
                         decoration: BoxDecoration(
@@ -154,62 +157,49 @@ class LeaveDashboardMobileView extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        child: Column(
                           children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.sick),
+                                UIHelpers.horizontalSpaceTiny,
+                                AppText.bodyBold("Casual Leave"),
+                              ],
+                            ),
+                            UIHelpers.verticalSpaceTiny,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.calendar_month_rounded),
+                                UIHelpers.horizontalSpaceTiny,
+                                AppText.bodyBold("12 Feb to 14 Feb"),
+                              ],
+                            ),
+                            UIHelpers.verticalSpaceTiny,
                             Container(
-                              width: UIHelpers.screenWidth(context) * 0.30,
+                              width: double.infinity,
                               height: 40,
                               padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
-                                color: TTColors.primary,
+                                color: getStatusColor("Approved"),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Center(
                                 child: Text(
-                                  "Casual Leave",
+                                  "Approved",
                                   style: TTypography.normal.copyWith(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
-                                    color: TTColors.white,
+                                    color: getTextStatusColor("Approved"),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                             ),
-                            UIHelpers.horizontalSpaceSmall,
-                            SizedBox(
-                              width: UIHelpers.screenWidth(context) * 0.30,
-                              child: Text(
-                                "12 Feb to 14 Feb",
-                                style: TTypography.normal.copyWith(
-                                  fontWeight: FontWeight.w300,
-                                  color: TTColors.black,
-                                  overflow: TextOverflow.clip,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                            UIHelpers.horizontalSpaceSmall,
-                            Container(
-                              width: UIHelpers.screenWidth(context) * 0.20,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: TTColors.primary,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "10 days",
-                                  style: TTypography.normal.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: TTColors.white,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            UIHelpers.verticalSpaceSmall,
                           ],
                         ),
                       );
