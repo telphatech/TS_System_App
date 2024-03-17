@@ -43,12 +43,9 @@ class LeaveDashboardMobileView extends StatelessWidget {
               ),
             ),
             UIHelpers.verticalSpaceRegular,
-            Container(
+            SizedBox(
               height: UIHelpers.screenHeight(context) * 0.27,
-              margin: const EdgeInsets.symmetric(
-                horizontal: 05,
-              ),
-              width: UIHelpers.screenWidth(context),
+              width: double.infinity,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,

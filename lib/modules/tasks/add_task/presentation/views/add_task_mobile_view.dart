@@ -81,6 +81,11 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                             endTimeController.text = endTime.format(context);
                             calculateDuration();
                           } else {
+                            startTimeController.clear();
+                            endTimeController.clear();
+                            startTime = TimeOfDay.now();
+                            endTime = TimeOfDay.now();
+
                             final start = DateTime(
                                 2024, 1, 1, startTime.hour, startTime.minute);
                             final end = DateTime(
