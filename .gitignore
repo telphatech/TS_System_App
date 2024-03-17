@@ -44,3 +44,4 @@ app.*.map.json
 .dart_tool/package_config.json
 .dart_tool/package_config_subset
 lib/config/router/app_router.gr.dart
+/.dart_tool

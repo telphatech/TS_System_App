@@ -37,7 +37,7 @@ class LeaveDashboardBody extends StatelessWidget {
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
+                  child: const Text(
                     'Leave Policies',
                     style: TextStyle(
                       fontSize: 18,
@@ -86,22 +86,22 @@ class LeaveDashboardBody extends StatelessWidget {
         Expanded(
           child: ListView(
             shrinkWrap: true,
-            children: [
-              const LeaveCard(
+            children: const [
+              LeaveCard(
                 leaveType: 'Casual Leave',
                 icon: Icons.beach_access,
                 date: 'Feb 1 - Feb 5, 2024',
                 days: 5,
                 status: LeaveStatus.Pending,
               ),
-              const LeaveCard(
+              LeaveCard(
                 leaveType: 'Sick Leave',
                 icon: Icons.sick_outlined,
                 date: 'Feb 10 - Feb 12, 2024',
                 days: 3,
                 status: LeaveStatus.Approved,
               ),
-              const LeaveCard(
+              LeaveCard(
                 leaveType: 'Sick Leave',
                 icon: Icons.sick_outlined,
                 date: 'Mar 1 - Apr 1, 2024',

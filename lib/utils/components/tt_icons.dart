@@ -3,15 +3,11 @@ import 'package:flutter/material.dart';
 class TTIcons {
   TTIcons._();
 
-<<<<<<< Updated upstream
-  static const IconData logo = Icons.admin_panel_settings_rounded;
-=======
   static const String logo = "assets/logo.png";
   static const String profilePic =
       "https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png";
   static const String noData =
       "https://img.freepik.com/free-vector/flat-design-no-data-illustration_23-2150527142.jpg";
->>>>>>> Stashed changes
   static const IconData search = Icons.search_outlined;
   static const IconData close = Icons.close_rounded;
   static const IconData home = Icons.home;

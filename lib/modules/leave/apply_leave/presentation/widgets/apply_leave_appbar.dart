@@ -16,7 +16,7 @@ class ApplyLeaveAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kToolbarHeight),
+          preferredSize: const Size(double.infinity, kToolbarHeight),
           child: ApplyLeaveAppBar()),
       body: SingleChildScrollView(
         child: Padding(
@@ -24,8 +24,8 @@ class ApplyLeaveAppBar extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Leave Type',
                 style: TextStyle(
                   fontSize: 18,
@@ -33,7 +33,7 @@ class ApplyLeaveAppBar extends StatelessWidget {
                   color: TTColors.black,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Card(
                 color: TTColors.white,
                 elevation: 2,
@@ -49,21 +49,21 @@ class ApplyLeaveAppBar extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
                       color: selectedLeaveType == 'Earned Leave'
-                          ? TTColors.primary!
+                          ? TTColors.primary
                           : Colors.grey.withOpacity(0.5),
                     ),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
@@ -77,18 +77,18 @@ class ApplyLeaveAppBar extends StatelessWidget {
                           backgroundColor: selectedLeaveType == 'Earned Leave'
                               ? TTColors.primary
                               : TTColors.white,
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           side: BorderSide(
                             color: selectedLeaveType == 'Earned Leave'
-                                ? TTColors.primary!
+                                ? TTColors.primary
                                 : Colors.grey.withOpacity(0.5),
                           ),
                         ),
-                        child: Text('Earned Leave'),
+                        child: const Text('Earned Leave'),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
@@ -102,18 +102,18 @@ class ApplyLeaveAppBar extends StatelessWidget {
                           backgroundColor: selectedLeaveType == 'Sick Leave'
                               ? TTColors.primary
                               : TTColors.white,
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           side: BorderSide(
                             color: selectedLeaveType == 'Sick Leave'
-                                ? TTColors.primary!
+                                ? TTColors.primary
                                 : Colors.grey.withOpacity(0.5),
                           ),
                         ),
-                        child: Text('Sick Leave'),
+                        child: const Text('Sick Leave'),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
@@ -127,21 +127,21 @@ class ApplyLeaveAppBar extends StatelessWidget {
                           backgroundColor: selectedLeaveType == 'Casual Leave'
                               ? TTColors.primary
                               : TTColors.white,
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           side: BorderSide(
                             color: selectedLeaveType == 'Casual Leave'
-                                ? TTColors.primary!
+                                ? TTColors.primary
                                 : Colors.grey.withOpacity(0.5),
                           ),
                         ),
-                        child: Text('Casual Leave'),
+                        child: const Text('Casual Leave'),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'From',
                 style: TextStyle(
                   fontSize: 18,
@@ -149,7 +149,7 @@ class ApplyLeaveAppBar extends StatelessWidget {
                   color: TTColors.black,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Card(
                 color: TTColors.white,
                 elevation: 2,
@@ -171,8 +171,9 @@ class ApplyLeaveAppBar extends StatelessWidget {
                           final DateTime? pickedDate = await showDatePicker(
                             context: context,
                             initialDate: fromDate ??
-                                DateTime.now().add(Duration(days: 1)),
-                            firstDate: DateTime.now().add(Duration(days: 1)),
+                                DateTime.now().add(const Duration(days: 1)),
+                            firstDate:
+                                DateTime.now().add(const Duration(days: 1)),
                             lastDate: DateTime(DateTime.now().year + 1),
                           );
                           if (pickedDate != null && pickedDate != fromDate) {
@@ -182,12 +183,12 @@ class ApplyLeaveAppBar extends StatelessWidget {
 
                               if (toDate == null ||
                                   fromDate!.isAfter(toDate!)) {
-                                toDate = fromDate!.add(Duration(days: 1));
+                                toDate = fromDate!.add(const Duration(days: 1));
                               }
                             });
                           }
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.calendar_today,
                           color: TTColors.primary,
                         ),
@@ -196,8 +197,8 @@ class ApplyLeaveAppBar extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'To',
                 style: TextStyle(
                   fontSize: 18,
@@ -205,7 +206,7 @@ class ApplyLeaveAppBar extends StatelessWidget {
                   color: TTColors.black,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Card(
                 color: TTColors.white,
                 elevation: 2,
@@ -228,9 +229,9 @@ class ApplyLeaveAppBar extends StatelessWidget {
                             context: context,
                             initialDate: toDate ??
                                 (fromDate ?? DateTime.now())
-                                    .add(Duration(days: 1)),
+                                    .add(const Duration(days: 1)),
                             firstDate: fromDate ??
-                                DateTime.now().add(Duration(days: 1)),
+                                DateTime.now().add(const Duration(days: 1)),
                             lastDate: DateTime(DateTime.now().year + 1),
                           );
                           if (pickedDate != null && pickedDate != toDate) {
@@ -240,7 +241,7 @@ class ApplyLeaveAppBar extends StatelessWidget {
                             });
                           }
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.calendar_today,
                           color: TTColors.primary,
                         ),
@@ -249,18 +250,18 @@ class ApplyLeaveAppBar extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 'Duration : $duration Days',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: TTColors.black,
                 ),
               ),
-              SizedBox(height: 10),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              const Text(
                 'Leave Reason',
                 style: TextStyle(
                   fontSize: 18,
@@ -268,13 +269,13 @@ class ApplyLeaveAppBar extends StatelessWidget {
                   color: TTColors.black,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: TextField(
                   controller: reasonController,
                   maxLines: 3,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Leave reason',
                     border: OutlineInputBorder(),
                     contentPadding:
@@ -282,18 +283,18 @@ class ApplyLeaveAppBar extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: TTColors.primary,
                 ),
-                child: Text(
+                child: const Text(
                   'Apply Leave',
                   style: TextStyle(color: TTColors.white),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               OutlinedButton(
                 onPressed: () {
                   setState(() {
@@ -307,7 +308,7 @@ class ApplyLeaveAppBar extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => LeaveDashboardMobileView()),
+                        builder: (context) => const LeaveDashboardMobileView()),
                   );
 =======
                   serviceLocator<AppRouter>()
@@ -315,11 +316,11 @@ class ApplyLeaveAppBar extends StatelessWidget {
 >>>>>>> Stashed changes
                 },
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(
-                    color: TTColors.primary!,
+                  side: const BorderSide(
+                    color: TTColors.primary,
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Cancel',
                   style: TextStyle(
                     color: TTColors.primary,

@@ -1,8 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/core/change_notifiers/common_service.dart';
@@ -12,6 +10,7 @@ import 'package:ts_system/utils/theme/theme.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   setPathUrlStrategy();
   initializeDependencies();

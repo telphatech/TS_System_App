@@ -23,7 +23,23 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.ts_system"
+    
+    flavorDimensions "flavor-type"
+
+    productFlavors {
+        dev {
+            dimension "flavor-type"
+            applicationId "com.telphatech.tmsystem.dev"
+            resValue "string", "app_name", "TM System Dev"
+        }
+        prod {
+            dimension "flavor-type"
+            applicationId "com.telphatech.tmsystem"
+            resValue "string", "app_name", "TM System"
+        }
+    }
+
+    namespace "com.telphatech.tmsystem"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -42,13 +58,14 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.ts_system"
+        applicationId "com.telphatech.tmsystem"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {

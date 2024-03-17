@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ts_system.iml" filepath="$PROJECT_DIR$/ts_system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tm.system.iml" filepath="$PROJECT_DIR$/tm.system.iml" />
       <module fileurl="file://$PROJECT_DIR$/android/ts_system_android.iml" filepath="$PROJECT_DIR$/android/ts_system_android.iml" />
     </modules>
   </component>

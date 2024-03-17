@@ -1,4 +1,4 @@
-package com.example.ts_system
+package com.telphatech.tmsystem
 
 import io.flutter.embedding.android.FlutterActivity
 

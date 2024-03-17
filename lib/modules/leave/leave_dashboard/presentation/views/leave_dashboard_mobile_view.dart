@@ -1,12 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-import 'package:ts_system/modules/leave/apply_leave/presentation/pages/leave_policies.dart';
-=======
-import 'package:ts_system/config/router/app_router.dart';
-import 'package:ts_system/config/router/app_router.gr.dart';
-import 'package:ts_system/core/services/locator.dart';
-import 'package:ts_system/modules/home/dashboard/presentation/widgets/menu_drawer.dart';
->>>>>>> Stashed changes
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_appbar.dart';
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
@@ -14,69 +7,12 @@ import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+@RoutePage()
 class LeaveDashboardMobileView extends StatelessWidget {
-  const LeaveDashboardMobileView({Key? key}) : super(key: key);
+  const LeaveDashboardMobileView({super.key});
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< Updated upstream
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: const PreferredSize(
-            preferredSize: Size(double.infinity, kToolbarHeight),
-            child: LeaveAppBar()),
-        body: LeaveDashboardBody(),
-      ),
-    );
-  }
-}
-
-class BalanceLeaveCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return LeaveDashboardPadding();
-  }
-}
-
-class LeaveCard extends StatelessWidget {
-  final String leaveType;
-  final IconData icon;
-  final String date;
-  final int days;
-  final LeaveStatus status;
-
-  const LeaveCard({
-    required this.leaveType,
-    required this.icon,
-    required this.date,
-    required this.days,
-    required this.status,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Color statusColor;
-    switch (status) {
-      case LeaveStatus.Pending:
-        statusColor = TTColors.secondary!;
-        break;
-      case LeaveStatus.Approved:
-        statusColor = TTColors.success!;
-        break;
-      case LeaveStatus.Cancelled:
-        statusColor = TTColors.danger!;
-        break;
-    }
-
-    return Card(
-      color: TTColors.white,
-      margin: const EdgeInsets.all(10),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-=======
     return PopScope(
       canPop: true,
       onPopInvoked: (didPop) async {
@@ -89,7 +25,6 @@ class LeaveCard extends StatelessWidget {
             preferredSize: Size(double.infinity, kToolbarHeight),
             child: LeaveAppBar()),
         body: Column(
->>>>>>> Stashed changes
           children: [
             UIHelpers.verticalSpaceRegular,
             Padding(
@@ -102,13 +37,6 @@ class LeaveCard extends StatelessWidget {
                     "Leaves Policies",
                     color: TTColors.primary,
                   ),
-<<<<<<< Updated upstream
-                  Text(
-                    leaveType,
-                    style: TextStyle(color: TTColors.primary),
-                  ),
-=======
->>>>>>> Stashed changes
                 ],
               ),
             ),

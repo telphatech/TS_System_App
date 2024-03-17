@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-=======
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
->>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ts_system/config/router/app_router.dart';
@@ -16,6 +12,7 @@ import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/time
 import 'package:ts_system/utils/common_widgets/empty_widget.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
+@RoutePage()
 class TaskDashboard extends StatefulWidget {
   const TaskDashboard({super.key});
 
