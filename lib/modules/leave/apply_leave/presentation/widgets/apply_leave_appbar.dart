@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:ts_system/modules/employee/leave/presentation/views/leave_dashboard_mobile_view.dart';
+import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/config/router/app_router.gr.dart';
+import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 
 class ApplyLeaveAppBar extends StatelessWidget {
-  ApplyLeaveAppBar({
-    super.key,
-  });
   DateTime? fromDate;
   DateTime? toDate;
   int duration = 1;
   String selectedLeaveType = '';
   TextEditingController reasonController = TextEditingController();
+
+  ApplyLeaveAppBar({super.key, this.fromDate, this.toDate});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -303,11 +304,16 @@ class ApplyLeaveAppBar extends StatelessWidget {
                     selectedLeaveType = '';
                   });
                   reasonController.clear();
+<<<<<<< Updated upstream
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const LeaveDashboardMobileView()),
                   );
+=======
+                  serviceLocator<AppRouter>()
+                      .push(const LeaveDashboardMobileView());
+>>>>>>> Stashed changes
                 },
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(

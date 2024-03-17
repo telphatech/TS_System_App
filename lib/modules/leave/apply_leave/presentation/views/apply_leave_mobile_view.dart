@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 
+@RoutePage()
 class ApplyLeaveMobileView extends StatefulWidget {
   const ApplyLeaveMobileView({super.key});
 
@@ -17,25 +19,22 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: TTColors.primary,
-      title: const Text(
-        'Apply Leave',
-        style: TextStyle(fontWeight: FontWeight.bold, color: TTColors.white),
-      ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios, color: TTColors.white),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.note_alt_outlined, color: TTColors.white),
-          onPressed: () {},
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: TTColors.primary,
+        title: const Text(
+          'Apply Leave',
+          style: TextStyle(fontWeight: FontWeight.bold, color: TTColors.white),
         ),
-      ],
-      centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: TTColors.white),
+          onPressed: () {
+            serviceLocator<AppRouter>().pop();
+          },
+        ),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(),
     );
   }
 }

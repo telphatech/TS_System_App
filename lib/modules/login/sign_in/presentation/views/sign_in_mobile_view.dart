@@ -24,7 +24,6 @@ class _SignInMobileViewState extends State<SignInMobileView> {
   TextEditingController uidController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
-  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +120,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                         uidController.clear();
                         passwordController.clear();
                         serviceLocator<AppRouter>()
-                            .replace(HomeRouteMobileView());
+                            .replace(DashboardMobileView());
                       } else {
                         CustomSnackBarService().showErrorSnackBar(context,
                             message: 'Please enter all fields');

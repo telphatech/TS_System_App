@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
 
-class AppBarHomeScreen extends StatelessWidget {
-  const AppBarHomeScreen({
-    super.key,
-  });
+class HomeAppBar extends StatelessWidget {
+  const HomeAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -10,5 +10,12 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: HomeRouteMobileView.page),
         AutoRoute(page: LeaveDashboardMobileView.page),
         AutoRoute(page: TaskDashboard.page),
+        AutoRoute(page: SignInMobileView.page, path: '/sign-in'),
+        AutoRoute(page: DashboardMobileView.page, initial: true, path: '/'),
+        AutoRoute(page: LeaveDashboardMobileView.page),
+        AutoRoute(page: ApplyLeaveMobileView.page),
+        AutoRoute(page: TaskDashboard.page),
+        AutoRoute(page: LeavePolicies.page),
+        AutoRoute(page: AddTaskMobileView.page),
       ];
 }

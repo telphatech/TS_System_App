@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 
 class UIHelpers {
@@ -18,6 +19,10 @@ class UIHelpers {
   static Widget verticalSpaceMedium = const SizedBox(height: 20.0);
   static Widget verticalSpaceLarge = const SizedBox(height: 35.0);
   static Widget verticalSpaceHuge = const SizedBox(height: 300.0);
+
+  static hideKeyBoard() {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+  }
 
   // Screen Size helpers
 
