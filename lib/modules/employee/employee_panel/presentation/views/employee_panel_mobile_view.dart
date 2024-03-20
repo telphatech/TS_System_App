@@ -63,7 +63,10 @@ class EmployeePanel extends StatelessWidget {
                       UIHelpers.horizontalSpaceRegular,
                       Expanded(
                         child: CustomElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            serviceLocator<AppRouter>()
+                                .push(const ViewEmployeeMobileView());
+                          },
                           backgroundColor: TTColors.white,
                           borderColor: TTColors.primary,
                           iconColor: TTColors.primary,
