@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
-import 'package:ts_system/modules/home/dashboard/presentation/widgets/menu_drawer.dart';
+import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/bloc/bloc/task_bloc.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/bloc/bloc/task_event.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/bloc/bloc/task_state.dart';

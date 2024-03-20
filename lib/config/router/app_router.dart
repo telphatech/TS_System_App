@@ -16,5 +16,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: TaskDashboard.page),
         AutoRoute(page: LeavePolicies.page),
         AutoRoute(page: AddTaskMobileView.page),
+        AutoRoute(page: EmployeePanel.page),
+        AutoRoute(page: AddEmployeeMobileView.page),
       ];
 }
