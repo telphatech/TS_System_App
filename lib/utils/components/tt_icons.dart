@@ -29,4 +29,7 @@ class TTIcons {
   static const IconData filter = Icons.filter_list;
   static const IconData taskcheck = Icons.assignment_turned_in_rounded;
   static const IconData add = Icons.add;
+  static const IconData delete = Icons.delete;
+  static const IconData visibilityOff = Icons.visibility_off;
+  static const IconData visibility = Icons.visibility;
 }
