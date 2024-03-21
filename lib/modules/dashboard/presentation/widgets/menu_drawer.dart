@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
-import 'package:ts_system/modules/home/dashboard/presentation/widgets/menu_title.dart';
+import 'package:ts_system/modules/dashboard/presentation/widgets/menu_title.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
@@ -58,8 +58,7 @@ class MenuDrawer extends StatelessWidget {
                 title: 'Employee',
                 leading: Icons.person,
                 onTap: () {
-                  serviceLocator<AppRouter>()
-                      .popAndPush(const LeaveDashboardMobileView());
+                  serviceLocator<AppRouter>().popAndPush(const EmployeePanel());
                 },
               ),
               MenuTitle(
