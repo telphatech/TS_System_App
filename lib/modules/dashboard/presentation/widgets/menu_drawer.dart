@@ -3,6 +3,7 @@ import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_title.dart';
+import 'package:ts_system/responsive.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
@@ -17,7 +18,9 @@ class MenuDrawer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(right: UIHelpers.screenWidth(context) * 0.2),
       child: Drawer(
-        width: UIHelpers.screenWidth(context) * 0.8,
+        width: Responsive.isMobile(context)
+            ? UIHelpers.screenWidth(context) * 0.8
+            : null,
         shape: Border.all(
             width: 1,
             color: TTColors.white.withOpacity(0.5),

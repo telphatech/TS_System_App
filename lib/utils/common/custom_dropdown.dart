@@ -47,8 +47,8 @@ class CustomSearchDropdown extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Text(
-              title!,
-              style: style!,
+              title ?? '',
+              style: const TextStyle(fontSize: 14, color: TTColors.textPrimary),
             ),
           ),
         DropdownSearch<String>(

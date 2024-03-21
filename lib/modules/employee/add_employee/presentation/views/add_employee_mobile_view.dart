@@ -1,7 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
+import 'package:ts_system/modules/employee/employee_panel/presentation/widgets/employee_desktop_widget.dart';
+import 'package:ts_system/responsive.dart';
 import 'package:ts_system/utils/common/app_input_field.dart';
 import 'package:ts_system/utils/common/custom_button.dart';
 import 'package:ts_system/utils/common/custom_dropdown.dart';
@@ -23,24 +27,30 @@ class _AddEmployeeMobileViewState extends State<AddEmployeeMobileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            serviceLocator<AppRouter>().pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: TTColors.white,
-          ),
-        ),
-        backgroundColor: TTColors.primary,
-        iconTheme: const IconThemeData(color: TTColors.white),
-        title: const Text(
-          'ADD EMPLOYEE',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
+      drawer: Responsive.isMobile(context) ? null : const MenuDrawer(),
+      appBar: Responsive.isMobile(context)
+          ? AppBar(
+              leading: IconButton(
+                onPressed: () {
+                  serviceLocator<AppRouter>().pop();
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: TTColors.white,
+                ),
+              ),
+              backgroundColor: TTColors.primary,
+              iconTheme: const IconThemeData(color: TTColors.white),
+              title: const Text(
+                'ADD EMPLOYEE',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              centerTitle: true,
+            )
+          : const PreferredSize(
+              preferredSize: Size(double.infinity, kToolbarHeight),
+              child: AppBarDesktopWidget()),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 25, 10, 0),
@@ -60,43 +70,20 @@ class _AddEmployeeMobileViewState extends State<AddEmployeeMobileView> {
                 UIHelpers.verticalSpaceMedium,
                 const AppInputField(
                   label: 'Email',
-                  hint: 'Enter Email',
+                  hint: 'Enter Email Address',
                 ),
                 UIHelpers.verticalSpaceMedium,
-                AppInputField(
-                  label: 'Password',
-                  password: true,
-                  hint: 'Enter Password',
-                  trailing: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                    icon: Icon(
-                      _obscureText ? TTIcons.visibilityOff : TTIcons.visibility,
-                      color: TTColors.primary,
-                    ),
-                  ),
+                const AppInputField(
+                  label: 'Mobile',
+                  hint: 'Enter Mobile Number',
                 ),
                 UIHelpers.verticalSpaceMedium,
                 const CustomSearchDropdown(
+                  title: 'Role',
                   items: ['employee', 'admin', 'manager'],
                   showSearchBox: false,
                   isMenu: true,
                   hintText: 'Select Role',
-                ),
-                UIHelpers.verticalSpaceMedium,
-                const AppInputField(
-                  label: 'Position',
-                  hint: 'Enter Position',
-                ),
-                UIHelpers.verticalSpaceMedium,
-                const CustomSearchDropdown(
-                  items: ['onjob', 'resigned'],
-                  showSearchBox: false,
-                  isMenu: true,
-                  hintText: 'Select Status',
                 ),
                 UIHelpers.verticalSpaceLarge,
                 SizedBox(
@@ -105,16 +92,16 @@ class _AddEmployeeMobileViewState extends State<AddEmployeeMobileView> {
                       onPressed: () {},
                       backgroundColor: TTColors.primary,
                       borderColor: TTColors.primary,
-                      iconData: TTIcons.check,
+                      iconData: TTIcons.add,
                       iconColor: TTColors.white,
-                      child: const Text('Save')),
+                      child: const Text('Invite Employee')),
                 ),
                 UIHelpers.verticalSpaceMedium,
                 SizedBox(
                   width: double.infinity,
                   child: CustomElevatedButton(
                       onPressed: () {
-                        serviceLocator<AppRouter>().pop();
+                        serviceLocator<AppRouter>().replace(EmployeePanel());
                       },
                       backgroundColor: TTColors.white,
                       borderColor: TTColors.primary,

@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/count_container.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/home_app_bar.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
+import 'package:ts_system/modules/employee/employee_panel/presentation/widgets/employee_desktop_widget.dart';
+import 'package:ts_system/responsive.dart';
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/common/custom_button.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
@@ -33,9 +35,13 @@ class DashboardMobileView extends StatelessWidget {
         SystemNavigator.pop();
       },
       child: Scaffold(
-        appBar: const PreferredSize(
-            preferredSize: Size(double.infinity, kToolbarHeight),
-            child: HomeAppBar()),
+        appBar: Responsive.isMobile(context)
+            ? const PreferredSize(
+                preferredSize: Size(double.infinity, kToolbarHeight),
+                child: HomeAppBar())
+            : const PreferredSize(
+                preferredSize: Size(double.infinity, kToolbarHeight),
+                child: AppBarDesktopWidget()),
         drawer: const MenuDrawer(),
         body: SingleChildScrollView(
           child: Padding(
