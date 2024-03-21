@@ -18,3 +18,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: AddTaskMobileView.page),
       ];
 }
+
+class SignInRouteView {
+  static var page;
+}

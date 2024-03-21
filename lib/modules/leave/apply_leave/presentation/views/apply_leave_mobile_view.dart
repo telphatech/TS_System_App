@@ -18,7 +18,6 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
   int duration = 1;
   String selectedLeaveType = '';
   TextEditingController reasonController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +35,6 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
         ),
         centerTitle: true,
       ),
-
-      //TODO: Nikita Pharate
       body: SingleChildScrollView(),
     );
   }
