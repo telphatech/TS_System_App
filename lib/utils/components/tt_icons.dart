@@ -4,8 +4,7 @@ class TTIcons {
   TTIcons._();
 
   static const String logo = "assets/logo.png";
-  static const String profilePic =
-      "https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png";
+  static const String profilePic = "assets/profile.png";
   static const String noData =
       "https://img.freepik.com/free-vector/flat-design-no-data-illustration_23-2150527142.jpg";
   static const IconData search = Icons.search_outlined;

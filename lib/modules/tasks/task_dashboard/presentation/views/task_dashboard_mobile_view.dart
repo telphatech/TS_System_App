@@ -42,7 +42,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
       canPop: true,
       onPopInvoked: (didPop) async {
         UIHelpers.hideKeyBoard();
-        serviceLocator<AppRouter>().popAndPush(DashboardMobileView());
+        serviceLocator<AppRouter>().popAndPush(const DashboardRoute());
       },
       child: BlocProvider(
         create: (context) =>

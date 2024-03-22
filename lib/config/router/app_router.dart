@@ -7,21 +7,13 @@ class AppRouter extends $AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: SplashRouteMobileView.page),
         AutoRoute(page: SignInMobileView.page, path: '/sign-in'),
-        AutoRoute(page: LeaveDashboardMobileView.page),
         AutoRoute(page: TaskDashboard.page),
-        AutoRoute(page: SignInMobileView.page, path: '/sign-in'),
-        AutoRoute(page: DashboardMobileView.page, initial: true, path: '/'),
-        AutoRoute(page: LeaveDashboardMobileView.page),
+        AutoRoute(page: DashboardRoute.page, initial: true, path: '/'),
+        AutoRoute(page: LeaveDashboard.page),
         AutoRoute(page: ApplyLeaveMobileView.page),
-        AutoRoute(page: TaskDashboard.page),
-        AutoRoute(page: LeavePolicies.page),
         AutoRoute(page: AddTaskMobileView.page),
         AutoRoute(page: EmployeePanel.page),
         AutoRoute(page: AddEmployeeMobileView.page),
         AutoRoute(page: ViewEmployeeMobileView.page),
       ];
-}
-
-class SignInRouteView {
-  static var page;
 }

@@ -120,7 +120,7 @@ class _SignInMobileViewState extends State<SignInMobileView> {
                         uidController.clear();
                         passwordController.clear();
                         serviceLocator<AppRouter>()
-                            .replace(DashboardMobileView());
+                            .replace(const DashboardRoute());
                       } else {
                         CustomSnackBarService().showErrorSnackBar(context,
                             message: 'Please enter all fields');

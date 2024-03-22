@@ -53,7 +53,8 @@ class MenuDrawer extends StatelessWidget {
                 title: 'Dashboard',
                 leading: TTIcons.dashboard,
                 onTap: () {
-                  serviceLocator<AppRouter>().popAndPush(DashboardMobileView());
+                  serviceLocator<AppRouter>()
+                      .popAndPush(const DashboardRoute());
                 },
               ),
               MenuTitle(
@@ -61,7 +62,7 @@ class MenuDrawer extends StatelessWidget {
                 title: 'Employee',
                 leading: Icons.person,
                 onTap: () {
-                  serviceLocator<AppRouter>().popAndPush(const EmployeePanel());
+                  serviceLocator<AppRouter>().popAndPush(EmployeePanel());
                 },
               ),
               MenuTitle(
@@ -90,7 +91,7 @@ class MenuDrawer extends StatelessWidget {
                 leading: Icons.person_remove_outlined,
                 onTap: () {
                   serviceLocator<AppRouter>()
-                      .popAndPush(const LeaveDashboardMobileView());
+                      .popAndPush(const LeaveDashboard());
                 },
               ),
               MenuTitle(

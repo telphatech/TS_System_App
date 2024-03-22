@@ -304,8 +304,7 @@ class ApplyLeaveAppBar extends StatelessWidget {
                     selectedLeaveType = '';
                   });
                   reasonController.clear();
-                  serviceLocator<AppRouter>()
-                      .push(const LeaveDashboardMobileView());
+                  serviceLocator<AppRouter>().push(const LeaveDashboard());
                 },
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(
