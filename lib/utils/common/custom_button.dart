@@ -16,7 +16,10 @@ class CustomElevatedButton extends StatelessWidget {
       required this.borderColor,
       required this.child,
       this.iconData,
-      required this.iconColor});
+      required this.iconColor,
+      required Null Function(String? newValue) onChanged,
+      String? value,
+      required List<DropdownMenuItem<String>> items});
 
   @override
   Widget build(BuildContext context) {
