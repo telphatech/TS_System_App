@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
 import 'package:ts_system/modules/employee/employee_panel/presentation/widgets/employee_desktop_widget.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/apply_leave_dialog.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/calendar_widget.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_tile_widget.dart';
 
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_type_container_widget.dart';
@@ -9,12 +12,9 @@ import 'package:ts_system/utils/common/custom_button.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
-import 'package:calendar_view/calendar_view.dart';
-
-DateTime get _now => DateTime.now();
 
 class LeaveDashboardDesktopView extends StatelessWidget {
-  const LeaveDashboardDesktopView({Key? key});
+  const LeaveDashboardDesktopView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +34,11 @@ class LeaveDashboardDesktopView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Leave Types Section
                   SizedBox(
                     height: 170,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        // Replace with your LeaveTypeContainerWidget
                         return const LeaveTypeContainerWidget();
                       },
                       separatorBuilder: (context, index) =>
@@ -49,7 +47,6 @@ class LeaveDashboardDesktopView extends StatelessWidget {
                     ),
                   ),
                   UIHelpers.verticalSpaceMedium,
-
                   Expanded(
                     flex: 3,
                     child: Padding(
@@ -87,6 +84,7 @@ class LeaveDashboardDesktopView extends StatelessWidget {
                                   ]),
                               Flexible(
                                 child: TabBarView(
+                                  physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     RefreshIndicator(
                                       onRefresh: () async {},
@@ -139,14 +137,30 @@ class LeaveDashboardDesktopView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Reporting Section
-                  AppText.body("Reporting to: Vaibhav Wable"),
-                  UIHelpers.verticalSpaceSmall,
-                  // Leave Button
+                  AppText.primaryBodyLabel("Reporting To: Vaibhav Wable"),
+                  UIHelpers.verticalSpaceMedium,
                   SizedBox(
-                    width: 250,
+                    width: double.infinity,
                     child: CustomElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                dialogTheme: const DialogTheme(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                ),
+                              ),
+                              child: const Dialog(
+                                child: ApplyLeaveDialog(),
+                              ),
+                            );
+                          },
+                        );
+                      },
                       backgroundColor: TTColors.primary,
                       borderColor: TTColors.primary,
                       iconColor: TTColors.white,
@@ -154,38 +168,8 @@ class LeaveDashboardDesktopView extends StatelessWidget {
                           style: TextStyle(color: Colors.white)),
                     ),
                   ),
-                  UIHelpers.verticalSpaceSmall,
-                  Expanded(
-                    flex: 1,
-                    child: MonthView(
-                      controller: EventController()..addAll(_events),
-                      cellBuilder: (date, events, isToday, isInMonth) {
-                        return Container(
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            color: isToday ? TTColors.primary : TTColors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            date.day.toString(),
-                            style: TextStyle(
-                              color: isToday ? TTColors.white : Colors.black,
-                              fontWeight:
-                                  isToday ? FontWeight.bold : FontWeight.normal,
-                            ),
-                          ),
-                        );
-                      },
-                      showBorder: true,
-                      minMonth: DateTime(1990),
-                      maxMonth: DateTime(2050),
-                      initialMonth: DateTime.now(),
-                      cellAspectRatio: 1,
-                      startDay: WeekDays.sunday,
-                      headerBuilder: MonthHeader.hidden,
-                    ),
-                  ),
+                  UIHelpers.verticalSpaceMedium,
+                  const CalendarWidget(),
                 ],
               ),
             ),
@@ -195,72 +179,3 @@ class LeaveDashboardDesktopView extends StatelessWidget {
     );
   }
 }
-
-List<CalendarEventData> _events = [
-  CalendarEventData(
-    date: _now,
-    title: "Project meeting",
-    description: "Today is project meeting.",
-    startTime: DateTime(_now.year, _now.month, _now.day, 18, 30),
-    endTime: DateTime(_now.year, _now.month, _now.day, 22),
-  ),
-  CalendarEventData(
-    date: _now.add(const Duration(days: 1)),
-    startTime: DateTime(_now.year, _now.month, _now.day, 18),
-    endTime: DateTime(_now.year, _now.month, _now.day, 19),
-    title: "Wedding anniversary",
-    description: "Attend uncle's wedding anniversary.",
-  ),
-  CalendarEventData(
-    date: _now,
-    startTime: DateTime(_now.year, _now.month, _now.day, 14),
-    endTime: DateTime(_now.year, _now.month, _now.day, 17),
-    title: "Football Tournament",
-    description: "Go to football tournament.",
-  ),
-  CalendarEventData(
-    date: _now.add(const Duration(days: 3)),
-    startTime: DateTime(
-        _now.add(const Duration(days: 3)).year,
-        _now.add(const Duration(days: 3)).month,
-        _now.add(const Duration(days: 3)).day,
-        10),
-    endTime: DateTime(
-        _now.add(const Duration(days: 3)).year,
-        _now.add(const Duration(days: 3)).month,
-        _now.add(const Duration(days: 3)).day,
-        14),
-    title: "Sprint Meeting.",
-    description: "Last day of project submission for last year.",
-  ),
-  CalendarEventData(
-    date: _now.subtract(const Duration(days: 2)),
-    startTime: DateTime(
-        _now.subtract(const Duration(days: 2)).year,
-        _now.subtract(const Duration(days: 2)).month,
-        _now.subtract(const Duration(days: 2)).day,
-        14),
-    endTime: DateTime(
-        _now.subtract(const Duration(days: 2)).year,
-        _now.subtract(const Duration(days: 2)).month,
-        _now.subtract(const Duration(days: 2)).day,
-        16),
-    title: "Team Meeting",
-    description: "Team Meeting",
-  ),
-  CalendarEventData(
-    date: _now.subtract(const Duration(days: 2)),
-    startTime: DateTime(
-        _now.subtract(const Duration(days: 2)).year,
-        _now.subtract(const Duration(days: 2)).month,
-        _now.subtract(const Duration(days: 2)).day,
-        10),
-    endTime: DateTime(
-        _now.subtract(const Duration(days: 2)).year,
-        _now.subtract(const Duration(days: 2)).month,
-        _now.subtract(const Duration(days: 2)).day,
-        12),
-    title: "Chemistry Viva",
-    description: "Today is Joe's birthday.",
-  ),
-];

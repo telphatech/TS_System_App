@@ -11,12 +11,12 @@ class MenuTitle extends StatelessWidget {
   final VoidCallback onTap;
 
   const MenuTitle({
-    Key? key,
+    super.key,
     required this.index,
     required this.title,
     required this.leading,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

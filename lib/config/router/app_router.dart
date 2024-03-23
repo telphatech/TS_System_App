@@ -5,12 +5,12 @@ import 'package:ts_system/config/router/app_router.gr.dart';
 class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: SplashRouteMobileView.page),
-        AutoRoute(page: SignInMobileView.page, path: '/sign-in'),
-        AutoRoute(page: TaskDashboard.page),
-        AutoRoute(page: DashboardRoute.page, initial: true, path: '/'),
-        AutoRoute(page: LeaveDashboard.page),
-        AutoRoute(page: ApplyLeaveMobileView.page),
+        AutoRoute(page: SplashRouteMobileView.page, initial: true),
+        AutoRoute(page: LoginRoute.page, path: '/login'),
+        AutoRoute(page: TaskDashboard.page, path: '/timesheet'),
+        AutoRoute(page: DashboardRoute.page, path: '/'),
+        AutoRoute(page: LeaveDashboard.page, path: '/leave'),
+        AutoRoute(page: ApplyLeaveMobileView.page, path: '/apply-leave'),
         AutoRoute(page: AddTaskMobileView.page),
         AutoRoute(page: EmployeePanel.page),
         AutoRoute(page: AddEmployeeMobileView.page),

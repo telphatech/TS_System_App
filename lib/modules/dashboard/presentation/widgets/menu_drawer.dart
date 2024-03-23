@@ -37,7 +37,7 @@ class MenuDrawer extends StatelessWidget {
                 leading: const CircleAvatar(
                   radius: 30,
                   backgroundColor: TTColors.white,
-                  backgroundImage: NetworkImage(TTIcons.profilePic),
+                  backgroundImage: AssetImage(TTIcons.profilePic),
                 ),
                 subtitle: Text(
                   TTStrings.email,
@@ -59,7 +59,7 @@ class MenuDrawer extends StatelessWidget {
               ),
               MenuTitle(
                 index: 1,
-                title: 'Employee',
+                title: 'Employees',
                 leading: Icons.person,
                 onTap: () {
                   serviceLocator<AppRouter>().popAndPush(EmployeePanel());

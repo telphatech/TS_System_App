@@ -14,7 +14,7 @@ class LeavesTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
+      margin: const EdgeInsets.only(left: 5, right: 5, top: 5),
       padding: const EdgeInsets.fromLTRB(12, 11, 07, 12),
       decoration: BoxDecoration(
         color: TTColors.white,
@@ -31,25 +31,9 @@ class LeavesTileWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.sick),
-                  UIHelpers.horizontalSpaceTiny,
-                  AppText.bodyBold("Casual Leave"),
-                ],
-              ),
+              AppText.bodyBold("Casual Leave"),
               UIHelpers.verticalSpaceTiny,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.calendar_month_rounded),
-                  UIHelpers.horizontalSpaceTiny,
-                  AppText.bodyBold("12 Feb to 14 Feb"),
-                ],
-              ),
+              AppText.bodyBold("12 Feb 2023 to 14 Feb 2023"),
             ],
           ),
           Container(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
@@ -17,7 +16,7 @@ class SplashScreenMobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      serviceLocator<AppRouter>().replace(const SignInMobileView());
+      serviceLocator<AppRouter>().replace(const LoginRoute());
     });
     return Scaffold(
       backgroundColor: TTColors.primary,
