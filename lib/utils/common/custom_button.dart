@@ -9,17 +9,16 @@ class CustomElevatedButton extends StatelessWidget {
   final IconData? iconData;
   final Color iconColor;
 
-  const CustomElevatedButton(
-      {super.key,
-      required this.onPressed,
-      required this.backgroundColor,
-      required this.borderColor,
-      required this.child,
-      this.iconData,
-      required this.iconColor,
-      required Null Function(String? newValue) onChanged,
-      String? value,
-      required List<DropdownMenuItem<String>> items});
+  const CustomElevatedButton({
+    super.key,
+    required this.onPressed,
+    required this.backgroundColor,
+    required this.borderColor,
+    required this.child,
+    this.iconData,
+    required this.iconColor,
+    String? value,
+  });
 
   @override
   Widget build(BuildContext context) {
