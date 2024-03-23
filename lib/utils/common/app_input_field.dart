@@ -21,6 +21,7 @@ class AppInputField extends StatefulWidget {
   final TextCapitalization? textCapitalization;
   final InputBorder? inputBorder;
   final void Function()? trailingTapped;
+  final void Function()? onTap;
   final void Function(String)? onChanged;
   final FormFieldValidator<String>? validator;
   final Color? enabledBorderColor;
@@ -42,6 +43,7 @@ class AppInputField extends StatefulWidget {
       this.maxLines,
       this.minLength,
       this.onChanged,
+      this.onTap,
       this.inputBorder,
       this.color = Colors.transparent,
       this.textInputType = TextInputType.name,
@@ -72,6 +74,11 @@ class _AppInputFieldState extends State<AppInputField> {
         color: Colors.transparent,
         elevation: widget.elevation,
         child: TextFormField(
+          onTap: () {
+            if (widget.onTap != null) {
+              widget.onTap!();
+            }
+          },
           onTapOutside: (event) {
             FocusManager.instance.primaryFocus?.unfocus();
           },

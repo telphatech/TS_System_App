@@ -106,7 +106,7 @@ class CustomSearchDropdown extends StatelessWidget {
           dropdownDecoratorProps: DropDownDecoratorProps(
             dropdownSearchDecoration: InputDecoration(
               contentPadding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-              hintText: hintText ?? "select ",
+              hintText: hintText ?? "Select",
               hintStyle: const TextStyle(color: TTColors.grey),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
