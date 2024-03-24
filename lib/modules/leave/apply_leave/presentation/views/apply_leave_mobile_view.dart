@@ -2,8 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/utils/common/custom_button.dart';
+import 'package:ts_system/utils/common/custom_dropdown.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
+import 'package:ts_system/utils/components/tt_typography.dart';
 
 @RoutePage()
 class ApplyLeaveMobileView extends StatefulWidget {
@@ -17,6 +20,7 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
   DateTime? _fromDate;
   DateTime? _toDate;
   String _leaveReason = '';
+
   Future<void> _selectDate(BuildContext context, bool isFromDate) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -60,9 +64,7 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
             ),
             Text(
               'Apply Leave',
-              style: TextStyle(
-                color: TTColors.white,
-              ),
+              style: TTypography.h1.copyWith(color: TTColors.white),
             ),
           ],
         ),
@@ -72,29 +74,17 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Leave Type:',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-            ),
-            DropdownButtonFormField<String>(
-              value: _selectedLeaveType,
-              items: ['Casual Leave', 'Sick Leave', 'Emergency Leave']
-                  .map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Row(
-                    children: [
-                      Text(value),
-                      SizedBox(width: 10),
-                    ],
-                  ),
-                );
-              }).toList(),
+            CustomSearchDropdown(
+              items: ['Casual Leave', 'Sick Leave', 'Emergency Leave'],
+              title: 'Leave Type',
+              style: TTypography.h1.copyWith(color: TTColors.white),
+              selectedValue: _selectedLeaveType,
               onChanged: (String? newValue) {
                 setState(() {
                   _selectedLeaveType = newValue;
                 });
               },
+              showSearchBox: false,
             ),
             SizedBox(height: 20.0),
             Column(
@@ -102,16 +92,19 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
               children: [
                 Text(
                   'From Date:',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  style:
+                      TTypography.text16Black.copyWith(color: TTColors.primary),
                 ),
                 ElevatedButton(
                   onPressed: () => _selectDate(context, true),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(_fromDate != null
-                          ? _fromDate!.toString().split(" ")[0]
-                          : 'Select Date'),
+                      Text(
+                          _fromDate != null
+                              ? _fromDate!.toString().split(" ")[0]
+                              : 'Select Date',
+                          style: TTypography.text16Color),
                       Icon(
                         Icons.calendar_today,
                         color: TTColors.primary,
@@ -122,16 +115,19 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                 SizedBox(height: 10.0),
                 Text(
                   'To Date:',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  style:
+                      TTypography.text16Black.copyWith(color: TTColors.primary),
                 ),
                 ElevatedButton(
                   onPressed: () => _selectDate(context, false),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(_toDate != null
-                          ? _toDate!.toString().split(" ")[0]
-                          : 'Select Date'),
+                      Text(
+                          _toDate != null
+                              ? _toDate!.toString().split(" ")[0]
+                              : 'Select Date',
+                          style: TTypography.text16Color),
                       Icon(
                         Icons.calendar_today,
                         color: TTColors.primary,
@@ -142,16 +138,18 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                 SizedBox(height: 20.0),
                 Text(
                   'Duration:',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  style:
+                      TTypography.text16Black.copyWith(color: TTColors.primary),
                 ),
                 Text(
                   _calculateDuration(),
-                  style: TextStyle(fontSize: 16.0),
+                  style: TTypography.text16Color,
                 ),
                 SizedBox(height: 20.0),
                 Text(
                   'Leave Reason:',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  style:
+                      TTypography.text16Black.copyWith(color: TTColors.primary),
                 ),
                 TextFormField(
                   maxLines: null,
@@ -163,6 +161,7 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                   decoration: InputDecoration(
                     hintText: 'Leave Reason',
                     border: OutlineInputBorder(),
+                    hintStyle: TTypography.text16Color,
                   ),
                 ),
                 SizedBox(height: 20.0),
@@ -170,35 +169,31 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton.icon(
-                        onPressed: () {},
+                      ElevatedButton(
+                        onPressed: () {
+                          // Your save button action
+                        },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               TTColors.primary!),
                         ),
-                        icon: Icon(
-                          Icons.save,
-                          color: TTColors.white,
-                        ),
-                        label: Text(
+                        child: Text(
                           'Save',
-                          style: TextStyle(color: Colors.white),
+                          style: TTypography.text16Color
+                              .copyWith(color: TTColors.white),
                         ),
                       ),
                       SizedBox(width: 10.0),
-                      ElevatedButton.icon(
+                      ElevatedButton(
                         onPressed: () {},
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               TTColors.primary!),
                         ),
-                        icon: Icon(
-                          Icons.delete,
-                          color: TTColors.white,
-                        ),
-                        label: Text(
+                        child: Text(
                           'Discard',
-                          style: TextStyle(color: TTColors.white),
+                          style: TTypography.text16Color
+                              .copyWith(color: TTColors.white),
                         ),
                       ),
                     ],
