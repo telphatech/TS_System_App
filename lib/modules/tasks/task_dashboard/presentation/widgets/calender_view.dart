@@ -32,10 +32,8 @@ class _CalenderViewState extends State<CalenderView> {
             setState(() {
               BlocProvider.of<TaskBloc>(context).setSelectedDate(selectedDate);
               BlocProvider.of<TaskBloc>(context).add(TaskInitialEvent(
-                employeeUID: "",
-                dateList: [
-                  DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(selectedDate),
-                ],
+                employeeUID: "1",
+                dateList: DateFormat("yyyy-MM-dd").format(selectedDate),
               ));
               BlocProvider.of<TaskBloc>(context).getSelectedDate = selectedDate;
             });

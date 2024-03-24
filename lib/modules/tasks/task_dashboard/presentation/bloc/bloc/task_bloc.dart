@@ -1,8 +1,12 @@
-import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ts_system/core/network/log.dart';
+import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/data/models/task.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/entities/task_attributes_item.dart';
-
+import 'package:ts_system/modules/tasks/task_dashboard/domain/usecases/task_usecases.dart';
 import 'task_event.dart';
 import 'task_state.dart';
 
@@ -10,18 +14,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TextEditingController searchBoxController = TextEditingController();
   bool isToday = true;
   DateTime date = DateTime.now();
-  TaskAttributesItems? taskAttributesItems;
+  List<TaskAttributesItems?> taskAttributesItems = [];
   DateTime getSelectedDate = DateTime.now();
   String message = '';
+  bool isCurrentDate = true;
 
   void setSelectedDate(DateTime selected) {
     getSelectedDate = selected;
   }
-
-  final today =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
-          .toIso8601String();
-  num duration = 0;
 
   TaskBloc() : super(TaskInitial()) {
     on<TaskEvent>((event, emit) {});
@@ -31,92 +31,58 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<OnDeleteTask>(onDeleteTaskEvent);
   }
 
-  FutureOr<void> taskInitialEvent(
+  Future<void> taskInitialEvent(
       TaskInitialEvent event, Emitter<TaskState> emit) async {
     emit(TaskLoading());
-    // final repository = serviceLocator<TaskUseCase>();
-    // final response = await repository.invoke(TaskRequestModel(
-    //   employeeUId: event.employeeUID,
-    //   dateList: event.dateList,
-    // ));
+    final repository = serviceLocator<TaskUseCase>();
+    final response = await repository.invoke({
+      "tmsh_member_id": event.employeeUID,
+      "tmsh_date": event.dateList,
+    });
 
-    // if (response.isLeft) {
-    //   emit(TaskBlocFailure());
-    // } else {
-    //   try {
-    //     if (response.right == [] || response.right.length == 0) {
-    //       emit(TaskBlocEmpty());
-    //     } else {
-    //       TaskModel TaskReponseModel;
-    //       TaskReponseModel = TaskModel.fromJson(response.right[0]);
+    DateTime currentDate = DateTime.now();
 
-    //       TaskResponse = TaskAttributesItems(
-    //         active: TaskReponseModel.active ?? false,
-    //         archieved: TaskReponseModel.archieved ?? false,
-    //         createdBy: TaskReponseModel.createdBy ?? "",
-    //         createdByName: TaskReponseModel.createdBy ?? "",
-    //         createdOn: TaskReponseModel.createdOn ?? DateTime.now(),
-    //         date: TaskReponseModel.date ?? DateTime.now(),
-    //         day: TaskReponseModel.day ?? "",
-    //         documentType: TaskReponseModel.documentType ?? "",
-    //         shiftStartTime: TaskReponseModel.shiftStartTime ?? "",
-    //         dayStatus: TaskReponseModel.dayStatus ?? "",
-    //         employeeId: TaskReponseModel.employeeId ?? "",
-    //         employeeName: TaskReponseModel.employeeName ?? " ",
-    //         employeeUId: event.employeeUID,
-    //         firstCheckedInTime:
-    //             TaskReponseModel.firstCheckedInTime ?? DateTime.now(),
-    //         id: TaskReponseModel.id ?? "",
-    //         lastCheckedOutTime:
-    //             TaskReponseModel.lastCheckedOutTime ?? DateTime.now(),
-    //         organizationUId: TaskReponseModel.organizationUId ?? "",
-    //         shiftDateString: TaskReponseModel.shiftDateString ?? "",
-    //         shiftEndTime: TaskReponseModel.shiftEndTime ?? "",
-    //         shiftUId: TaskReponseModel.shiftUId ?? "",
-    //         submittedOn: TaskReponseModel.submittedOn ?? DateTime.now(),
-    //         tenantUId: TaskReponseModel.tenantUId ?? "",
-    //         TaskDateString: TaskReponseModel.TaskDateString ?? DateTime.now(),
-    //         uId: TaskReponseModel.uId ?? "",
-    //         updatedBy: TaskReponseModel.updatedBy ?? "",
-    //         updatedByName: TaskReponseModel.updatedByName ?? "",
-    //         updatedOn: TaskReponseModel.updatedOn ?? DateTime.now(),
-    //         version: TaskReponseModel.version ?? 0,
-    //         taskSlots: TaskReponseModel.taskSlots
-    //                 ?.map(
-    //                   (e) => TaskSlotAttributeModel(
-    //                     from: e.from ?? "",
-    //                     projectName: e.projectName ?? "",
-    //                     projectUId: e.projectUId ?? "",
-    //                     taskUId: e.taskUId ?? "",
-    //                     tasks: e.tasks ?? "",
-    //                     timeSlots: e.timeSlots ?? "",
-    //                     to: e.to ?? "",
-    //                     type: e.type ?? "",
-    //                   ),
-    //                 )
-    //                 .toList() ??
-    //             [],
-    //       );
+    bool isSameDay(DateTime date1, DateTime date2) {
+      return date1.year == date2.year &&
+          date1.month == date2.month &&
+          date1.day == date2.day;
+    }
 
-    //       if (taskAttributesItems == null) {
-    //         emit(TaskBlocEmpty());
-    //       } else {
-    //         emit(TaskBlocSuccess());
-    //       }
-    //     }
-    //   } catch (e) {
-    //     emit(TaskBlocFailure());
-    //   }
-    // }
+    isCurrentDate = isSameDay(currentDate, getSelectedDate);
+
+    if (response.isLeft) {
+      emit(TaskFailure());
+    } else {
+      try {
+        final taskModel = taskFromJson(jsonEncode(response.right));
+
+        if (taskModel.isEmpty) {
+          emit(TaskEmpty());
+        } else {
+          taskAttributesItems = taskModel
+              .map((e) => TaskAttributesItems(
+                    tmshId: e.tmshId ?? "",
+                    tmshTitle: e.tmshTitle ?? "",
+                    tmshDescription: e.tmshDescription ?? "",
+                    tmshMemberId: e.tmshMemberId ?? "",
+                    tmshGroupId: e.tmshGroupId ?? "",
+                    tmshDate: e.tmshDate ?? DateTime.now(),
+                    tmshStartTime: e.tmshStartTime ?? DateTime.now(),
+                    tmshEndTime: e.tmshEndTime ?? DateTime.now(),
+                    tmshtIsDeleted: e.tmshtIsDeleted ?? "",
+                  ))
+              .toList();
+
+          emit(TaskSuccess(taskAttributesItems));
+        }
+      } catch (e) {
+        emit(TaskFailure());
+        Log.error(e.toString());
+      }
+    }
   }
 
-  DateTime parseFrom({required DateTime date, required String value}) {
-    final parts = value.split(":");
-    return DateTime(date.year, date.month, date.day, int.parse(parts[0]),
-        int.parse(parts[1]));
-  }
-
-  FutureOr<void> onDeleteTaskEvent(
+  Future<void> onDeleteTaskEvent(
       OnDeleteTask event, Emitter<TaskState> emit) async {
     emit(TaskLoading());
   }

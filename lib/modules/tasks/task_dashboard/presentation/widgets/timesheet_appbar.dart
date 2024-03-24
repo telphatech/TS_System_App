@@ -63,10 +63,8 @@ class _TimesheetAppbarState extends State<TimesheetAppbar> {
                           .setSelectedDate(selected);
                       BlocProvider.of<TaskBloc>(context).add(TaskInitialEvent(
                         employeeUID: "",
-                        dateList: [
-                          DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'")
-                              .format(selected),
-                        ],
+                        dateList: DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'")
+                            .format(selected),
                       ));
                     });
                   }

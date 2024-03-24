@@ -14,6 +14,7 @@ import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/cale
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/floating_button.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/task_lists.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/timesheet_appbar.dart';
+import 'package:ts_system/utils/common_widgets/custom_progress.dart';
 import 'package:ts_system/utils/common_widgets/empty_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
@@ -45,8 +46,11 @@ class _TaskDashboardState extends State<TaskDashboard> {
         serviceLocator<AppRouter>().popAndPush(const DashboardRoute());
       },
       child: BlocProvider(
-        create: (context) =>
-            TaskBloc()..add(TaskInitialEvent(employeeUID: "employeeUID")),
+        create: (context) => TaskBloc()
+          ..add(TaskInitialEvent(
+            employeeUID: "1",
+            dateList: DateFormat("yyyy-MM-dd").format(DateTime.now()),
+          )),
         child: BlocConsumer<TaskBloc, TaskState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -55,6 +59,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
             DateTime currentDate = DateTime.now();
 
             final bool isCurrentDate = isSameDay(currentDate, selectedDate);
+
             return Scaffold(
               drawer: const MenuDrawer(),
               appBar: PreferredSize(
@@ -63,7 +68,6 @@ class _TaskDashboardState extends State<TaskDashboard> {
                 child: const TimesheetAppbar(),
               ),
               body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,13 +95,11 @@ class _TaskDashboardState extends State<TaskDashboard> {
                                   .setSelectedDate(DateTime.now());
                               BlocProvider.of<TaskBloc>(context)
                                   .add(TaskInitialEvent(
-                                employeeUID: "",
-                                dateList: [
-                                  DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'")
-                                      .format(BlocProvider.of<TaskBloc>(context,
-                                              listen: false)
-                                          .getSelectedDate),
-                                ],
+                                employeeUID: "2",
+                                dateList: DateFormat("yyyy-mm-dd").format(
+                                    BlocProvider.of<TaskBloc>(context,
+                                            listen: false)
+                                        .getSelectedDate),
                               ));
                             });
                           },
@@ -109,8 +111,19 @@ class _TaskDashboardState extends State<TaskDashboard> {
                   ),
                   const CalenderView(),
                   UIHelpers.verticalSpaceSmall,
-                  Visibility(visible: false, child: emptyWidget()),
-                  const Visibility(visible: true, child: TaskLists()),
+                  BlocBuilder<TaskBloc, TaskState>(
+                    builder: (context, state) {
+                      if (state is TaskSuccess) {
+                        return TaskLists(
+                          taskAttributesItems: state.taskAttributesItems,
+                        );
+                      } else if (state is TaskEmpty) {
+                        return emptyWidget();
+                      } else {
+                        return const Expanded(child: CustomProgress());
+                      }
+                    },
+                  ),
                 ],
               ),
               floatingActionButton: isCurrentDate == true

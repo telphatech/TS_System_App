@@ -23,4 +23,5 @@ class TTStrings {
 
   static const String name = "John Williams";
   static const String email = "admin@telphatech.com";
+  static const String noResponseFromServerText = "No Response from Server";
 }
