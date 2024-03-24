@@ -1,15 +1,12 @@
-import 'package:ts_system/modules/tasks/task_dashboard/data/models/add_task_request_model.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/data/models/task.dart';
 
 abstract class TaskEvent {}
 
 class TaskInitialEvent extends TaskEvent {
   final String employeeUID;
-  final List<String>? dateList;
+  final String dateList;
 
-  TaskInitialEvent({
-    required this.employeeUID,
-    this.dateList,
-  });
+  TaskInitialEvent({required this.employeeUID, required this.dateList});
 }
 
 class SortTasksEvent extends TaskEvent {
@@ -23,7 +20,7 @@ class SortTasksEvent extends TaskEvent {
 }
 
 class OnDeleteTask extends TaskEvent {
-  final AddTaskRequestModel body;
+  final Task body;
   final int? index;
 
   OnDeleteTask(this.body, {this.index});

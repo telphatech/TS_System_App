@@ -35,7 +35,7 @@ class _LoadingViewState extends State<LoadingView>
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.maxFinite,
+      width: double.infinity,
       color: widget.backColor ?? TTColors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

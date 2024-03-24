@@ -86,7 +86,8 @@ class ApiProvider {
   }
 
   Future<dynamic> getData({
-    required String url,
+    required String subUrl,
+    required String baseUrl,
     Map<String, dynamic>? body,
   }) async {
     var headers = <String, String>{};
@@ -97,7 +98,7 @@ class ApiProvider {
     try {
       dynamic responseJson;
 
-      final response = await http.post(Uri.parse("$_apiBaseUrl$url"),
+      final response = await http.post(Uri.parse("$baseUrl$subUrl"),
           headers: headers, body: json.encode(body));
 
       if (response.statusCode != 200) return null;

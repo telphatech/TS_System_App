@@ -4,18 +4,18 @@ class TaskAttributesItems extends Equatable {
   final String? tmshId;
   final String? tmshTitle;
   final String? tmshDescription;
-  final String? tmshMembrId;
+  final String? tmshMemberId;
   final String? tmshGroupId;
-  final String? tmshDate;
-  final String? tmshStartTime;
-  final String? tmshEndTime;
+  final DateTime? tmshDate;
+  final DateTime? tmshStartTime;
+  final DateTime? tmshEndTime;
   final String? tmshtIsDeleted;
 
   const TaskAttributesItems({
     this.tmshId,
     this.tmshTitle,
     this.tmshDescription,
-    this.tmshMembrId,
+    this.tmshMemberId,
     this.tmshGroupId,
     this.tmshDate,
     this.tmshStartTime,
@@ -28,7 +28,7 @@ class TaskAttributesItems extends Equatable {
         tmshId,
         tmshTitle,
         tmshDescription,
-        tmshMembrId,
+        tmshMemberId,
         tmshGroupId,
         tmshDate,
         tmshStartTime,
