@@ -170,9 +170,7 @@ class _ApplyLeaveMobileViewState extends State<ApplyLeaveMobileView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          // Your save button action
-                        },
+                        onPressed: () {},
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               TTColors.primary!),

@@ -5,8 +5,7 @@ class TTIcons {
 
   static const String logo = "assets/logo.png";
   static const String profilePic = "assets/profile.png";
-  static const String noData =
-      "https://img.freepik.com/free-vector/flat-design-no-data-illustration_23-2150527142.jpg";
+  static const String noData = "assets/noData.avif";
   static const IconData search = Icons.search_outlined;
   static const IconData close = Icons.close_rounded;
   static const IconData home = Icons.home;

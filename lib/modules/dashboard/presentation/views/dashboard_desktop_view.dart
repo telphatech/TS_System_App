@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/profile_header.dart';
-import 'package:ts_system/modules/employee/employee_panel/presentation/widgets/employee_desktop_widget.dart';
+import 'package:ts_system/modules/employee/view_employee/presentation/widgets/desktop_app_bar.dart';
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';

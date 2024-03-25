@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TTColors {
   TTColors._();
 
-  /// BASIC COLORS
+  //******************  BASIC COLORS ******************
   static const Color primary = Color.fromRGBO(157, 37, 116, 1);
   static const Color secondary = Color(0xFFFFE24B);
   static const Color accent = Color(0xFF4b68ff);
@@ -15,7 +15,7 @@ class TTColors {
   static const Color green = Colors.green;
   static const Color orange = Colors.orange;
 
-  /// TEXT COLORS
+  //******************  TEXT COLORS ******************
   static const Color textPrimary = Color(0xFF333333);
   static const Color textSecondary = Color(0xFF6C7570);
   static const Color white = Colors.white;
@@ -23,7 +23,7 @@ class TTColors {
   static Color white01 = Colors.white.withOpacity(0.1);
   static const Color transparent = Colors.transparent;
 
-  /// BACKGROUND COLORS
+  //******************  BACKGROUND COLORS ******************
   static const Color light = Color(0xFFF6F6F6);
   static const Color dark = Color(0xFF272727);
   static const Color primaryBackground = Color(0xFFF3F5FF);

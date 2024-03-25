@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final group = groupFromJson(jsonString);
-
 import 'dart:convert';
 
 Group groupFromJson(String str) => Group.fromJson(json.decode(str));

@@ -1,40 +1,12 @@
 import 'dart:convert';
 
-Login empLoginFromJson(String str) => Login.fromJson(json.decode(str));
+List<Employee> employeeFromJson(String str) =>
+    List<Employee>.from(json.decode(str).map((x) => Employee.fromJson(x)));
 
-String empLoginToJson(Login data) => json.encode(data.toJson());
+String employeeToJson(List<Employee> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Login {
-  String? message;
-  String? status;
-  EmpInfo? empInfo;
-  String? token;
-
-  Login({
-    this.message,
-    this.status,
-    this.empInfo,
-    this.token,
-  });
-
-  factory Login.fromJson(Map<String, dynamic> json) => Login(
-        message: json["message"],
-        status: json["status"],
-        empInfo: json["emp_info"] == null
-            ? null
-            : EmpInfo.fromJson(json["emp_info"]),
-        token: json["token"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "message": message,
-        "status": status,
-        "emp_info": empInfo?.toJson(),
-        "token": token,
-      };
-}
-
-class EmpInfo {
+class Employee {
   String? empId;
   String? empEmpRefId;
   String? empName;
@@ -45,9 +17,12 @@ class EmpInfo {
   String? empStatus;
   dynamic empToken;
   dynamic empTokenAddTime;
+  dynamic empInvitationCode;
+  dynamic empInvitationAddedTime;
+  dynamic empInvitationUseDate;
   String? empIsdeleted;
 
-  EmpInfo({
+  Employee({
     this.empId,
     this.empEmpRefId,
     this.empName,
@@ -58,10 +33,13 @@ class EmpInfo {
     this.empStatus,
     this.empToken,
     this.empTokenAddTime,
+    this.empInvitationCode,
+    this.empInvitationAddedTime,
+    this.empInvitationUseDate,
     this.empIsdeleted,
   });
 
-  factory EmpInfo.fromJson(Map<String, dynamic> json) => EmpInfo(
+  factory Employee.fromJson(Map<String, dynamic> json) => Employee(
         empId: json["emp_id"],
         empEmpRefId: json["emp_emp_ref_id"],
         empName: json["emp_name"],
@@ -72,6 +50,9 @@ class EmpInfo {
         empStatus: json["emp_status"],
         empToken: json["emp_token"],
         empTokenAddTime: json["emp_token_add_time"],
+        empInvitationCode: json["emp_invitation_code"],
+        empInvitationAddedTime: json["emp_invitation_added_time"],
+        empInvitationUseDate: json["emp_invitation_use_date"],
         empIsdeleted: json["emp_isdeleted"],
       );
 
@@ -86,6 +67,9 @@ class EmpInfo {
         "emp_status": empStatus,
         "emp_token": empToken,
         "emp_token_add_time": empTokenAddTime,
+        "emp_invitation_code": empInvitationCode,
+        "emp_invitation_added_time": empInvitationAddedTime,
+        "emp_invitation_use_date": empInvitationUseDate,
         "emp_isdeleted": empIsdeleted,
       };
 }

@@ -1,6 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
+import 'package:ts_system/modules/employee/view_employee/data/repositories/view_employee_repository_impl.dart';
+import 'package:ts_system/modules/employee/view_employee/domain/repositories/view_employee_repository.dart';
+import 'package:ts_system/modules/employee/view_employee/domain/usecases/view_employee_usecases.dart';
+import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_bloc.dart';
 import 'package:ts_system/modules/login/sign_in/data/repositories/login_repository_impl.dart';
 import 'package:ts_system/modules/login/sign_in/domain/repositories/login_repository.dart';
 import 'package:ts_system/modules/login/sign_in/domain/usecases/login_usecases.dart';
@@ -31,6 +35,13 @@ void initializeDependencies() {
   serviceLocator.registerSingleton<TaskBloc>(TaskBloc());
   serviceLocator.registerSingleton<TaskRepository>(TaskRepositoryImpl());
   serviceLocator.registerLazySingleton<TaskUseCase>(() => TaskUseCase());
+
+  // ************* VIEW EMPLOYEE ****************
+  serviceLocator.registerSingleton<ViewEmployeeBloc>(ViewEmployeeBloc());
+  serviceLocator
+      .registerSingleton<ViewEmployeeRepository>(ViewEmployeeRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<ViewEmployeeUseCase>(() => ViewEmployeeUseCase());
 
   // ************* Group ****************
   serviceLocator.registerSingleton<GroupRepository>(GroupRepositoryImpl());

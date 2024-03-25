@@ -7,14 +7,16 @@ import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dar
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_bloc.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_event.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_state.dart';
+import 'package:ts_system/modules/employee/view_employee/presentation/widgets/desktop_app_bar.dart';
+import 'package:ts_system/utils/common/app_input_field.dart';
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/common/custom_button.dart';
-import 'package:ts_system/utils/common_widgets/empty_widget.dart';
+import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
-class ViewEmployeeMobileView extends StatelessWidget {
-  const ViewEmployeeMobileView({super.key});
+class ViewEmployeeDesktopView extends StatelessWidget {
+  const ViewEmployeeDesktopView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,53 +24,64 @@ class ViewEmployeeMobileView extends StatelessWidget {
       create: (context) => ViewEmployeeBloc()..add(ViewEmployeeInitialEvent()),
       child: Scaffold(
         drawer: const MenuDrawer(),
-        appBar: AppBar(
-          backgroundColor: TTColors.primary,
-          iconTheme: const IconThemeData(color: TTColors.white),
-          title: const Text(
-            'EMPLOYEE',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          centerTitle: true,
-        ),
+        appBar: const PreferredSize(
+            preferredSize: Size(double.infinity, kToolbarHeight),
+            child: AppBarDesktopWidget()),
         body: BlocConsumer<ViewEmployeeBloc, ViewEmployeeState>(
           listener: (context, state) {},
           builder: (context, state) {
             if (state is ViewEmployeeSuccess) {
               return SingleChildScrollView(
-                child: Padding(
+                child: Container(
+                  width: double.infinity,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
                   padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(10),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: CustomElevatedButton(
-                          onPressed: () {
-                            serviceLocator<AppRouter>()
-                                .push(const AddEmployeeMobileView());
-                          },
-                          backgroundColor: TTColors.primary,
-                          borderColor: TTColors.white,
-                          iconColor: TTColors.white,
-                          iconData: Icons.add,
-                          child: AppText.body(
-                            'Invite Employee',
-                            color: TTColors.white,
-                          ),
-                        ),
-                      ),
-                      UIHelpers.verticalSpaceSmall,
+                      UIHelpers.verticalSpaceRegular,
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          AppText.body("Employees"),
+                          AppText.body("Employee List"),
+                          UIHelpers.horizontalSpaceSmallRegular,
                           AppText.body(
-                              "Total Result: ${state.viewEmployeeAttributesItems.length}"),
+                              "|  ${state.viewEmployeeAttributesItems.length} Employees"),
+                          UIHelpers.horizontalSpaceSmallRegular,
+                          const Expanded(
+                            child: AppInputField(
+                              color: TTColors.white,
+                              hint: 'Search Employee',
+                              trailing: Icon(
+                                Icons.search,
+                                color: TTColors.primary,
+                              ),
+                            ),
+                          ),
+                          UIHelpers.horizontalSpaceSmallRegular,
+                          SizedBox(
+                            width: 200,
+                            child: CustomElevatedButton(
+                              onPressed: () {
+                                serviceLocator<AppRouter>()
+                                    .push(const AddEmployeeMobileView());
+                              },
+                              backgroundColor: TTColors.primary,
+                              borderColor: TTColors.white,
+                              iconColor: TTColors.white,
+                              iconData: Icons.add,
+                              child: AppText.body(
+                                'Invite Employee',
+                                color: TTColors.white,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       UIHelpers.verticalSpaceRegular,
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
+                      SizedBox(
+                        width: double.infinity,
                         child: DataTable(
                           headingRowColor:
                               MaterialStateProperty.resolveWith<Color>(
@@ -148,7 +161,13 @@ class ViewEmployeeMobileView extends StatelessWidget {
                 ),
               );
             } else {
-              return emptyWidget();
+              return const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: LoadingWidget(
+                  width: double.infinity,
+                  height: 500,
+                ),
+              );
             }
           },
         ),

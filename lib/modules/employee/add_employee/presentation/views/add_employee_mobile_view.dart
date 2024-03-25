@@ -4,7 +4,7 @@ import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
-import 'package:ts_system/modules/employee/employee_panel/presentation/widgets/employee_desktop_widget.dart';
+import 'package:ts_system/modules/employee/view_employee/presentation/widgets/desktop_app_bar.dart';
 import 'package:ts_system/responsive.dart';
 import 'package:ts_system/utils/common/app_input_field.dart';
 import 'package:ts_system/utils/common/custom_button.dart';
@@ -22,8 +22,6 @@ class AddEmployeeMobileView extends StatefulWidget {
 }
 
 class _AddEmployeeMobileViewState extends State<AddEmployeeMobileView> {
-  bool _obscureText = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +99,8 @@ class _AddEmployeeMobileViewState extends State<AddEmployeeMobileView> {
                   width: double.infinity,
                   child: CustomElevatedButton(
                       onPressed: () {
-                        serviceLocator<AppRouter>().replace(EmployeePanel());
+                        serviceLocator<AppRouter>()
+                            .replace(const ViewEmployeeRoute());
                       },
                       backgroundColor: TTColors.white,
                       borderColor: TTColors.primary,

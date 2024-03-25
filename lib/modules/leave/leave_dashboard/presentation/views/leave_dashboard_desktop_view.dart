@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
-import 'package:ts_system/modules/employee/employee_panel/presentation/widgets/employee_desktop_widget.dart';
+import 'package:ts_system/modules/employee/view_employee/presentation/widgets/desktop_app_bar.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/apply_leave_dialog.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/calendar_widget.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_tile_widget.dart';

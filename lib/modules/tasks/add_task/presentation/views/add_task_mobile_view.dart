@@ -100,7 +100,6 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                       },
                       child: Text('Whole Day', style: TTypography.normal)),
                   UIHelpers.verticalSpaceTiny,
-                  // Start and End Time
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -196,8 +195,6 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                         ),
                       ]),
                   UIHelpers.verticalSpaceMedium,
-
-                  // Duration
                   Row(
                     children: [
                       const Icon(

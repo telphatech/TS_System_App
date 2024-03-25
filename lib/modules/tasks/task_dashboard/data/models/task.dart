@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final task = taskFromJson(jsonString);
-
 import 'dart:convert';
 
 List<Task> taskFromJson(String str) =>

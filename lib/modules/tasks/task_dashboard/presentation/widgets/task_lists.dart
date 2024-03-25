@@ -116,7 +116,6 @@ class TaskLists extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // Spacer(),
                       if (BlocProvider.of<TaskBloc>(context).isCurrentDate)
                         PopupMenuButton<String>(
                           onSelected: (value) async {

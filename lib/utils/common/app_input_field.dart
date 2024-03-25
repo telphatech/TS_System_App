@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 
 class AppInputField extends StatefulWidget {
@@ -64,9 +65,6 @@ class _AppInputFieldState extends State<AppInputField> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      /// Overriding the default blue color.
-      ///
-      /// We can also avoid this by changing the [primarySwatch] in MaterialApp
       data: Theme.of(context).copyWith(
         primaryColor: TTColors.primary,
       ),
@@ -115,7 +113,7 @@ class _AppInputFieldState extends State<AppInputField> {
                   if (text.isNotEmpty) double.parse(text);
                   return newValue;
                 } catch (e) {
-                  debugPrint("$e");
+                  Log.error("$e");
                 }
                 return oldValue;
               }),
