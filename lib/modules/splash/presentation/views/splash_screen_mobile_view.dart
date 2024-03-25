@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
+import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/utils/common/text_style.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
@@ -15,9 +17,16 @@ class SplashScreenMobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () {
-      serviceLocator<AppRouter>().replace(const LoginRoute());
-    });
+    if (Provider.of<CommonService>(context)
+        .sharedPreferenceService
+        .isLoggedIn) {
+      serviceLocator<AppRouter>().replace(const DashboardRoute());
+    } else {
+      Future.delayed(const Duration(seconds: 3), () {
+        serviceLocator<AppRouter>().replace(const LoginRoute());
+      });
+    }
+
     return Scaffold(
       backgroundColor: TTColors.primary,
       body: Center(

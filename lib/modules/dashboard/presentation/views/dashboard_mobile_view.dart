@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/count_container.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/home_app_bar.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
@@ -13,6 +15,7 @@ import 'package:ts_system/utils/components/ui_helpers.dart';
 class DashboardMobileView extends StatelessWidget {
   String welcomeMsg = "";
   bool isSelected = false;
+  final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
   DashboardMobileView({super.key});
 
   @override
@@ -47,7 +50,7 @@ class DashboardMobileView extends StatelessWidget {
                   welcomeMsg,
                 ),
                 subtitle: AppText.bodyBold2(
-                  "John Williams",
+                  sharedPreferenceService.name,
                   isSingleLined: true,
                 ),
               ),

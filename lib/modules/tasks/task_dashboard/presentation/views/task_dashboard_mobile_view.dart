@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/bloc/bloc/task_bloc.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/bloc/bloc/task_event.dart';
@@ -30,6 +31,7 @@ class TaskDashboard extends StatefulWidget {
 
 class _TaskDashboardState extends State<TaskDashboard> {
   DateTime selected = DateTime.now();
+  final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
       child: BlocProvider(
         create: (context) => TaskBloc()
           ..add(TaskInitialEvent(
-            employeeUID: "1",
+            employeeUID: sharedPreferenceService.empID,
             dateList: DateFormat("yyyy-MM-dd").format(DateTime.now()),
           )),
         child: BlocConsumer<TaskBloc, TaskState>(
@@ -95,7 +97,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
                                   .setSelectedDate(DateTime.now());
                               BlocProvider.of<TaskBloc>(context)
                                   .add(TaskInitialEvent(
-                                employeeUID: "2",
+                                employeeUID: sharedPreferenceService.empID,
                                 dateList: DateFormat("yyyy-mm-dd").format(
                                     BlocProvider.of<TaskBloc>(context,
                                             listen: false)
@@ -115,8 +117,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
                     builder: (context, state) {
                       if (state is TaskSuccess) {
                         return TaskLists(
-                          taskAttributesItems: state.taskAttributesItems,
-                        );
+                            taskAttributesItems: state.taskAttributesItems);
                       } else if (state is TaskEmpty) {
                         return emptyWidget();
                       } else {

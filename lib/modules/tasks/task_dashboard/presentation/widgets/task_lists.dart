@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/entities/task_attributes_item.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/bloc/bloc/task_bloc.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/bloc/bloc/task_event.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/presentation/bloc/bloc/task_state.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/calculate_duration.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
@@ -12,6 +14,8 @@ import 'package:ts_system/utils/components/ui_helpers.dart';
 
 class TaskLists extends StatelessWidget {
   List<TaskAttributesItems?> taskAttributesItems = [];
+  final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
+
   TaskLists({super.key, required this.taskAttributesItems});
 
   @override
@@ -23,7 +27,7 @@ class TaskLists extends StatelessWidget {
               BlocProvider.of<TaskBloc>(context, listen: false).getSelectedDate;
 
           BlocProvider.of<TaskBloc>(context).add(TaskInitialEvent(
-              employeeUID: "1",
+              employeeUID: sharedPreferenceService.empID,
               dateList: DateFormat("yyyy-MM-dd").format(selectedDate)));
         },
         child: ListView.builder(
@@ -69,11 +73,30 @@ class TaskLists extends StatelessWidget {
                               style: TTypography.normal
                                   .copyWith(color: TTColors.primary),
                             ),
-                            Text(
-                              item?.tmshGroupId ?? "",
-                              style: TTypography.normal.copyWith(
-                                  color: TTColors.black, fontSize: 14),
-                              overflow: TextOverflow.clip,
+                            BlocProvider(
+                              create: (context) => TaskBloc()
+                                ..add(GroupIdEvent(
+                                    grpId: item?.tmshGroupId ?? "1")),
+                              child: BlocBuilder<TaskBloc, TaskState>(
+                                builder: (context, state) {
+                                  if (state is GroupSuccess) {
+                                    return Text(
+                                      state.groupAttributesItems?.grpName ??
+                                          "Training Team",
+                                      style: TTypography.normal.copyWith(
+                                          color: TTColors.black, fontSize: 14),
+                                      overflow: TextOverflow.clip,
+                                    );
+                                  } else {
+                                    return Text(
+                                      "Training Team",
+                                      style: TTypography.normal.copyWith(
+                                          color: TTColors.black, fontSize: 14),
+                                      overflow: TextOverflow.clip,
+                                    );
+                                  }
+                                },
+                              ),
                             ),
                             UIHelpers.verticalSpaceMedium,
                             Text(

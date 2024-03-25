@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
+import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
 import 'package:ts_system/utils/common/app_input_field.dart';
@@ -169,7 +171,11 @@ class AppBarDesktopWidget extends StatelessWidget {
             children: [
               const Icon(Icons.person, color: TTColors.white),
               UIHelpers.horizontalSpaceTiny,
-              AppText.body("John Willams", color: TTColors.white),
+              AppText.body(
+                  Provider.of<CommonService>(context)
+                      .sharedPreferenceService
+                      .name,
+                  color: TTColors.white),
               PopupMenuButton<String>(
                 position: PopupMenuPosition.under,
                 elevation: 0,

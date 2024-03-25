@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_title.dart';
 import 'package:ts_system/responsive.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
-import 'package:ts_system/utils/components/tt_string.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
-class MenuDrawer extends StatelessWidget {
+class MenuDrawer extends StatefulWidget {
   const MenuDrawer({super.key});
 
+  @override
+  State<MenuDrawer> createState() => _MenuDrawerState();
+}
+
+class _MenuDrawerState extends State<MenuDrawer> {
+  final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,7 +38,7 @@ class MenuDrawer extends StatelessWidget {
           child: Column(
             children: [
               ListTile(
-                title: Text(TTStrings.name,
+                title: Text(sharedPreferenceService.name,
                     style: TTypography.normal.copyWith(color: TTColors.white)),
                 leading: const CircleAvatar(
                   radius: 30,
@@ -40,7 +46,7 @@ class MenuDrawer extends StatelessWidget {
                   backgroundImage: AssetImage(TTIcons.profilePic),
                 ),
                 subtitle: Text(
-                  TTStrings.email,
+                  sharedPreferenceService.email,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style:
@@ -57,34 +63,40 @@ class MenuDrawer extends StatelessWidget {
                       .popAndPush(const DashboardRoute());
                 },
               ),
-              MenuTitle(
-                index: 1,
-                title: 'Employees',
-                leading: Icons.person,
-                onTap: () {
-                  serviceLocator<AppRouter>().popAndPush(EmployeePanel());
-                },
-              ),
-              MenuTitle(
-                index: 2,
-                title: 'Attendance',
-                leading: Icons.verified_user_rounded,
-                onTap: () {
-                  // serviceLocator<AppRouter>().popAndPush(
-                  //   const LeaveDashBoardMobileView(),
-                  // );
-                },
-              ),
-              MenuTitle(
-                index: 3,
-                title: 'Groups',
-                leading: Icons.groups,
-                onTap: () {
-                  // serviceLocator<AppRouter>().popAndPush(
-                  //   const LeaveDashBoardMobileView()
-                  // );
-                },
-              ),
+              sharedPreferenceService.role == "employee"
+                  ? UIHelpers.horizontalSpaceTiny
+                  : MenuTitle(
+                      index: 1,
+                      title: 'Employees',
+                      leading: Icons.person,
+                      onTap: () {
+                        serviceLocator<AppRouter>().popAndPush(EmployeePanel());
+                      },
+                    ),
+              sharedPreferenceService.role == "employee"
+                  ? UIHelpers.horizontalSpaceTiny
+                  : MenuTitle(
+                      index: 2,
+                      title: 'Attendance',
+                      leading: Icons.verified_user_rounded,
+                      onTap: () {
+                        // serviceLocator<AppRouter>().popAndPush(
+                        //   const LeaveDashBoardMobileView(),
+                        // );
+                      },
+                    ),
+              sharedPreferenceService.role == "employee"
+                  ? UIHelpers.horizontalSpaceTiny
+                  : MenuTitle(
+                      index: 3,
+                      title: 'Groups',
+                      leading: Icons.groups,
+                      onTap: () {
+                        // serviceLocator<AppRouter>().popAndPush(
+                        //   const LeaveDashBoardMobileView()
+                        // );
+                      },
+                    ),
               MenuTitle(
                 index: 4,
                 title: 'Leave',
@@ -115,7 +127,9 @@ class MenuDrawer extends StatelessWidget {
                   title: 'Logout',
                   leading: Icons.logout_outlined,
                   onTap: () {
-                    serviceLocator<AppRouter>().pop();
+                    sharedPreferenceService.clearLoginData();
+                    sharedPreferenceService.isLoggedIn = false;
+                    serviceLocator<AppRouter>().replace(const LoginRoute());
                   },
                 ),
               ),

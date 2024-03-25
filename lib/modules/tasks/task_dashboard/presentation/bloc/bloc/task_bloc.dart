@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/data/models/group.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/data/models/task.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/domain/entities/group_attributes_item.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/entities/task_attributes_item.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/domain/usecases/group_usecases.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/usecases/task_usecases.dart';
 import 'task_event.dart';
 import 'task_state.dart';
@@ -15,6 +18,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   bool isToday = true;
   DateTime date = DateTime.now();
   List<TaskAttributesItems?> taskAttributesItems = [];
+  GroupAttributesItems? groupAttributesItems;
   DateTime getSelectedDate = DateTime.now();
   String message = '';
   bool isCurrentDate = true;
@@ -27,6 +31,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TaskEvent>((event, emit) {});
 
     on<TaskInitialEvent>(taskInitialEvent);
+    on<GroupIdEvent>(groupIdEvent);
 
     on<OnDeleteTask>(onDeleteTaskEvent);
   }
@@ -77,6 +82,31 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         }
       } catch (e) {
         emit(TaskFailure());
+        Log.error(e.toString());
+      }
+    }
+  }
+
+  Future<void> groupIdEvent(GroupIdEvent event, Emitter<TaskState> emit) async {
+    emit(GroupLoading());
+
+    final groupRepository = serviceLocator<GroupUseCase>();
+    final groupResponse = await groupRepository.invoke(event.grpId);
+
+    if (groupResponse.isLeft) {
+      emit(GroupFailure());
+    } else {
+      try {
+        final groupModel = groupFromJson(jsonEncode(groupResponse.right));
+
+        groupAttributesItems = GroupAttributesItems(
+          grpId: groupModel.grpId ?? "",
+          grpName: groupModel.grpName ?? "",
+        );
+
+        emit(GroupSuccess(groupAttributesItems));
+      } catch (e) {
+        emit(GroupFailure());
         Log.error(e.toString());
       }
     }

@@ -112,8 +112,7 @@ class _LoginMobileViewState extends State<LoginMobileView> {
                           Icons.lock_open_rounded,
                           color: TTColors.primary,
                         ),
-                        validator: (value) =>
-                            Validations.passwordValidation(value),
+                        validator: (value) => Validations.requireField(value),
                         trailing: IconButton(
                           onPressed: () {},
                           icon: const Icon(

@@ -9,6 +9,11 @@ class TaskInitialEvent extends TaskEvent {
   TaskInitialEvent({required this.employeeUID, required this.dateList});
 }
 
+class GroupIdEvent extends TaskEvent {
+  final String grpId;
+  GroupIdEvent({required this.grpId});
+}
+
 class SortTasksEvent extends TaskEvent {
   final String employeeUID;
   final List<String>? dateList;

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/profile_header.dart';
 import 'package:ts_system/modules/employee/employee_panel/presentation/widgets/employee_desktop_widget.dart';
@@ -24,12 +26,16 @@ class DashboardDesktopView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const ProfileHeaderWidget(
+              ProfileHeaderWidget(
                 profilePic: TTIcons.profilePic,
-                name: "Vinayak Paimode",
+                name: Provider.of<CommonService>(context)
+                    .sharedPreferenceService
+                    .name,
                 designation: "Backend Developer Intern",
                 location: "Pune, Maharshtra",
-                empId: "TT18019",
+                empId: Provider.of<CommonService>(context)
+                    .sharedPreferenceService
+                    .empID,
               ),
               UIHelpers.verticalSpaceRegular,
               Row(
@@ -59,9 +65,10 @@ class DashboardDesktopView extends StatelessWidget {
                           AppText.subheading("Basic Details"),
                           UIHelpers.verticalSpaceSmall,
                           AppText.primaryBodyLabel(
-                              "Email ID: vaibhav.wable@telphatech.com"),
+                              "Email ID: ${Provider.of<CommonService>(context).sharedPreferenceService.email}"),
                           UIHelpers.verticalSpaceSmall,
-                          AppText.primaryBodyLabel("Phone Number: 8698066529"),
+                          AppText.primaryBodyLabel(
+                              "Phone Number: ${Provider.of<CommonService>(context).sharedPreferenceService.phone}"),
                           UIHelpers.verticalSpaceSmall,
                           AppText.primaryBodyLabel(
                               "Designation: Software Engineer Trainee"),

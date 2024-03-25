@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/login/sign_in/data/models/login.dart';
 import 'package:ts_system/modules/login/sign_in/domain/entities/login_attributes.dart';
 import 'package:ts_system/modules/login/sign_in/domain/usecases/login_usecases.dart';
@@ -15,6 +16,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final TextEditingController refIdController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   LoginAttributesItems? empLoginAttributesItems;
+  final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
 
   LoginBloc() : super(LoginInitial()) {
     on<LoginEvent>((event, emit) {});
@@ -58,6 +60,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (empLoginAttributesItems?.status == "success") {
           refIdController.clear();
           passwordController.clear();
+          sharedPreferenceService.empID =
+              empLoginAttributesItems?.empInfo?.empEmpRefId ?? "";
+          sharedPreferenceService.email =
+              empLoginAttributesItems?.empInfo?.empEmail ?? "";
+          sharedPreferenceService.name =
+              empLoginAttributesItems?.empInfo?.empName ?? "";
+          sharedPreferenceService.role =
+              empLoginAttributesItems?.empInfo?.empRole ?? "";
+          sharedPreferenceService.isLoggedIn = true;
+
           emit(LoginSuccess(empLoginAttributesItems));
         } else {
           emit(LoginError(empLoginAttributesItems));

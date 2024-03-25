@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/core/services/shared_preference.dart';
 
 class CommonService extends ChangeNotifier {
   int _selectedMenuItem = 0;
@@ -16,4 +18,6 @@ class CommonService extends ChangeNotifier {
     _selectedMenuItem = index;
     notifyListeners();
   }
+
+  final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
 }
