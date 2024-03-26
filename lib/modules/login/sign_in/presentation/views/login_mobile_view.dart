@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
@@ -12,6 +13,7 @@ import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/common/custom_button.dart';
 import 'package:ts_system/utils/common/custom_snackbar_service.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
+import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
@@ -113,12 +115,22 @@ class _LoginMobileViewState extends State<LoginMobileView> {
                           color: TTColors.primary,
                         ),
                         validator: (value) => Validations.requireField(value),
+                        password:
+                            Provider.of<LoginBloc>(context).isPasswordVisible ==
+                                    false
+                                ? true
+                                : false,
                         trailing: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.remove_red_eye_outlined,
+                          icon: Icon(
+                            Provider.of<LoginBloc>(context).isPasswordVisible
+                                ? TTIcons.visibilityOff
+                                : TTIcons.visibility,
                             color: TTColors.primary,
                           ),
+                          onPressed: () {
+                            Provider.of<LoginBloc>(context, listen: false)
+                                .add(PassToggleEvent());
+                          },
                         ),
                       ),
                       UIHelpers.verticalSpaceMedium,
@@ -227,13 +239,13 @@ class _LoginMobileViewState extends State<LoginMobileView> {
                                                   backgroundColor:
                                                       TTColors.primary,
                                                   borderColor: TTColors.primary,
-                                                  child: Text(
+                                                  iconColor: TTColors.white,
+                                                  child: const Text(
                                                     "Close",
                                                     overflow: TextOverflow.clip,
                                                     style:
                                                         TextStyle(fontSize: 14),
-                                                  ),
-                                                  iconColor: TTColors.white),
+                                                  )),
                                             ),
                                             UIHelpers.horizontalSpaceTiny,
                                             Expanded(
@@ -242,15 +254,15 @@ class _LoginMobileViewState extends State<LoginMobileView> {
                                                   backgroundColor:
                                                       TTColors.primary,
                                                   borderColor: TTColors.primary,
-                                                  child: Text(
+                                                  iconColor: TTColors.white,
+                                                  child: const Text(
                                                     "Proceed",
                                                     maxLines: 1,
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style:
                                                         TextStyle(fontSize: 14),
-                                                  ),
-                                                  iconColor: TTColors.white),
+                                                  )),
                                             ),
                                           ],
                                         ),

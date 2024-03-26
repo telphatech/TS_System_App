@@ -6,3 +6,5 @@ class LoginInitialEvent extends LoginEvent {
 
   LoginInitialEvent({required this.refId, required this.password});
 }
+
+class PassToggleEvent extends LoginEvent {}

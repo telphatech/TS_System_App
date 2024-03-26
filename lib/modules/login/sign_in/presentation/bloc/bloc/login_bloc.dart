@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -17,11 +18,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final TextEditingController passwordController = TextEditingController();
   LoginAttributesItems? empLoginAttributesItems;
   final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
+  bool isPasswordVisible = false;
 
   LoginBloc() : super(LoginInitial()) {
     on<LoginEvent>((event, emit) {});
 
     on<LoginInitialEvent>(empLoginInitialEvent);
+    on<PassToggleEvent>(passToggleEvent);
+  }
+
+  FutureOr<void> passToggleEvent(
+      PassToggleEvent event, Emitter<LoginState> emit) {
+    isPasswordVisible = !isPasswordVisible;
+    emit(LoginInitial());
   }
 
   Future<void> empLoginInitialEvent(

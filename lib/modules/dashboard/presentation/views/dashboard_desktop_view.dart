@@ -44,7 +44,7 @@ class DashboardDesktopView extends StatelessWidget {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      height: UIHelpers.screenHeight(context) * 0.30,
+                      height: UIHelpers.screenHeight(context) * 0.35,
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -86,7 +86,7 @@ class DashboardDesktopView extends StatelessWidget {
                     visible: UIHelpers.screenWidth(context) >= 1017,
                     child: Container(
                       width: UIHelpers.screenWidth(context) * 0.45,
-                      height: UIHelpers.screenHeight(context) * 0.30,
+                      height: UIHelpers.screenHeight(context) * 0.35,
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: Colors.white,
