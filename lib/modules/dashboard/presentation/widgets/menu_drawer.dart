@@ -63,25 +63,19 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       .popAndPush(const DashboardRoute());
                 },
               ),
+              UIHelpers.verticalSpaceTiny,
               sharedPreferenceService.role == "employee"
                   ? UIHelpers.horizontalSpaceTiny
                   : MenuTitle(
                       index: 1,
-                      title: 'Employees',
-                      leading: Icons.person,
+                      title: 'Organization',
+                      leading: Icons.business_rounded,
                       onTap: () {
                         serviceLocator<AppRouter>()
                             .popAndPush(const ViewEmployeeRoute());
                       },
                     ),
-              sharedPreferenceService.role == "employee"
-                  ? UIHelpers.horizontalSpaceTiny
-                  : MenuTitle(
-                      index: 2,
-                      title: 'Attendance',
-                      leading: Icons.verified_user_rounded,
-                      onTap: () {},
-                    ),
+              UIHelpers.verticalSpaceTiny,
               sharedPreferenceService.role == "employee"
                   ? UIHelpers.horizontalSpaceTiny
                   : MenuTitle(
@@ -90,6 +84,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       leading: Icons.groups,
                       onTap: () {},
                     ),
+              UIHelpers.verticalSpaceTiny,
               MenuTitle(
                 index: 4,
                 title: 'Leave',
@@ -99,6 +94,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       .popAndPush(const LeaveDashboard());
                 },
               ),
+              UIHelpers.verticalSpaceTiny,
               MenuTitle(
                 index: 5,
                 title: 'Timesheet',

@@ -14,3 +14,21 @@ final class ViewEmployeeSuccess extends ViewEmployeeState {
 }
 
 final class ViewEmployeeFailure extends ViewEmployeeState {}
+
+class InviteEmployeeInitial extends ViewEmployeeState {}
+
+class InviteEmployeeLoading extends ViewEmployeeState {}
+
+class InviteEmployeeSuccess extends ViewEmployeeState {
+  final String message;
+  final String status;
+  InviteEmployeeSuccess({required this.message, required this.status});
+}
+
+class InviteEmployeeError extends ViewEmployeeState {
+  final String message;
+  final String status;
+  InviteEmployeeError({required this.message, required this.status});
+}
+
+class InviteEmployeeFailure extends ViewEmployeeState {}

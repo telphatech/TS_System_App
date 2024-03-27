@@ -6,8 +6,15 @@ class CommonService extends ChangeNotifier {
   int _selectedMenuItem = 0;
   int get selectedMenuItem => _selectedMenuItem;
 
+  bool isExpandedOrganization = false;
+
   DateTime _selectedDate = DateTime.now();
   DateTime get selectedDate => _selectedDate;
+
+  void handleTapIsExpandedOrganization(bool isExpanded) {
+    isExpandedOrganization = isExpanded;
+    notifyListeners();
+  }
 
   setSelectedDate(DateTime date) {
     _selectedDate = date;

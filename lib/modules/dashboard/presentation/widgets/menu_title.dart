@@ -27,6 +27,7 @@ class MenuTitle extends StatelessWidget {
 
     return ListTile(
       selected: isSelected,
+      contentPadding: const EdgeInsets.only(left: 8),
       selectedTileColor: isSelected ? TTColors.white.withOpacity(0.5) : null,
       title: Text(
         title,
