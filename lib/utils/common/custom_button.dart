@@ -33,6 +33,7 @@ class CustomElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         side: BorderSide(color: borderColor),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         fixedSize: Size(UIHelpers.screenHeight(context) * 0.9, 50),
       ),
       label: child,

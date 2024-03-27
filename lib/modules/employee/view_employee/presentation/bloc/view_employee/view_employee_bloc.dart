@@ -19,11 +19,10 @@ class ViewEmployeeBloc extends Bloc<ViewEmployeeEvent, ViewEmployeeState> {
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   String? role;
-  String? status;
   String? position;
 
   List<String> roleList = ["admin", "employee", "manager"];
-  List<String> statusList = ["onJob", "Terminated"];
+  List<String> statusList = ["onjob", "resigned"];
   List<String> positionList = [
     "Full stack Developer Intern",
     "Flutter Developer Intern",
@@ -50,7 +49,7 @@ class ViewEmployeeBloc extends Bloc<ViewEmployeeEvent, ViewEmployeeState> {
       empMobile: mobileController.text,
       empRole: role,
       empPosition: position,
-      empStatus: status,
+      empStatus: "onjob",
     ));
 
     if (response.isLeft) {

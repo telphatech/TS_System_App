@@ -266,46 +266,6 @@ class ViewEmployeeDesktopView extends StatelessWidget {
                                                               isMenu: true,
                                                             ),
                                                             UIHelpers
-                                                                .verticalSpaceSmall,
-                                                            CustomSearchDropdown(
-                                                              title: 'Status',
-                                                              hintText:
-                                                                  "Select Status",
-                                                              validator:
-                                                                  (value) {
-                                                                if (value ==
-                                                                        "" ||
-                                                                    value ==
-                                                                        "Select Status" ||
-                                                                    value ==
-                                                                        null) {
-                                                                  return 'Please Provide Status';
-                                                                }
-                                                                return null;
-                                                              },
-                                                              onChanged:
-                                                                  (value) {
-                                                                BlocProvider.of<
-                                                                            ViewEmployeeBloc>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .status = value;
-                                                              },
-                                                              items: BlocProvider
-                                                                      .of<ViewEmployeeBloc>(
-                                                                          context)
-                                                                  .statusList,
-                                                              selectedValue:
-                                                                  BlocProvider.of<
-                                                                              ViewEmployeeBloc>(
-                                                                          context)
-                                                                      .status,
-                                                              showSearchBox:
-                                                                  false,
-                                                              isMenu: true,
-                                                            ),
-                                                            UIHelpers
                                                                 .verticalSpaceMedium,
                                                             if (state
                                                                 is InviteEmployeeError)
@@ -499,7 +459,7 @@ class ViewEmployeeDesktopView extends StatelessWidget {
                                     ),
                                   ),
                                 )
-                              : LoadingWidget(
+                              : const LoadingWidget(
                                   width: double.infinity, height: 200),
                         ),
                       ),

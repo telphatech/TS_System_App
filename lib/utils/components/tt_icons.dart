@@ -5,7 +5,7 @@ class TTIcons {
 
   static const String logo = "assets/logo.png";
   static const String profilePic = "assets/profile.png";
-  static const String noData = "assets/noData.avif";
+  static const String noData = "assets/noData.jpg";
   static const IconData search = Icons.search_outlined;
   static const IconData close = Icons.close_rounded;
   static const IconData home = Icons.home;

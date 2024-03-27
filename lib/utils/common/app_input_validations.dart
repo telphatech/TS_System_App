@@ -36,7 +36,7 @@ class Validations {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
 
     if (passNonNullValue.isEmpty) {
-      return 'Please enter some text';
+      return 'Please enter your email';
     } else if (!passNonNullValue.contains("@")) {
       return ("Email should contains @");
     } else if (!reg.hasMatch(passNonNullValue)) {
@@ -82,7 +82,7 @@ class Validations {
     var phoneNonNullValue = value ?? "";
 
     if (value == null || value.isEmpty) {
-      return 'Please enter some text';
+      return 'Please enter your mobile number';
     } else if (!regExp.hasMatch(phoneNonNullValue)) {
       return ("Only 10 digit allowed");
     }

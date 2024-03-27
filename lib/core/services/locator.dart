@@ -7,7 +7,6 @@ import 'package:ts_system/modules/employee/view_employee/domain/repositories/inv
 import 'package:ts_system/modules/employee/view_employee/domain/repositories/view_employee_repository.dart';
 import 'package:ts_system/modules/employee/view_employee/domain/usecases/invite_employee_usecases.dart';
 import 'package:ts_system/modules/employee/view_employee/domain/usecases/view_employee_usecases.dart';
-import 'package:ts_system/modules/employee/view_employee/presentation/bloc/invite_employee/invite_employee_bloc.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_bloc.dart';
 import 'package:ts_system/modules/login/sign_in/data/repositories/login_repository_impl.dart';
 import 'package:ts_system/modules/login/sign_in/domain/repositories/login_repository.dart';
@@ -48,7 +47,6 @@ void initializeDependencies() {
       .registerLazySingleton<ViewEmployeeUseCase>(() => ViewEmployeeUseCase());
 
   // ************* INVITE EMPLOYEE ****************
-  serviceLocator.registerSingleton<InviteEmployeeBloc>(InviteEmployeeBloc());
   serviceLocator.registerSingleton<InviteEmployeeRepository>(
       InviteEmployeeRepositoryImpl());
   serviceLocator.registerLazySingleton<InviteEmployeeUseCase>(

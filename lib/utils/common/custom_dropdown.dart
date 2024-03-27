@@ -108,12 +108,16 @@ class CustomSearchDropdown extends StatelessWidget {
               contentPadding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
               hintText: hintText ?? "Select",
               hintStyle: const TextStyle(color: TTColors.grey),
+              errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: const BorderSide(color: TTColors.danger)),
               border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: TTColors.primary)),
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: const BorderSide(color: TTColors.primary)),
               enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(5),
                   borderSide:
                       BorderSide(color: Colors.grey.shade400, width: 1)),
             ),

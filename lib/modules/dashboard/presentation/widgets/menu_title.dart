@@ -11,36 +11,40 @@ class MenuTitle extends StatelessWidget {
   final VoidCallback onTap;
 
   const MenuTitle({
-    super.key,
+    Key? key,
     required this.index,
     required this.title,
     required this.leading,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final int selectedMenuItem =
-        Provider.of<CommonService>(context).selectedMenuItem;
-
-    final isSelected = index == selectedMenuItem;
-
-    return ListTile(
-      selected: isSelected,
-      contentPadding: const EdgeInsets.only(left: 8),
-      selectedTileColor: isSelected ? TTColors.white.withOpacity(0.5) : null,
-      title: Text(
-        title,
-        style: TTypography.normal.copyWith(color: TTColors.white),
-      ),
-      leading: Icon(
-        leading,
-        color: TTColors.white,
-      ),
-      onTap: () {
-        Provider.of<CommonService>(context, listen: false)
-            .setSelectedMenuItem(index);
-        onTap();
+    return Consumer<CommonService>(
+      builder: (context, commonService, child) {
+        final isSelected = index == commonService.selectedMenuItem;
+        return ListTile(
+          selected: isSelected,
+          contentPadding: const EdgeInsets.only(left: 8),
+          selectedTileColor:
+              isSelected ? Color.fromRGBO(255, 255, 255, 0.5) : null,
+          title: Text(
+            title,
+            style: TTypography.normal.copyWith(color: TTColors.white),
+          ),
+          leading: Icon(
+            leading,
+            color: TTColors.white,
+          ),
+          onTap: () {
+            if (isSelected) {
+              commonService.setSelectedMenuItem(0); // Deselect the item
+            } else {
+              commonService.setSelectedMenuItem(index);
+            }
+            onTap();
+          },
+        );
       },
     );
   }

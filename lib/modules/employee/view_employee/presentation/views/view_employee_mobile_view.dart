@@ -7,13 +7,16 @@ import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dar
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_bloc.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_event.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_state.dart';
+import 'package:ts_system/modules/employee/view_employee/presentation/widgets/employee_lists.dart';
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/common/custom_button.dart';
-import 'package:ts_system/utils/common_widgets/empty_widget.dart';
+import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 
 class ViewEmployeeMobileView extends StatelessWidget {
+  final gridConfiguration = const PlutoGridConfiguration();
   const ViewEmployeeMobileView({super.key});
 
   @override
@@ -35,120 +38,54 @@ class ViewEmployeeMobileView extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             if (state is ViewEmployeeSuccess) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: CustomElevatedButton(
-                          onPressed: () {
-                            serviceLocator<AppRouter>()
-                                .push(const AddEmployeeMobileView());
-                          },
-                          backgroundColor: TTColors.primary,
-                          borderColor: TTColors.white,
-                          iconColor: TTColors.white,
-                          iconData: Icons.add,
-                          child: AppText.body(
-                            'Invite Employee',
-                            color: TTColors.white,
-                          ),
+              return Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: CustomElevatedButton(
+                        onPressed: () {
+                          serviceLocator<AppRouter>()
+                              .push(const AddEmployeeMobileView());
+                        },
+                        backgroundColor: TTColors.primary,
+                        borderColor: TTColors.white,
+                        iconColor: TTColors.white,
+                        iconData: Icons.add,
+                        child: AppText.body(
+                          'Invite Employee',
+                          color: TTColors.white,
                         ),
                       ),
-                      UIHelpers.verticalSpaceSmall,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AppText.body("Employees"),
-                          AppText.body(
-                              "Total Result: ${state.viewEmployeeAttributesItems.length}"),
-                        ],
-                      ),
-                      UIHelpers.verticalSpaceRegular,
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                          headingRowColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              return TTColors.primary.withOpacity(0.8);
-                            },
-                          ),
-                          border: TableBorder.all(
-                              width: 1, color: TTColors.primary),
-                          columns: const <DataColumn>[
-                            DataColumn(
-                                label: Text(
-                              'Employee ID',
-                              style: TextStyle(color: TTColors.white),
-                            )),
-                            DataColumn(
-                                label: Text(
-                              'Name',
-                              style: TextStyle(color: TTColors.white),
-                            )),
-                            DataColumn(
-                                label: Text(
-                              'Role',
-                              style: TextStyle(color: TTColors.white),
-                            )),
-                            DataColumn(
-                                label: Text(
-                              'Position',
-                              style: TextStyle(color: TTColors.white),
-                            )),
-                            DataColumn(
-                                label: Text(
-                              'Email',
-                              style: TextStyle(color: TTColors.white),
-                            )),
-                            DataColumn(
-                                label: Text(
-                              'Status',
-                              style: TextStyle(color: TTColors.white),
-                            )),
-                          ],
-                          rows: List<DataRow>.generate(
-                            state.viewEmployeeAttributesItems.length,
-                            (index) => DataRow(
-                              cells: <DataCell>[
-                                DataCell(Text(state
-                                        .viewEmployeeAttributesItems[index]
-                                        ?.empEmpRefId ??
-                                    "")),
-                                DataCell(Text(state
-                                        .viewEmployeeAttributesItems[index]
-                                        ?.empName ??
-                                    "")),
-                                DataCell(Text(state
-                                        .viewEmployeeAttributesItems[index]
-                                        ?.empRole ??
-                                    "")),
-                                DataCell(Text(state
-                                        .viewEmployeeAttributesItems[index]
-                                        ?.empPosition ??
-                                    "")),
-                                DataCell(Text(state
-                                        .viewEmployeeAttributesItems[index]
-                                        ?.empEmail ??
-                                    "")),
-                                DataCell(Text(state
-                                        .viewEmployeeAttributesItems[index]
-                                        ?.empStatus ??
-                                    "")),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    UIHelpers.verticalSpaceSmall,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppText.headingTwo("Employees"),
+                        AppText.headingTwo(
+                            "Total Result: ${state.viewEmployeeAttributesItems.length}"),
+                      ],
+                    ),
+                    UIHelpers.verticalSpaceRegular,
+                    EmployeeLists(
+                      gridConfiguration: gridConfiguration,
+                      viewEmployeeAttributesItems:
+                          state.viewEmployeeAttributesItems,
+                    ),
+                  ],
                 ),
               );
             } else {
-              return emptyWidget();
+              return Padding(
+                padding: const EdgeInsets.all(10),
+                child: LoadingWidget(
+                  width: double.infinity,
+                  height: UIHelpers.screenHeight(context),
+                ),
+              );
             }
           },
         ),
