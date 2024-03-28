@@ -19,7 +19,10 @@ import 'package:ts_system/modules/login/sign_in/domain/repositories/login_reposi
 import 'package:ts_system/modules/login/sign_in/domain/usecases/invitation_usecases.dart';
 import 'package:ts_system/modules/login/sign_in/domain/usecases/login_usecases.dart';
 import 'package:ts_system/modules/login/sign_in/presentation/bloc/bloc/login_bloc.dart';
-import 'package:ts_system/modules/login/sign_in/presentation/bloc/bloc/login_state.dart';
+import 'package:ts_system/modules/tasks/add_task/data/repositories/add_task_repository_impl.dart';
+import 'package:ts_system/modules/tasks/add_task/domain/repositories/add_task_repository.dart';
+import 'package:ts_system/modules/tasks/add_task/domain/usecases/add_task_usecase.dart';
+import 'package:ts_system/modules/tasks/add_task/presentation/bloc/bloc/add_task_bloc.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/data/repositories/group_repository_impl.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/data/repositories/task_repository_impl.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/repositories/group_repository.dart';
@@ -46,6 +49,11 @@ void initializeDependencies() {
   serviceLocator.registerSingleton<TaskBloc>(TaskBloc());
   serviceLocator.registerSingleton<TaskRepository>(TaskRepositoryImpl());
   serviceLocator.registerLazySingleton<TaskUseCase>(() => TaskUseCase());
+
+  // ************* ADD TASKS ****************
+  serviceLocator.registerSingleton<AddTaskBloc>(AddTaskBloc());
+  serviceLocator.registerSingleton<AddTaskRepository>(AddTaskRepositoryImpl());
+  serviceLocator.registerLazySingleton<AddTaskUseCase>(() => AddTaskUseCase());
 
   // ************* VIEW EMPLOYEE ****************
   serviceLocator.registerSingleton<ViewEmployeeBloc>(ViewEmployeeBloc());

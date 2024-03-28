@@ -10,6 +10,7 @@ import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_
 import 'package:ts_system/modules/employee/view_employee/presentation/widgets/employee_lists.dart';
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/common/custom_button.dart';
+import 'package:ts_system/utils/common_widgets/empty_widget.dart';
 import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
@@ -78,6 +79,8 @@ class ViewEmployeeMobileView extends StatelessWidget {
                   ],
                 ),
               );
+            } else if (state is ViewEmployeeEmpty) {
+              return emptyWidget();
             } else {
               return Padding(
                 padding: const EdgeInsets.all(10),
