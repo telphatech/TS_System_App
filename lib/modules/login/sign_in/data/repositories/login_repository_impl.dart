@@ -18,7 +18,7 @@ class LoginRepositoryImpl implements LoginRepository {
         body: body,
       );
       if (response == null) {
-        return Left(ServerFailure(message: TTStrings.noResponseFromServerText));
+        return Left(ServerFailure(message: AppUtils.noResponseFromServerText));
       } else {
         return Right(response);
       }

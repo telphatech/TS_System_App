@@ -8,10 +8,18 @@ import 'package:ts_system/modules/employee/view_employee/domain/repositories/vie
 import 'package:ts_system/modules/employee/view_employee/domain/usecases/invite_employee_usecases.dart';
 import 'package:ts_system/modules/employee/view_employee/domain/usecases/view_employee_usecases.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_bloc.dart';
+import 'package:ts_system/modules/login/employee_registration/data/repositories/employee_register_impl.dart';
+import 'package:ts_system/modules/login/employee_registration/domain/repositories/employee_register_repository.dart';
+import 'package:ts_system/modules/login/employee_registration/domain/usecases/employee_register_usecase.dart';
+import 'package:ts_system/modules/login/employee_registration/presentation/bloc/bloc/employee_register_bloc.dart';
+import 'package:ts_system/modules/login/sign_in/data/repositories/invitation_repository_impl.dart';
 import 'package:ts_system/modules/login/sign_in/data/repositories/login_repository_impl.dart';
+import 'package:ts_system/modules/login/sign_in/domain/repositories/invitation_repository.dart';
 import 'package:ts_system/modules/login/sign_in/domain/repositories/login_repository.dart';
+import 'package:ts_system/modules/login/sign_in/domain/usecases/invitation_usecases.dart';
 import 'package:ts_system/modules/login/sign_in/domain/usecases/login_usecases.dart';
 import 'package:ts_system/modules/login/sign_in/presentation/bloc/bloc/login_bloc.dart';
+import 'package:ts_system/modules/login/sign_in/presentation/bloc/bloc/login_state.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/data/repositories/group_repository_impl.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/data/repositories/task_repository_impl.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/repositories/group_repository.dart';
@@ -60,4 +68,16 @@ void initializeDependencies() {
   serviceLocator.registerSingleton<LoginBloc>(LoginBloc());
   serviceLocator.registerSingleton<LoginRepository>(LoginRepositoryImpl());
   serviceLocator.registerLazySingleton<LoginUseCase>(() => LoginUseCase());
+  serviceLocator
+      .registerSingleton<InvitationRepository>(InvitationRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<InvitationUseCases>(() => InvitationUseCases());
+
+  // ************* REGISTER EMPLOYEE ****************
+  serviceLocator
+      .registerSingleton<EmployeeRegisterBloc>(EmployeeRegisterBloc());
+  serviceLocator.registerSingleton<EmployeeRegisterRepository>(
+      EmployeeRegisterRepositoryImpl());
+  serviceLocator.registerLazySingleton<EmployeeRegisterUseCase>(
+      () => EmployeeRegisterUseCase());
 }

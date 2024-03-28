@@ -42,7 +42,7 @@ class SplashScreenMobileView extends StatelessWidget {
               ),
             ),
             UIHelpers.verticalSpaceMedium,
-            Text(TTStrings.appName,
+            Text(AppUtils.appName,
                 style: heading1Style.copyWith(color: TTColors.white)),
           ],
         ),

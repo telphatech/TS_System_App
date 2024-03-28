@@ -6,17 +6,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
+import 'package:ts_system/modules/login/sign_in/data/models/invitation_response.dart';
 import 'package:ts_system/modules/login/sign_in/data/models/login.dart';
+import 'package:ts_system/modules/login/sign_in/domain/entities/invitation_attributes.dart';
 import 'package:ts_system/modules/login/sign_in/domain/entities/login_attributes.dart';
+import 'package:ts_system/modules/login/sign_in/domain/usecases/invitation_usecases.dart';
 import 'package:ts_system/modules/login/sign_in/domain/usecases/login_usecases.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final formKey = GlobalKey<FormState>();
+  final TextEditingController codeController = TextEditingController();
   final TextEditingController refIdController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   LoginAttributesItems? empLoginAttributesItems;
+  InvitationAttributesItems? invitationAttributesItems;
   final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
   bool isPasswordVisible = false;
 
@@ -25,6 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     on<LoginInitialEvent>(empLoginInitialEvent);
     on<PassToggleEvent>(passToggleEvent);
+    on<InvitationCodeEvent>(invitationCodeEvent);
   }
 
   FutureOr<void> passToggleEvent(
@@ -86,6 +92,40 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } catch (e) {
         emit(LoginFailure());
         Log.error(e.toString());
+      }
+    }
+  }
+
+  FutureOr<void> invitationCodeEvent(
+      InvitationCodeEvent event, Emitter<LoginState> emit) async {
+    emit(InvitationCodeLoading());
+    final repository = serviceLocator<InvitationUseCases>();
+    final response = await repository.invoke(event.code);
+
+    if (response.isLeft) {
+      emit(InvitationCodeFailure());
+    } else {
+      final codeResponse = InvitationResponse.fromJson(response.right);
+      invitationAttributesItems = InvitationAttributesItems(
+        message: codeResponse.message ?? "",
+        status: codeResponse.status ?? "",
+        empInfo: EmpInfoCodeAttributesItems(
+          empId: codeResponse.empInfo?.empId ?? "",
+          empEmpRefId: codeResponse.empInfo?.empEmpRefId ?? "",
+          empName: codeResponse.empInfo?.empName ?? "",
+          empEmail: codeResponse.empInfo?.empEmail ?? "",
+          empMobile: codeResponse.empInfo?.empMobile ?? "",
+          empPassword: codeResponse.empInfo?.empPassword ?? "",
+          empRole: codeResponse.empInfo?.empRole ?? "",
+          empPosition: codeResponse.empInfo?.empPosition ?? "",
+          empStatus: codeResponse.empInfo?.empStatus ?? "",
+          empInvitationCode: codeResponse.empInfo?.empInvitationCode ?? "",
+        ),
+      );
+      if (event.code == invitationAttributesItems?.empInfo?.empInvitationCode) {
+        emit(InvitationCodeSuccess(invitationAttributesItems));
+      } else {
+        emit(InvitationCodeError(response.right["message"]));
       }
     }
   }

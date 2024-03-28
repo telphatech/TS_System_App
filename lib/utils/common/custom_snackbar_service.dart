@@ -25,9 +25,7 @@ class CustomSnackBarService {
       duration: const Duration(seconds: 3),
       showCloseIcon: true,
       closeIconColor: TTColors.white,
-      content: ListTile(
-        title: Text(message ?? ''),
-      ),
+      content: Text(message ?? ''),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

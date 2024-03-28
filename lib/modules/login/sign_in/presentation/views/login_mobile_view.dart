@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
@@ -14,6 +15,7 @@ import 'package:ts_system/utils/common/custom_button.dart';
 import 'package:ts_system/utils/common/custom_snackbar_service.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
+import 'package:ts_system/utils/components/tt_string.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
@@ -44,6 +46,20 @@ class _LoginMobileViewState extends State<LoginMobileView> {
             CustomSnackBarService().showErrorSnackBar(context,
                 title: state.empLoginAttributesItems?.status ?? "",
                 message: state.empLoginAttributesItems?.message ?? "");
+          } else if (state is InvitationCodeError) {
+            CustomSnackBarService()
+                .showErrorSnackBar(context, message: "Invalid invitation code");
+            BlocProvider.of<LoginBloc>(context).codeController.clear();
+            serviceLocator<AppRouter>().pop();
+          } else if (state is InvitationCodeFailure) {
+            CustomSnackBarService()
+                .showErrorSnackBar(context, message: "Something went Wrong!!");
+            BlocProvider.of<LoginBloc>(context).codeController.clear();
+            serviceLocator<AppRouter>().pop();
+          } else if (state is InvitationCodeSuccess) {
+            BlocProvider.of<LoginBloc>(context).codeController.clear();
+            serviceLocator<AppRouter>().replace(EmployeeRegistrationRoute(
+                invitationAttributesItems: state.invitationAttributesItems));
           }
         },
         builder: (context, state) {
@@ -177,11 +193,33 @@ class _LoginMobileViewState extends State<LoginMobileView> {
                         backgroundColor: TTColors.primary,
                         borderColor: TTColors.primary,
                         iconColor: TTColors.white,
-                        child: const Text('Sign In'),
+                        child: SizedBox(
+                          child: BlocBuilder<LoginBloc, LoginState>(
+                            builder: (context, state) {
+                              if (state is LoginLoading) {
+                                return LoadingAnimationWidget
+                                    .horizontalRotatingDots(
+                                        color: TTColors.white,
+                                        size: UIHelpers.screenWidth(context) *
+                                            0.15);
+                              } else {
+                                return Text(
+                                  AppUtils.signIn,
+                                  style: TTypography.normal.copyWith(
+                                      color: TTColors.white,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w700),
+                                );
+                              }
+                            },
+                          ),
+                        ),
                       ),
                       UIHelpers.verticalSpaceSmall,
                       CustomElevatedButton(
                         onPressed: () {
+                          final loginBloc = BlocProvider.of<LoginBloc>(context);
+
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -215,6 +253,7 @@ class _LoginMobileViewState extends State<LoginMobileView> {
                                         const SizedBox(height: 20),
                                         AppInputField(
                                           hint: 'Enter your code',
+                                          controller: loginBloc.codeController,
                                           inputBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -250,18 +289,43 @@ class _LoginMobileViewState extends State<LoginMobileView> {
                                             UIHelpers.horizontalSpaceTiny,
                                             Expanded(
                                               child: CustomElevatedButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    if (loginBloc.codeController
+                                                        .text.isNotEmpty) {
+                                                      loginBloc.add(
+                                                          InvitationCodeEvent(
+                                                              loginBloc
+                                                                  .codeController
+                                                                  .text));
+                                                    } else {
+                                                      serviceLocator<
+                                                              CustomSnackBarService>()
+                                                          .showWarningSnackBar(
+                                                              context,
+                                                              message:
+                                                                  "Please enter your invitation code");
+                                                      serviceLocator<
+                                                              AppRouter>()
+                                                          .pop();
+                                                    }
+                                                  },
                                                   backgroundColor:
                                                       TTColors.primary,
                                                   borderColor: TTColors.primary,
                                                   iconColor: TTColors.white,
-                                                  child: const Text(
+                                                  child: Text(
                                                     "Proceed",
                                                     maxLines: 1,
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    style:
-                                                        TextStyle(fontSize: 14),
+                                                    style: TTypography.normal
+                                                        .copyWith(
+                                                      color: TTColors.white,
+                                                      fontSize:
+                                                          UIHelpers.screenWidth(
+                                                                  context) *
+                                                              0.028,
+                                                    ),
                                                   )),
                                             ),
                                           ],

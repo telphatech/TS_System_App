@@ -8,3 +8,8 @@ class LoginInitialEvent extends LoginEvent {
 }
 
 class PassToggleEvent extends LoginEvent {}
+
+class InvitationCodeEvent extends LoginEvent {
+  final String? code;
+  InvitationCodeEvent(this.code);
+}

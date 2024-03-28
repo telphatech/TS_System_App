@@ -25,7 +25,7 @@ class InviteEmployeeRepositoryImpl extends InviteEmployeeRepository {
     if (response != null) {
       return Right(response);
     } else {
-      return Left(ServerFailure(message: TTStrings.noResponseFromServerText));
+      return Left(ServerFailure(message: AppUtils.noResponseFromServerText));
     }
   }
 }

@@ -19,7 +19,7 @@ class GroupRepositoryImpl implements GroupRepository {
         },
       );
       if (response == null) {
-        return Left(ServerFailure(message: TTStrings.noResponseFromServerText));
+        return Left(ServerFailure(message: AppUtils.noResponseFromServerText));
       } else {
         return Right(response);
       }

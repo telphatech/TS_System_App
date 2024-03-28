@@ -2,19 +2,21 @@ import 'package:either_dart/either.dart';
 import 'package:ts_system/config/flavors.dart';
 import 'package:ts_system/core/error/failure.dart';
 import 'package:ts_system/core/network/api_provider.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/domain/repositories/task_repository.dart';
+import 'package:ts_system/modules/login/sign_in/domain/repositories/invitation_repository.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
 
-class TaskRepositoryImpl implements TaskRepository {
+class InvitationRepositoryImpl implements InvitationRepository {
   final _apiProvider = ApiProvider();
 
   @override
-  Future<Either<Failure, dynamic>> getTask(Map<String, dynamic> body) async {
+  Future<Either<Failure, dynamic>> invitationCode(String code) async {
     try {
       final response = await _apiProvider.getData(
         baseUrl: F.apiBaseUrl,
-        subUrl: "/api-tmsht-fetch.php",
-        body: body,
+        subUrl: "/api-check_invitation_code.php",
+        body: {
+          "emp_invitation_code": code,
+        },
       );
       if (response == null) {
         return Left(ServerFailure(message: AppUtils.noResponseFromServerText));

@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
               : ChangeNotifierProvider(
                   create: (context) => CommonService(),
                   child: MaterialApp.router(
-                    title: TTStrings.appTitle,
+                    title: AppUtils.appTitle,
                     debugShowCheckedModeBanner: false,
                     themeMode: ThemeMode.dark,
                     theme: TAppTheme.darkTheme,

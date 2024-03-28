@@ -2,19 +2,22 @@ import 'package:either_dart/either.dart';
 import 'package:ts_system/config/flavors.dart';
 import 'package:ts_system/core/error/failure.dart';
 import 'package:ts_system/core/network/api_provider.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/domain/repositories/task_repository.dart';
+import 'package:ts_system/modules/login/employee_registration/data/models/employee_register_request_model.dart';
+import 'package:ts_system/modules/login/employee_registration/domain/repositories/employee_register_repository.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
 
-class TaskRepositoryImpl implements TaskRepository {
+class EmployeeRegisterRepositoryImpl implements EmployeeRegisterRepository {
   final _apiProvider = ApiProvider();
 
   @override
-  Future<Either<Failure, dynamic>> getTask(Map<String, dynamic> body) async {
+  Future<Either<Failure, dynamic>> employeeRegister({
+    required EmployeeRegisterRequestModel body,
+  }) async {
     try {
       final response = await _apiProvider.getData(
         baseUrl: F.apiBaseUrl,
-        subUrl: "/api-tmsht-fetch.php",
-        body: body,
+        subUrl: "/api-updateEmpPassword.php",
+        body: body.toJson(),
       );
       if (response == null) {
         return Left(ServerFailure(message: AppUtils.noResponseFromServerText));

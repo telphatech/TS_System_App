@@ -1,5 +1,5 @@
-class TTStrings {
-  TTStrings._();
+class AppUtils {
+  AppUtils._();
 
   /// ********************* HOME SCREEN ****************************
 
@@ -9,6 +9,11 @@ class TTStrings {
   static const String suggestFeature = "SUGGEST A FEATURE";
   static const String privacyPolicy = "PRIVACY POLICY";
   static const String raiseIssue = "RAISE A ISSUE";
+  static const String welcome = "Welcome";
+  static const String fillTheForm =
+      "Fill the form to be part of Telphatech LLP";
+  static const String resourceErrorMessage =
+      "There was an error retrieving the resource. Click here to try again.";
 
   /// ********************* ABOUT SCREEN ****************************
 
@@ -21,7 +26,9 @@ class TTStrings {
 
   /// ********************* DRAWER OF HOME SCREEN *******************
 
-  static const String name = "John Williams";
+  static const String name = "Name";
   static const String email = "admin@telphatech.com";
   static const String noResponseFromServerText = "No Response from Server";
+
+  static const String signIn = "Sign In";
 }
