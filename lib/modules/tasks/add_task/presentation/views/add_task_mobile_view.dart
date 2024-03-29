@@ -6,6 +6,7 @@ import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/tasks/add_task/data/models/add_task_request_model.dart';
+import 'package:ts_system/modules/tasks/add_task/domain/entities/group_attributes_item.dart';
 import 'package:ts_system/modules/tasks/add_task/presentation/bloc/bloc/add_task_bloc.dart';
 import 'package:ts_system/modules/tasks/add_task/presentation/bloc/bloc/add_task_event.dart';
 import 'package:ts_system/modules/tasks/add_task/presentation/bloc/bloc/add_task_state.dart';
@@ -15,6 +16,7 @@ import 'package:ts_system/utils/common/app_input_validations.dart';
 import 'package:ts_system/utils/common/custom_button.dart';
 import 'package:ts_system/utils/common/custom_dropdown.dart';
 import 'package:ts_system/utils/common/custom_snackbar_service.dart';
+import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
@@ -265,11 +267,36 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                               .copyWith(color: TTColors.black, fontSize: 14),
                         ),
                         UIHelpers.verticalSpaceSmall,
-                        const CustomSearchDropdown(
-                          items: [],
-                          showSearchBox: false,
-                          isMenu: true,
-                          hintText: 'Select Group Name',
+                        BlocProvider(
+                          create: (context) => AddTaskBloc()..add(GroupEvent()),
+                          child: BlocBuilder<AddTaskBloc, AddTaskState>(
+                            builder: (context, state) {
+                              if (state is GroupSuccess) {
+                                List<GroupAttributesItems?> messNameItems =
+                                    state.groupAttributesItems;
+                                Map<String, String> groupIdMap = {};
+                                for (var item in messNameItems) {
+                                  groupIdMap[item?.grpName ?? ""] =
+                                      item?.grpId ?? "";
+                                }
+                                return CustomSearchDropdown(
+                                  items: groupIdMap.keys.toList(),
+                                  showSearchBox: false,
+                                  isMenu: true,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      BlocProvider.of<AddTaskBloc>(context)
+                                          .groupId = groupIdMap[value]!;
+                                    });
+                                  },
+                                  hintText: 'Select Group Name',
+                                );
+                              } else {
+                                return const LoadingWidget(
+                                    width: double.infinity, height: 50);
+                              }
+                            },
+                          ),
                         ),
                         UIHelpers.verticalSpaceSmall,
                         AppInputField(

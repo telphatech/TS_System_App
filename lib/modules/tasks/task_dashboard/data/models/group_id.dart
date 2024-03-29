@@ -1,19 +1,19 @@
 import 'dart:convert';
 
-Group groupFromJson(String str) => Group.fromJson(json.decode(str));
+GroupId groupIdFromJson(String str) => GroupId.fromJson(json.decode(str));
 
-String groupToJson(Group data) => json.encode(data.toJson());
+String groupIdToJson(GroupId data) => json.encode(data.toJson());
 
-class Group {
+class GroupId {
   String? grpId;
   String? grpName;
 
-  Group({
+  GroupId({
     this.grpId,
     this.grpName,
   });
 
-  factory Group.fromJson(Map<String, dynamic> json) => Group(
+  factory GroupId.fromJson(Map<String, dynamic> json) => GroupId(
         grpId: json["grp_id"],
         grpName: json["grp_name"],
       );

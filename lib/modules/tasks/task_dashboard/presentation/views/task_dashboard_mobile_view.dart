@@ -15,6 +15,7 @@ import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/cale
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/floating_button.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/task_lists.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/timesheet_appbar.dart';
+import 'package:ts_system/utils/common/custom_snackbar_service.dart';
 import 'package:ts_system/utils/common_widgets/custom_progress.dart';
 import 'package:ts_system/utils/common_widgets/empty_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
@@ -54,7 +55,23 @@ class _TaskDashboardState extends State<TaskDashboard> {
             dateList: DateFormat("yyyy-MM-dd").format(DateTime.now()),
           )),
         child: BlocConsumer<TaskBloc, TaskState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is DeleteTaskSuccess) {
+              serviceLocator<CustomSnackBarService>()
+                  .showSuccessSnackBar(context, message: state.message);
+              BlocProvider.of<TaskBloc>(context).add(TaskInitialEvent(
+                employeeUID: sharedPreferenceService.empID,
+                dateList: DateFormat("yyyy-MM-dd").format(DateTime.now()),
+              ));
+            } else if (state is DeleteTaskError) {
+              serviceLocator<CustomSnackBarService>()
+                  .showSuccessSnackBar(context, message: state.message);
+            } else if (state is DeleteTaskFailure) {
+              serviceLocator<CustomSnackBarService>().showSuccessSnackBar(
+                  context,
+                  message: "Something Went Wrong!!");
+            }
+          },
           builder: (context, state) {
             final DateTime selectedDate =
                 Provider.of<TaskBloc>(context, listen: false).getSelectedDate;

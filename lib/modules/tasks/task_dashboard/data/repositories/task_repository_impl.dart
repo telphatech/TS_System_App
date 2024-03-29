@@ -26,3 +26,27 @@ class TaskRepositoryImpl implements TaskRepository {
     }
   }
 }
+
+class DeleteTaskRepositoryImpl implements DeleteTaskRepository {
+  final _apiProvider = ApiProvider();
+
+  @override
+  Future<Either<Failure, dynamic>> deleteTask(String tmshId) async {
+    try {
+      final response = await _apiProvider.getData(
+        baseUrl: F.apiBaseUrl,
+        subUrl: "/api-tmsht-delete.php",
+        body: {
+          "tmsh_id": tmshId,
+        },
+      );
+      if (response == null) {
+        return Left(ServerFailure(message: AppUtils.noResponseFromServerText));
+      } else {
+        return Right(response);
+      }
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+}

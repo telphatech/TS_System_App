@@ -23,11 +23,11 @@ import 'package:ts_system/modules/tasks/add_task/data/repositories/add_task_repo
 import 'package:ts_system/modules/tasks/add_task/domain/repositories/add_task_repository.dart';
 import 'package:ts_system/modules/tasks/add_task/domain/usecases/add_task_usecase.dart';
 import 'package:ts_system/modules/tasks/add_task/presentation/bloc/bloc/add_task_bloc.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/data/repositories/group_repository_impl.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/data/repositories/group_id_repository_impl.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/data/repositories/task_repository_impl.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/domain/repositories/group_repository.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/domain/repositories/group_id_repository.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/repositories/task_repository.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/domain/usecases/group_usecases.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/domain/usecases/group_id_usecases.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/usecases/task_usecases.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/bloc/bloc/task_bloc.dart';
 import 'package:ts_system/utils/common/custom_snackbar_service.dart';
@@ -50,6 +50,11 @@ void initializeDependencies() {
   serviceLocator.registerSingleton<TaskRepository>(TaskRepositoryImpl());
   serviceLocator.registerLazySingleton<TaskUseCase>(() => TaskUseCase());
 
+  serviceLocator
+      .registerSingleton<DeleteTaskRepository>(DeleteTaskRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<DeleteTaskUseCase>(() => DeleteTaskUseCase());
+
   // ************* ADD TASKS ****************
   serviceLocator.registerSingleton<AddTaskBloc>(AddTaskBloc());
   serviceLocator.registerSingleton<AddTaskRepository>(AddTaskRepositoryImpl());
@@ -71,6 +76,10 @@ void initializeDependencies() {
   // ************* Group ****************
   serviceLocator.registerSingleton<GroupRepository>(GroupRepositoryImpl());
   serviceLocator.registerLazySingleton<GroupUseCase>(() => GroupUseCase());
+
+  // ************* Group BY Id ****************
+  serviceLocator.registerSingleton<GroupIdRepository>(GroupIdRepositoryImpl());
+  serviceLocator.registerLazySingleton<GroupIdUseCase>(() => GroupIdUseCase());
 
   // ************* LOGIN ****************
   serviceLocator.registerSingleton<LoginBloc>(LoginBloc());

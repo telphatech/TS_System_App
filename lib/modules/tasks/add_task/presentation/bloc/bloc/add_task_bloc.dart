@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/modules/tasks/add_task/data/models/group_model.dart';
 import 'package:ts_system/modules/tasks/add_task/domain/usecases/add_task_usecase.dart';
+import 'package:ts_system/modules/tasks/add_task/domain/entities/group_attributes_item.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
 
 import 'add_task_event.dart';
@@ -19,6 +22,7 @@ class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
   final TextEditingController totalDurationController = TextEditingController();
   bool automaticTimeSelection = false;
   final formKey = GlobalKey<FormState>();
+  List<GroupAttributesItems?> groupAttributesItems = [];
   String groupId = "1";
 
   List<String> generateTimeSlots() {
@@ -84,9 +88,37 @@ class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
 
   AddTaskBloc() : super(AddTaskInitial()) {
     on<AddTaskInitialEvent>(onAddTaskInitialEvent);
+    on<GroupEvent>(onGroupEvent);
     totalDurationController.text = AppUtils.zeroDuration;
     startTimeController.text = generateTimeSlots()[0];
     endTimeController.text = generateTimeSlots()[0];
+  }
+
+  FutureOr<void> onGroupEvent(
+      GroupEvent event, Emitter<AddTaskState> emit) async {
+    emit(GroupLoading());
+
+    final repository = serviceLocator<GroupUseCase>();
+    final response = await repository.invoke();
+
+    if (response.isLeft) {
+      emit(GroupFailure());
+    } else {
+      final model = groupModelFromJson(jsonEncode(response.right));
+      groupAttributesItems = model
+          .map((e) => GroupAttributesItems(
+                grpId: e.grpId ?? "",
+                grpName: e.grpName ?? "",
+                grpInfo: e.grpInfo ?? "",
+                grpLead: e.grpLead ?? "",
+                grpMember: e.grpMember ?? "",
+                grpBlockmember: e.grpBlockmember ?? "",
+                grpIsdeleted: e.grpIsdeleted ?? "",
+              ))
+          .toList();
+
+      emit(GroupSuccess(groupAttributesItems));
+    }
   }
 
   FutureOr<void> onAddTaskInitialEvent(

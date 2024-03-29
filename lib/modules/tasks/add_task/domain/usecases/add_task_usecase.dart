@@ -11,3 +11,10 @@ class AddTaskUseCase implements UseCaseOneInput<AddTaskRequestModel, dynamic> {
     return await serviceLocator.get<AddTaskRepository>().addTask(body: body);
   }
 }
+
+class GroupUseCase implements UseCaseNoInput {
+  @override
+  Future<Either<Failure, dynamic>> invoke() async {
+    return await serviceLocator.get<GroupRepository>().getGroup();
+  }
+}

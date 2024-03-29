@@ -7,3 +7,7 @@ abstract class AddTaskRepository {
     required AddTaskRequestModel body,
   });
 }
+
+abstract class GroupRepository {
+  Future<Either<Failure, dynamic>> getGroup();
+}

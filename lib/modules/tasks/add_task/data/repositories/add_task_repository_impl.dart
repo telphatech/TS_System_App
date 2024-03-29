@@ -29,3 +29,24 @@ class AddTaskRepositoryImpl implements AddTaskRepository {
     }
   }
 }
+
+class GroupRepositoryImpl implements GroupRepository {
+  final _apiProvider = ApiProvider();
+
+  @override
+  Future<Either<Failure, dynamic>> getGroup() async {
+    try {
+      final response = await _apiProvider.getData(
+        baseUrl: F.apiBaseUrl,
+        subUrl: "/api-fetchGrp.php",
+      );
+      if (response == null) {
+        return Left(ServerFailure(message: AppUtils.noResponseFromServerText));
+      } else {
+        return Right(response);
+      }
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+}

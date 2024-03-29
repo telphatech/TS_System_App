@@ -1,3 +1,5 @@
+import 'package:ts_system/modules/tasks/add_task/domain/entities/group_attributes_item.dart';
+
 abstract class AddTaskState {}
 
 class AddTaskInitial extends AddTaskState {}
@@ -17,3 +19,12 @@ class AddTaskError extends AddTaskState {
 }
 
 class AddTaskFailure extends AddTaskState {}
+
+class GroupLoading extends AddTaskState {}
+
+class GroupSuccess extends AddTaskState {
+  final List<GroupAttributesItems?> groupAttributesItems;
+  GroupSuccess(this.groupAttributesItems);
+}
+
+class GroupFailure extends AddTaskState {}

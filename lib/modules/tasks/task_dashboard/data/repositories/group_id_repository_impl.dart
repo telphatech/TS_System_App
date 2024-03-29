@@ -2,14 +2,14 @@ import 'package:either_dart/either.dart';
 import 'package:ts_system/config/flavors.dart';
 import 'package:ts_system/core/error/failure.dart';
 import 'package:ts_system/core/network/api_provider.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/domain/repositories/group_repository.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/domain/repositories/group_id_repository.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
 
-class GroupRepositoryImpl implements GroupRepository {
+class GroupIdRepositoryImpl implements GroupIdRepository {
   final _apiProvider = ApiProvider();
 
   @override
-  Future<Either<Failure, dynamic>> getGroup(String grpId) async {
+  Future<Either<Failure, dynamic>> getGroupId(String grpId) async {
     try {
       final response = await _apiProvider.getData(
         baseUrl: F.apiBaseUrl,

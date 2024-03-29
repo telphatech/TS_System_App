@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class GroupAttributesItems extends Equatable {
+class GroupIdAttributesItems extends Equatable {
   final String? grpId;
   final String? grpName;
 
-  const GroupAttributesItems({
+  const GroupIdAttributesItems({
     this.grpId,
     this.grpName,
   });

@@ -10,3 +10,10 @@ class TaskUseCase implements UseCaseOneInput {
     return await serviceLocator.get<TaskRepository>().getTask(body);
   }
 }
+
+class DeleteTaskUseCase implements UseCaseOneInput {
+  @override
+  Future<Either<Failure, dynamic>> invoke(tmshId) async {
+    return await serviceLocator.get<DeleteTaskRepository>().deleteTask(tmshId);
+  }
+}

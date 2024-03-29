@@ -80,7 +80,7 @@ class TaskLists extends StatelessWidget {
                                     grpId: item?.tmshGroupId ?? "1")),
                               child: BlocBuilder<TaskBloc, TaskState>(
                                 builder: (context, state) {
-                                  if (state is GroupSuccess) {
+                                  if (state is GroupIdSuccess) {
                                     return Text(
                                       state.groupAttributesItems?.grpName ??
                                           "Training Team",
@@ -123,7 +123,8 @@ class TaskLists extends StatelessWidget {
                             if (value == 'edit') {
                               // widget.onEditTaskDetailsTap!();
                             } else if (value == 'delete') {
-                              //  widget.onDeleteTaskDetailsTap!();
+                              BlocProvider.of<TaskBloc>(context)
+                                  .add(OnDeleteTask(tmshId: item?.tmshId));
                             }
                           },
                           itemBuilder: (BuildContext context) => [

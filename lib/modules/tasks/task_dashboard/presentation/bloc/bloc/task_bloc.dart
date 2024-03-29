@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/core/services/locator.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/data/models/group.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/data/models/group_id.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/data/models/task.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/entities/group_attributes_item.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/entities/task_attributes_item.dart';
-import 'package:ts_system/modules/tasks/task_dashboard/domain/usecases/group_usecases.dart';
+import 'package:ts_system/modules/tasks/task_dashboard/domain/usecases/group_id_usecases.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/usecases/task_usecases.dart';
 import 'task_event.dart';
 import 'task_state.dart';
@@ -18,7 +18,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   bool isToday = true;
   DateTime date = DateTime.now();
   List<TaskAttributesItems?> taskAttributesItems = [];
-  GroupAttributesItems? groupAttributesItems;
+  GroupIdAttributesItems? groupIdAttributesItems;
   DateTime getSelectedDate = DateTime.now();
   String message = '';
   bool isCurrentDate = true;
@@ -90,21 +90,21 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   Future<void> groupIdEvent(GroupIdEvent event, Emitter<TaskState> emit) async {
     emit(GroupLoading());
 
-    final groupRepository = serviceLocator<GroupUseCase>();
-    final groupResponse = await groupRepository.invoke(event.grpId);
+    final groupIdRepository = serviceLocator<GroupIdUseCase>();
+    final groupIdResponse = await groupIdRepository.invoke(event.grpId);
 
-    if (groupResponse.isLeft) {
+    if (groupIdResponse.isLeft) {
       emit(GroupFailure());
     } else {
       try {
-        final groupModel = groupFromJson(jsonEncode(groupResponse.right));
+        final groupIdModel = groupIdFromJson(jsonEncode(groupIdResponse.right));
 
-        groupAttributesItems = GroupAttributesItems(
-          grpId: groupModel.grpId ?? "",
-          grpName: groupModel.grpName ?? "",
+        groupIdAttributesItems = GroupIdAttributesItems(
+          grpId: groupIdModel.grpId ?? "",
+          grpName: groupIdModel.grpName ?? "",
         );
 
-        emit(GroupSuccess(groupAttributesItems));
+        emit(GroupIdSuccess(groupIdAttributesItems));
       } catch (e) {
         emit(GroupFailure());
         Log.error(e.toString());
@@ -114,6 +114,24 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   Future<void> onDeleteTaskEvent(
       OnDeleteTask event, Emitter<TaskState> emit) async {
-    emit(TaskLoading());
+    emit(DeleteTaskLoading());
+
+    final repository = serviceLocator<DeleteTaskUseCase>();
+    final response = await repository.invoke(event.tmshId);
+
+    if (response.isLeft) {
+      emit(DeleteTaskFailure());
+    } else {
+      try {
+        if (response.right["status"] == "success") {
+          emit(DeleteTaskSuccess(response.right["message"]));
+        } else {
+          emit(DeleteTaskError(response.right["message"]));
+        }
+      } catch (e) {
+        emit(DeleteTaskFailure());
+        Log.error(e.toString());
+      }
+    }
   }
 }

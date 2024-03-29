@@ -6,3 +6,5 @@ class AddTaskInitialEvent extends AddTaskEvent {
   AddTaskRequestModel addTaskRequestModel;
   AddTaskInitialEvent({required this.addTaskRequestModel});
 }
+
+class GroupEvent extends AddTaskEvent {}

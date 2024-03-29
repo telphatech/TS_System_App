@@ -25,8 +25,7 @@ class SortTasksEvent extends TaskEvent {
 }
 
 class OnDeleteTask extends TaskEvent {
-  final Task body;
-  final int? index;
+  final String? tmshId;
 
-  OnDeleteTask(this.body, {this.index});
+  OnDeleteTask({this.tmshId});
 }

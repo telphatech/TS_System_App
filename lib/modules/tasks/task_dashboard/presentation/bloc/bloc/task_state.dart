@@ -3,30 +3,44 @@ import 'package:ts_system/modules/tasks/task_dashboard/domain/entities/task_attr
 
 abstract class TaskState {}
 
-final class TaskInitial extends TaskState {}
+class TaskInitial extends TaskState {}
 
-final class TaskEmpty extends TaskState {}
+class TaskEmpty extends TaskState {}
 
-final class TaskLoading extends TaskState {}
+class TaskLoading extends TaskState {}
 
-final class TaskSuccess extends TaskState {
+class TaskSuccess extends TaskState {
   List<TaskAttributesItems?> taskAttributesItems = [];
   TaskSuccess(this.taskAttributesItems);
 }
 
-final class GroupSuccess extends TaskState {
-  GroupAttributesItems? groupAttributesItems;
-  GroupSuccess(this.groupAttributesItems);
-}
-
-final class GroupLoading extends TaskState {}
-
-final class GroupFailure extends TaskState {}
-
-final class TaskError extends TaskState {
+class TaskError extends TaskState {
   final String message;
 
   TaskError(this.message);
 }
 
-final class TaskFailure extends TaskState {}
+class TaskFailure extends TaskState {}
+
+class DeleteTaskLoading extends TaskState {}
+
+class DeleteTaskSuccess extends TaskState {
+  final String message;
+  DeleteTaskSuccess(this.message);
+}
+
+class DeleteTaskError extends TaskState {
+  final String message;
+  DeleteTaskError(this.message);
+}
+
+class DeleteTaskFailure extends TaskState {}
+
+class GroupIdSuccess extends TaskState {
+  GroupIdAttributesItems? groupAttributesItems;
+  GroupIdSuccess(this.groupAttributesItems);
+}
+
+class GroupLoading extends TaskState {}
+
+class GroupFailure extends TaskState {}
