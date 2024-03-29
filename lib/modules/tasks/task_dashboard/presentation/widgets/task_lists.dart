@@ -43,6 +43,7 @@ class TaskLists extends StatelessWidget {
                   const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
               decoration: BoxDecoration(
                 color: TTColors.lightContainer,
+                border: Border.all(width: 1, color: TTColors.primary),
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 boxShadow: [
                   BoxShadow(

@@ -98,7 +98,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
                               BlocProvider.of<TaskBloc>(context)
                                   .add(TaskInitialEvent(
                                 employeeUID: sharedPreferenceService.empID,
-                                dateList: DateFormat("yyyy-mm-dd").format(
+                                dateList: DateFormat("yyyy-MM-dd").format(
                                     BlocProvider.of<TaskBloc>(context,
                                             listen: false)
                                         .getSelectedDate),

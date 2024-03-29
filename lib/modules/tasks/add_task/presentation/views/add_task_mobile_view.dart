@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/core/services/shared_preference.dart';
+import 'package:ts_system/modules/tasks/add_task/data/models/add_task_request_model.dart';
 import 'package:ts_system/modules/tasks/add_task/presentation/bloc/bloc/add_task_bloc.dart';
 import 'package:ts_system/modules/tasks/add_task/presentation/bloc/bloc/add_task_event.dart';
 import 'package:ts_system/modules/tasks/add_task/presentation/bloc/bloc/add_task_state.dart';
@@ -28,33 +30,7 @@ class AddTaskMobileView extends StatefulWidget {
 }
 
 class _AddTaskMobileViewState extends State<AddTaskMobileView> {
-  bool isWholeDaySelected = false;
-  TimeOfDay startTime = const TimeOfDay(hour: 9, minute: 0);
-  TimeOfDay endTime = const TimeOfDay(hour: 9, minute: 0);
-
-  String selectedProject = '';
-  String selectedTaskType = '';
-  String taskName = '';
-  String durationText = 'Duration: 00 Hours';
-
-  void calculateDuration() {
-    if (isWholeDaySelected) {
-      int durationHours = 9 + endTime.hour - startTime.hour;
-      setState(() {
-        durationText =
-            'Duration: ${durationHours.toString().padLeft(2, '0')} Hours';
-      });
-    } else {
-      final start = DateTime(2024, 1, 1, startTime.hour, startTime.minute);
-      final end = DateTime(2024, 1, 1, endTime.hour, endTime.minute);
-      final duration = end.difference(start);
-
-      setState(() {
-        durationText =
-            'Duration: ${(duration.inHours).toString().padLeft(2, '0')} Hours';
-      });
-    }
-  }
+  final customSnackBarService = serviceLocator<CustomSnackBarService>();
 
   @override
   Widget build(BuildContext context) {
@@ -96,44 +72,59 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CheckboxMenuButton(
-                            value: isWholeDaySelected,
-                            onChanged: (value) {
-                              setState(() {
-                                isWholeDaySelected = value ?? false;
-                                if (isWholeDaySelected) {
-                                  BlocProvider.of<AddTaskBloc>(context)
-                                      .startTimeController
-                                      .text = startTime.format(context);
-                                  BlocProvider.of<AddTaskBloc>(context)
-                                      .endTimeController
-                                      .text = endTime.format(context);
-                                  calculateDuration();
-                                } else {
-                                  BlocProvider.of<AddTaskBloc>(context)
-                                      .startTimeController
-                                      .clear();
-                                  BlocProvider.of<AddTaskBloc>(context)
-                                      .endTimeController
-                                      .clear();
-                                  startTime = TimeOfDay.now();
-                                  endTime = TimeOfDay.now();
+                        Row(
+                          children: [
+                            Checkbox(
+                                visualDensity: const VisualDensity(
+                                    horizontal: -4, vertical: -4),
+                                side: const BorderSide(
+                                    color: TTColors.primary, width: 2),
+                                activeColor: TTColors.primary,
+                                value: BlocProvider.of<AddTaskBloc>(context,
+                                        listen: false)
+                                    .automaticTimeSelection,
+                                onChanged: (value) {
+                                  setState(() {
+                                    BlocProvider.of<AddTaskBloc>(context)
+                                        .automaticTimeSelection = value!;
+                                  });
+                                  if (BlocProvider.of<AddTaskBloc>(context)
+                                      .automaticTimeSelection) {
+                                    BlocProvider.of<AddTaskBloc>(context)
+                                            .startTimeController
+                                            .text =
+                                        BlocProvider.of<AddTaskBloc>(context)
+                                            .generateTimeSlots()[37];
+                                    BlocProvider.of<AddTaskBloc>(context)
+                                            .endTimeController
+                                            .text =
+                                        BlocProvider.of<AddTaskBloc>(context)
+                                            .generateTimeSlots()
+                                            .last;
 
-                                  final start = DateTime(2024, 1, 1,
-                                      startTime.hour, startTime.minute);
-                                  final end = DateTime(
-                                      2024, 1, 1, endTime.hour, endTime.minute);
+                                    BlocProvider.of<AddTaskBloc>(context)
+                                        .updateTotalDuration();
+                                  } else {
+                                    BlocProvider.of<AddTaskBloc>(context)
+                                            .startTimeController
+                                            .text =
+                                        BlocProvider.of<AddTaskBloc>(context)
+                                            .generateTimeSlots()[0];
+                                    BlocProvider.of<AddTaskBloc>(context)
+                                            .endTimeController
+                                            .text =
+                                        BlocProvider.of<AddTaskBloc>(context)
+                                            .generateTimeSlots()[0];
 
-                                  final duration = end.difference(start);
-
-                                  durationText =
-                                      'Duration: ${(duration.inHours).toString().padLeft(2, '0')} Hours';
-                                }
-                              });
-                            },
-                            child:
-                                Text('Whole Day', style: TTypography.normal)),
-                        UIHelpers.verticalSpaceTiny,
+                                    BlocProvider.of<AddTaskBloc>(context)
+                                        .updateTotalDuration();
+                                  }
+                                }),
+                            UIHelpers.horizontalSpaceTiny,
+                            Text('Whole Day', style: TTypography.normal),
+                          ],
+                        ),
+                        UIHelpers.verticalSpaceMedium,
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -148,41 +139,45 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                         const Text('Start Time'),
                                       ],
                                     ),
-                                    UIHelpers.verticalSpaceSmall,
-                                    AppInputField(
-                                      readOnly: true,
-                                      hint: '09:00 PM',
-                                      controller:
-                                          BlocProvider.of<AddTaskBloc>(context)
-                                              .startTimeController,
-                                      trailing: const Icon(
-                                        Icons.timer,
-                                        color: TTColors.primary,
-                                      ),
-                                      trailingTapped: () async {
-                                        final addTaskBloc =
-                                            BlocProvider.of<AddTaskBloc>(
-                                                context);
-                                        if (!isWholeDaySelected) {
-                                          TimeOfDay? pickedDate =
-                                              await showTimePicker(
-                                                  context: context,
-                                                  initialTime: startTime);
-
-                                          if (pickedDate != null) {
-                                            startTime = pickedDate;
-                                            addTaskBloc
-                                                    .startTimeController.text =
-                                                startTime.format(context);
-                                            calculateDuration();
-                                          }
-                                        } else {
-                                          CustomSnackBarService()
-                                              .showWarningSnackBar(context,
-                                                  message:
-                                                      'Please uncheck the whole day.');
+                                    UIHelpers.verticalSpaceTiny,
+                                    CustomSearchDropdown(
+                                      hintText: 'Select',
+                                      validator: (value) {
+                                        if (value == "" ||
+                                            value == "Select" ||
+                                            value == null) {
+                                          return "* Required";
                                         }
+                                        return null;
                                       },
+                                      isEnable: !BlocProvider.of<AddTaskBloc>(
+                                              context,
+                                              listen: false)
+                                          .automaticTimeSelection,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          BlocProvider.of<AddTaskBloc>(context)
+                                              .startTimeController
+                                              .text = value ?? "00:00";
+
+                                          BlocProvider.of<AddTaskBloc>(context)
+                                              .endTimeController
+                                              .text = 'Select';
+
+                                          BlocProvider.of<AddTaskBloc>(context)
+                                              .updateTotalDuration();
+                                        });
+                                      },
+                                      items:
+                                          BlocProvider.of<AddTaskBloc>(context)
+                                              .generateTimeSlots(),
+                                      selectedValue:
+                                          BlocProvider.of<AddTaskBloc>(context,
+                                                  listen: false)
+                                              .startTimeController
+                                              .text,
+                                      showSearchBox: false,
+                                      isMenu: true,
                                     ),
                                   ],
                                 ),
@@ -199,42 +194,53 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                                         const Text('End Time'),
                                       ],
                                     ),
-                                    UIHelpers.verticalSpaceSmall,
-                                    AppInputField(
-                                      readOnly: true,
-                                      hint: '09:00 PM',
-                                      controller:
-                                          BlocProvider.of<AddTaskBloc>(context)
-                                              .endTimeController,
-                                      trailing: const Icon(
-                                        Icons.timer,
-                                        color: TTColors.primary,
-                                      ),
-                                      trailingTapped: () async {
-                                        final addTaskBloc =
+                                    UIHelpers.verticalSpaceTiny,
+                                    CustomSearchDropdown(
+                                      isEnable: !BlocProvider.of<AddTaskBloc>(
+                                              context,
+                                              listen: false)
+                                          .automaticTimeSelection,
+                                      onChanged: (value) {
+                                        if (BlocProvider.of<AddTaskBloc>(
+                                                context,
+                                                listen: false)
+                                            .startTimeController
+                                            .text
+                                            .isNotEmpty) {
+                                          setState(() {
                                             BlocProvider.of<AddTaskBloc>(
-                                                context);
-                                        if (!isWholeDaySelected) {
-                                          TimeOfDay? pickedDate =
-                                              await showTimePicker(
-                                                  context: context,
-                                                  initialTime: endTime);
-                                          if (pickedDate != null) {
-                                            if (!isWholeDaySelected) {
-                                              endTime = pickedDate;
-                                              addTaskBloc
-                                                      .endTimeController.text =
-                                                  endTime.format(context);
-                                              calculateDuration();
-                                            }
-                                          }
-                                        } else {
-                                          CustomSnackBarService()
-                                              .showWarningSnackBar(context,
-                                                  message:
-                                                      'Please uncheck the whole day.');
+                                                    context)
+                                                .endTimeController
+                                                .text = value ?? "00:00";
+                                          });
+
+                                          BlocProvider.of<AddTaskBloc>(context)
+                                              .updateTotalDuration();
                                         }
                                       },
+                                      hintText: 'Select',
+                                      validator: (value) {
+                                        if (value == "" ||
+                                            value == "Select" ||
+                                            value == null) {
+                                          return "* Required";
+                                        }
+                                        return null;
+                                      },
+                                      items:
+                                          BlocProvider.of<AddTaskBloc>(context)
+                                              .generateEndTimeSlots(
+                                                  BlocProvider.of<AddTaskBloc>(
+                                                          context)
+                                                      .startTimeController
+                                                      .text),
+                                      selectedValue:
+                                          BlocProvider.of<AddTaskBloc>(context,
+                                                  listen: false)
+                                              .endTimeController
+                                              .text,
+                                      showSearchBox: false,
+                                      isMenu: true,
                                     ),
                                   ],
                                 ),
@@ -248,7 +254,8 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                               color: TTColors.primary,
                             ),
                             UIHelpers.horizontalSpaceTiny,
-                            Text(durationText),
+                            Text(
+                                "Duration : ${BlocProvider.of<AddTaskBloc>(context, listen: false).totalDurationController.text}"),
                           ],
                         ),
                         UIHelpers.verticalSpaceMedium,
@@ -286,13 +293,55 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
                           width: double.infinity,
                           child: CustomElevatedButton(
                               onPressed: () {
-                                if (BlocProvider.of<AddTaskBloc>(context)
-                                        .formKey
-                                        .currentState
-                                        ?.validate() ==
-                                    true) {
-                                  BlocProvider.of<AddTaskBloc>(context)
-                                      .add(AddTaskInitialEvent());
+                                if (BlocProvider.of<AddTaskBloc>(context,
+                                                listen: false)
+                                            .formKey
+                                            .currentState
+                                            ?.validate() ==
+                                        true &&
+                                    BlocProvider.of<AddTaskBloc>(context,
+                                            listen: false)
+                                        .startTimeController
+                                        .text
+                                        .isNotEmpty &&
+                                    BlocProvider.of<AddTaskBloc>(context,
+                                            listen: false)
+                                        .endTimeController
+                                        .text
+                                        .isNotEmpty) {
+                                  BlocProvider.of<AddTaskBloc>(context).add(
+                                      AddTaskInitialEvent(
+                                          addTaskRequestModel:
+                                              AddTaskRequestModel(
+                                    tmshTitle: BlocProvider.of<AddTaskBloc>(
+                                            context,
+                                            listen: false)
+                                        .taskNameController
+                                        .text,
+                                    tmshDescription:
+                                        BlocProvider.of<AddTaskBloc>(context,
+                                                listen: false)
+                                            .taskDescController
+                                            .text,
+                                    tmshMemberId: serviceLocator<
+                                            SharedPreferenceService>()
+                                        .empID,
+                                    tmshGroupId:
+                                        BlocProvider.of<AddTaskBloc>(context)
+                                            .groupId,
+                                    tmshStartTime: DateTimeFormat(
+                                        context,
+                                        BlocProvider.of<AddTaskBloc>(context,
+                                                listen: false)
+                                            .startTimeController
+                                            .text),
+                                    tmshEndTime: DateTimeFormat(
+                                        context,
+                                        BlocProvider.of<AddTaskBloc>(context,
+                                                listen: false)
+                                            .endTimeController
+                                            .text),
+                                  )));
                                 } else {
                                   serviceLocator<CustomSnackBarService>()
                                       .showWarningSnackBar(context,
@@ -331,5 +380,17 @@ class _AddTaskMobileViewState extends State<AddTaskMobileView> {
         ),
       ),
     );
+  }
+
+  DateTime DateTimeFormat(BuildContext context, String date) {
+    return DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+        int.parse(date.split(":")[0]),
+        int.parse(
+          date.split(":")[1],
+        ),
+        DateTime.now().second);
   }
 }

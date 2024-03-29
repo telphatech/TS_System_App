@@ -12,6 +12,7 @@ class AppUtils {
   static const String welcome = "Welcome";
   static const String fillTheForm =
       "Fill the form to be part of Telphatech LLP";
+  static const String zeroDuration = "00 hours 00 minutes";
   static const String resourceErrorMessage =
       "There was an error retrieving the resource. Click here to try again.";
 
