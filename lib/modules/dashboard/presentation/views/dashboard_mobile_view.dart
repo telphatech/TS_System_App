@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/data/models/checkin_model.dart';
 import 'package:ts_system/modules/dashboard/presentation/bloc/bloc/check_in_bloc.dart';
 import 'package:ts_system/modules/dashboard/presentation/bloc/bloc/check_in_event.dart';
@@ -37,7 +38,7 @@ class DashboardMobileView extends StatelessWidget {
                 message: state.message,
               );
             } else if (state is CheckInError) {
-              serviceLocator<CustomSnackBarService>().showErrorSnackBar(
+              serviceLocator<CustomSnackBarService>().showInfoSnackBar(
                 context,
                 message: state.message,
               );
@@ -100,29 +101,24 @@ class DashboardMobileView extends StatelessWidget {
                         width: double.infinity,
                         child: CustomElevatedButton(
                             backgroundColor:
-                                BlocProvider.of<CheckInBloc>(context)
-                                            .isCheckedIn ??
-                                        false
+                                serviceLocator<SharedPreferenceService>()
+                                        .isCheckedIn
                                     ? TTColors.accent
                                     : TTColors.primary,
-                            borderColor: BlocProvider.of<CheckInBloc>(context)
-                                        .isCheckedIn ??
-                                    false
-                                ? TTColors.accent
-                                : TTColors.primary,
+                            borderColor:
+                                serviceLocator<SharedPreferenceService>()
+                                        .isCheckedIn
+                                    ? TTColors.accent
+                                    : TTColors.primary,
                             iconColor: TTColors.white,
-                            iconData: BlocProvider.of<CheckInBloc>(context)
-                                        .isCheckedIn ??
-                                    false
+                            iconData: serviceLocator<SharedPreferenceService>()
+                                    .isCheckedIn
                                 ? Icons.logout
                                 : Icons.login,
                             onPressed: () {
                               BlocProvider.of<CheckInBloc>(context).add(
-                                  BlocProvider.of<CheckInBloc>(
-                                            context,
-                                            listen: false,
-                                          ).isCheckedIn ??
-                                          false
+                                  serviceLocator<SharedPreferenceService>()
+                                          .isCheckedIn
                                       ? CheckOutInitialEvent(
                                           memberId:
                                               BlocProvider.of<CheckInBloc>(
@@ -155,9 +151,10 @@ class DashboardMobileView extends StatelessWidget {
                                   return const Text(AppUtils.checkIn);
                                 }
                                 return Text(
-                                    BlocProvider.of<CheckInBloc>(context)
-                                            .btnName ??
-                                        AppUtils.checkOut);
+                                    serviceLocator<SharedPreferenceService>()
+                                            .isCheckedIn
+                                        ? AppUtils.checkOut
+                                        : AppUtils.checkIn);
                               },
                             ))),
                     UIHelpers.verticalSpaceMedium,

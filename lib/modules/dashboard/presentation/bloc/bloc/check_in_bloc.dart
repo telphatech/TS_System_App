@@ -10,7 +10,6 @@ import 'check_in_event.dart';
 import 'check_in_state.dart';
 
 class CheckInBloc extends Bloc<CheckInEvent, CheckInState> {
-  bool? isCheckedIn;
   String? btnName;
   String welcomeMsg = "";
   final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
@@ -36,22 +35,23 @@ class CheckInBloc extends Bloc<CheckInEvent, CheckInState> {
     final response = await repository.invoke(event.checkInModel);
 
     if (response.isLeft) {
-      isCheckedIn = false;
+      sharedPreferenceService.isCheckedIn = false;
       btnName = AppUtils.checkOut;
       emit(CheckInFailure());
     } else {
       try {
         if (response.right["status"] == "success") {
-          isCheckedIn = true;
+          sharedPreferenceService.isCheckedIn = true;
           btnName = AppUtils.checkIn;
           emit(CheckInSuccess(message: "You are checked-in"));
         } else {
-          isCheckedIn = false;
+          sharedPreferenceService.isCheckedIn = false;
           btnName = AppUtils.checkOut;
-          emit(CheckInError(message: AppUtils.failedToCheckIn));
+
+          emit(CheckInError(message: response.right["message"]));
         }
       } catch (e) {
-        isCheckedIn = false;
+        sharedPreferenceService.isCheckedIn = false;
         btnName = AppUtils.checkOut;
         emit(CheckInFailure());
       }
@@ -66,22 +66,22 @@ class CheckInBloc extends Bloc<CheckInEvent, CheckInState> {
     final response = await repository.invoke(event.memberId);
 
     if (response.isLeft) {
-      isCheckedIn = true;
+      sharedPreferenceService.isCheckedIn = true;
       btnName = AppUtils.checkIn;
       emit(CheckOutFailure());
     } else {
       try {
         if (response.right["status"] == "success") {
-          isCheckedIn = false;
+          sharedPreferenceService.isCheckedIn = false;
           btnName = AppUtils.checkOut;
           emit(CheckOutSuccess(message: "You are checked-out"));
         } else {
-          isCheckedIn = true;
+          sharedPreferenceService.isCheckedIn = true;
           btnName = AppUtils.checkIn;
           emit(CheckOutError(message: AppUtils.failedToCheckOut));
         }
       } catch (e) {
-        isCheckedIn = true;
+        sharedPreferenceService.isCheckedIn = true;
         btnName = AppUtils.checkIn;
         emit(CheckInFailure());
       }

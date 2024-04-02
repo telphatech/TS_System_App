@@ -18,6 +18,7 @@ class SharedPreferenceService {
   static const String NAME = "name";
   static const String TOKEN = "token";
   static const String IsLoggedIn = "isLoggedIn";
+  static const String IsCheckedIn = "isCheckedIn";
 
   void _saveToDisk<T>(String key, T content) {
     if (content is String) {
@@ -50,6 +51,7 @@ class SharedPreferenceService {
     await _sharedPreferences.remove(NAME);
     await _sharedPreferences.remove(TOKEN);
     await _sharedPreferences.remove(IsLoggedIn);
+    await _sharedPreferences.remove(IsCheckedIn);
   }
 
   String get empID => _getFromDisk(EMP_UID) ?? "";
@@ -72,4 +74,7 @@ class SharedPreferenceService {
 
   bool get isLoggedIn => _getFromDisk(IsLoggedIn) ?? false;
   set isLoggedIn(bool value) => _saveToDisk(IsLoggedIn, value);
+
+  bool get isCheckedIn => _getFromDisk(IsCheckedIn) ?? false;
+  set isCheckedIn(bool value) => _saveToDisk(IsCheckedIn, value);
 }
