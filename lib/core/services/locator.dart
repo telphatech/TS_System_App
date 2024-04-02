@@ -1,6 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
+import 'package:ts_system/modules/dashboard/data/repositories/checkin_repository_impl.dart';
+import 'package:ts_system/modules/dashboard/domain/repositories/checkin_repository.dart';
+import 'package:ts_system/modules/dashboard/domain/repositories/checkout_repository.dart';
+import 'package:ts_system/modules/dashboard/domain/usecases/checkin_usecase.dart';
+import 'package:ts_system/modules/dashboard/presentation/bloc/bloc/check_in_bloc.dart';
 import 'package:ts_system/modules/employee/view_employee/data/repositories/invite_employee_repository_impl.dart';
 import 'package:ts_system/modules/employee/view_employee/data/repositories/view_employee_repository_impl.dart';
 import 'package:ts_system/modules/employee/view_employee/domain/repositories/invite_employee_repository.dart';
@@ -97,4 +102,13 @@ void initializeDependencies() {
       EmployeeRegisterRepositoryImpl());
   serviceLocator.registerLazySingleton<EmployeeRegisterUseCase>(
       () => EmployeeRegisterUseCase());
+
+  // ************* CHECK IN & OUT ****************
+  serviceLocator.registerSingleton<CheckInBloc>(CheckInBloc());
+  serviceLocator.registerSingleton<CheckInRepository>(CheckInRepositoryImpl());
+  serviceLocator.registerLazySingleton<CheckInUseCase>(() => CheckInUseCase());
+  serviceLocator
+      .registerSingleton<CheckOutRepository>(CheckOutRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<CheckOutUseCase>(() => CheckOutUseCase());
 }

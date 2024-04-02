@@ -24,6 +24,12 @@ class AppUtils {
   static const String faq = "FAQ";
   static const String login = "LOGIN";
   static const String settings = "SETTINGS";
+  static const String checkIn = "Check In";
+  static const String checkOut = "Check Out";
+  static const String failedToCheckIn =
+      "Failed to check-in! Try after some time!!";
+  static const String failedToCheckOut =
+      "Failed to check-out! Try after some time!!";
 
   /// ********************* DRAWER OF HOME SCREEN *******************
 
