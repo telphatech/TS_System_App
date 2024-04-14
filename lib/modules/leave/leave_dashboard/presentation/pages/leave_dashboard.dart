@@ -18,7 +18,6 @@ class LeaveDashboard extends StatelessWidget {
       canPop: true,
       onPopInvoked: (didPop) {
         UIHelpers.hideKeyBoard();
-
         serviceLocator<AppRouter>().popAndPush(const DashboardRoute());
       },
       child: const Responsive(

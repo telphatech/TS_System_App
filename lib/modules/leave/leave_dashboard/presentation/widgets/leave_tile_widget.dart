@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ts_system/modules/leave/leave_dashboard/presentation/views/leave_dashboard_mobile_view.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/configuration_text_status.dart';
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';

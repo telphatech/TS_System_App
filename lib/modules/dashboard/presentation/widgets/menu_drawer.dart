@@ -1,10 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
+import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_title.dart';
 import 'package:ts_system/responsive.dart';
+import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
@@ -15,6 +19,7 @@ class MenuDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final commonService = Provider.of<CommonService>(context);
     final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
 
     return Padding(
@@ -61,9 +66,12 @@ class MenuDrawer extends StatelessWidget {
                 index: 0,
                 title: 'Dashboard',
                 leading: TTIcons.dashboard,
+                isSelected: commonService.selectedMenuItem == 0,
                 onTap: () {
-                  serviceLocator<AppRouter>()
-                      .popAndPush(const DashboardRoute());
+                  Provider.of<CommonService>(context, listen: false)
+                      .setSelectedMenuItem(0);
+                  serviceLocator<AppRouter>().popUntil(
+                      (route) => route.data?.name == DashboardRoute.name);
                 },
               ),
               UIHelpers.verticalSpaceTiny,
@@ -72,7 +80,10 @@ class MenuDrawer extends StatelessWidget {
                   index: 1,
                   title: 'Organization',
                   leading: Icons.business_rounded,
+                  isSelected: commonService.selectedMenuItem == 1,
                   onTap: () {
+                    Provider.of<CommonService>(context, listen: false)
+                        .setSelectedMenuItem(1);
                     serviceLocator<AppRouter>()
                         .popAndPush(const ViewEmployeeRoute());
                   },
@@ -83,14 +94,21 @@ class MenuDrawer extends StatelessWidget {
                   index: 3,
                   title: 'Groups',
                   leading: Icons.groups,
-                  onTap: () {},
+                  isSelected: commonService.selectedMenuItem == 3,
+                  onTap: () {
+                    Provider.of<CommonService>(context, listen: false)
+                        .setSelectedMenuItem(3);
+                  },
                 ),
               UIHelpers.verticalSpaceTiny,
               MenuTitle(
                 index: 4,
                 title: 'Leave',
                 leading: Icons.person_remove_outlined,
+                isSelected: commonService.selectedMenuItem == 4,
                 onTap: () {
+                  Provider.of<CommonService>(context, listen: false)
+                      .setSelectedMenuItem(4);
                   serviceLocator<AppRouter>()
                       .popAndPush(const LeaveDashboard());
                 },
@@ -100,7 +118,10 @@ class MenuDrawer extends StatelessWidget {
                 index: 5,
                 title: 'Timesheet',
                 leading: Icons.timelapse_outlined,
+                isSelected: commonService.selectedMenuItem == 5,
                 onTap: () {
+                  Provider.of<CommonService>(context, listen: false)
+                      .setSelectedMenuItem(5);
                   serviceLocator<AppRouter>().popAndPush(const TaskDashboard());
                 },
               ),
@@ -118,11 +139,38 @@ class MenuDrawer extends StatelessWidget {
                 child: MenuTitle(
                   index: 6,
                   title: 'Logout',
+                  isSelected: false,
                   leading: Icons.logout_outlined,
                   onTap: () {
-                    sharedPreferenceService.clearLoginData();
-                    sharedPreferenceService.isLoggedIn = false;
-                    serviceLocator<AppRouter>().replace(const LoginRoute());
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: const Text('Logout'),
+                              content: const Text('Do you want to logout?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    serviceLocator<AppRouter>().pop();
+                                    sharedPreferenceService.clearLoginData();
+                                    serviceLocator<AppRouter>()
+                                        .replace(const SplashRouteMobileView());
+                                  },
+                                  child: AppText.body(
+                                    'Yes',
+                                    color: TTColors.primary,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    serviceLocator<AppRouter>().pop();
+                                  },
+                                  child: AppText.body(
+                                    'No',
+                                    color: TTColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ));
                   },
                 ),
               ),

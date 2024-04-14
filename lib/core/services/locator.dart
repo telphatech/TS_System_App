@@ -13,6 +13,10 @@ import 'package:ts_system/modules/employee/view_employee/domain/repositories/vie
 import 'package:ts_system/modules/employee/view_employee/domain/usecases/invite_employee_usecases.dart';
 import 'package:ts_system/modules/employee/view_employee/domain/usecases/view_employee_usecases.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_bloc.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/data/repositories/fetch_count_repository_impl.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/repositories/fetch_count_repository.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_count_usecase.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/bloc/bloc/leave_bloc.dart';
 import 'package:ts_system/modules/login/employee_registration/data/repositories/employee_register_impl.dart';
 import 'package:ts_system/modules/login/employee_registration/domain/repositories/employee_register_repository.dart';
 import 'package:ts_system/modules/login/employee_registration/domain/usecases/employee_register_usecase.dart';
@@ -111,4 +115,11 @@ void initializeDependencies() {
       .registerSingleton<CheckOutRepository>(CheckOutRepositoryImpl());
   serviceLocator
       .registerLazySingleton<CheckOutUseCase>(() => CheckOutUseCase());
+
+  // ************* FETCH COUNT BY MEMBER ****************
+  serviceLocator.registerSingleton<LeaveBloc>(LeaveBloc());
+  serviceLocator
+      .registerSingleton<FetchCountRepository>(FetchCountRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<FetchCountUseCase>(() => FetchCountUseCase());
 }

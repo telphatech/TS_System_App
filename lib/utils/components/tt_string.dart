@@ -15,6 +15,8 @@ class AppUtils {
   static const String zeroDuration = "00 hours 00 minutes";
   static const String resourceErrorMessage =
       "There was an error retrieving the resource. Click here to try again.";
+  static const String oopsText = "Oops";
+  static const String somethingWentWrong = "Something went wrong";
 
   /// ********************* ABOUT SCREEN ****************************
 

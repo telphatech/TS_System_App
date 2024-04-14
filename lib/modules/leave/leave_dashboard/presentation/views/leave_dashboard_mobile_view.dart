@@ -1,12 +1,25 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/bloc/bloc/leave_bloc.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/application_list.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/configuration_text_status.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/holiday_widgets.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_appbar.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_type_container_widget.dart';
 import 'package:ts_system/utils/common/app_text.dart';
+import 'package:ts_system/utils/common_widgets/failure_widget.dart';
+import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
+import 'package:ts_system/utils/components/tt_string.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
@@ -15,144 +28,164 @@ class LeaveDashboardMobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const MenuDrawer(),
-      appBar: const PreferredSize(
-          preferredSize: Size(double.infinity, kToolbarHeight),
-          child: LeaveAppBar()),
-      body: Column(
-        children: [
-          UIHelpers.verticalSpaceRegular,
-          Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
+    return BlocProvider(
+      create: (context) => LeaveBloc(),
+      child: BlocConsumer<LeaveBloc, LeaveState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return Scaffold(
+            drawer: const MenuDrawer(),
+            appBar: const PreferredSize(
+                preferredSize: Size(double.infinity, kToolbarHeight),
+                child: LeaveAppBar()),
+            body: Column(
               children: [
-                Expanded(child: AppText.body5("Balance Leaves")),
-                AppText.body5underline("Leaves Policies",
-                    color: TTColors.primary),
-              ],
-            ),
-          ),
-          UIHelpers.verticalSpaceRegular,
-          SizedBox(
-            height: 170,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return const LeaveTypeContainerWidget();
-              },
-              separatorBuilder: (context, index) =>
-                  UIHelpers.horizontalSpaceSmall,
-              itemCount: 10,
-            ),
-          ),
-          UIHelpers.verticalSpaceRegular,
-          Flexible(
-            child: RefreshIndicator(
-              onRefresh: () async {},
-              child: ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return UIHelpers.verticalSpaceRegular;
-                  },
-                  itemCount: 10,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      padding: const EdgeInsets.fromLTRB(12, 11, 07, 12),
-                      decoration: BoxDecoration(
-                        color: TTColors.white,
-                        border: Border.all(
-                          width: 1,
-                          color: const Color.fromRGBO(174, 174, 174, 0.3),
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                UIHelpers.verticalSpaceRegular,
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: AppText.body5("Balance Leaves")),
+                    ],
+                  ),
+                ),
+                UIHelpers.verticalSpaceRegular,
+                Container(
+                  height: 170,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 05,
+                  ),
+                  width: UIHelpers.screenWidth(context),
+                  child: BlocProvider(
+                    create: (context) => LeaveBloc()
+                      ..add(LeaveFetchCountEvent(
+                          memberId: sharedPreferenceService.empID)),
+                    child: BlocBuilder<LeaveBloc, LeaveState>(
+                      builder: (context, state) {
+                        if (state is LeaveFetchCountSuccess) {
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              final fetchCount =
+                                  state.fetchCountAttributesItems[index];
+                              return LeaveTypeContainerWidget(
+                                leaveType: fetchCount?.leaveType ?? "",
+                                available: fetchCount?.available ?? 0,
+                                total: fetchCount?.total ?? 0,
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                UIHelpers.horizontalSpaceSmall,
+                            itemCount: state.fetchCountAttributesItems.length,
+                          );
+                        } else if (state is LeaveFetchCountLoading) {
+                          return const LoadingWidget(
+                              width: double.infinity, height: 50);
+                        } else if (state is LeaveFetchCountFailure) {
+                          return FailureWidget(onTap: () {
+                            BlocProvider.of<LeaveBloc>(context).add(
+                                LeaveFetchCountEvent(
+                                    memberId: sharedPreferenceService.empID));
+                          });
+                        } else {
+                          return const Center(
+                            child: Text(AppUtils.somethingWentWrong),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                UIHelpers.verticalSpaceRegular,
+                Flexible(
+                  flex: 2,
+                  child: DefaultTabController(
+                    length: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16),
                       child: Column(
                         children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.sick),
-                              UIHelpers.horizontalSpaceTiny,
-                              AppText.bodyBold("Casual Leave"),
-                            ],
-                          ),
-                          UIHelpers.verticalSpaceTiny,
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.calendar_month_rounded),
-                              UIHelpers.horizontalSpaceTiny,
-                              AppText.bodyBold("12 Feb to 14 Feb"),
-                            ],
-                          ),
-                          UIHelpers.verticalSpaceTiny,
-                          Container(
-                            width: double.infinity,
-                            height: 40,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: getStatusColor("Approved"),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Approved",
-                                style: TTypography.normal.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: getTextStatusColor("Approved"),
-                                  overflow: TextOverflow.ellipsis,
+                              Expanded(
+                                child: TabBar(
+                                  indicatorColor: TTColors.primary,
+                                  unselectedLabelColor: TTColors.grey,
+                                  labelStyle: TTypography.normal.copyWith(
+                                    fontSize:
+                                        UIHelpers.screenWidth(context) * 0.04,
+                                    fontWeight: FontWeight.w400,
+                                    color: TTColors.primary,
+                                  ),
+                                  unselectedLabelStyle:
+                                      TTypography.normal.copyWith(
+                                    fontSize:
+                                        UIHelpers.screenWidth(context) * 0.04,
+                                    fontWeight: FontWeight.w400,
+                                    color: TTColors.grey,
+                                  ),
+                                  indicatorSize: TabBarIndicatorSize.label,
+                                  dragStartBehavior: DragStartBehavior.start,
+                                  isScrollable: true,
+                                  tabAlignment: TabAlignment.start,
+                                  tabs: [
+                                    const Tab(text: 'Leaves'),
+                                    if (sharedPreferenceService.role == "admin")
+                                      const Tab(text: 'Requests'),
+                                    const Tab(text: 'Holidays'),
+                                  ],
                                 ),
                               ),
+                            ],
+                          ),
+                          UIHelpers.verticalSpaceRegular,
+                          Flexible(
+                            child: TabBarView(
+                              children: [
+                                ListView.separated(
+                                  itemBuilder: (context, index) {
+                                    return const ApplicationListWidget();
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                      UIHelpers.verticalSpaceRegular,
+                                  itemCount: 10,
+                                ),
+                                if (sharedPreferenceService.role == "admin")
+                                  ListView.separated(
+                                    itemBuilder: (context, index) {
+                                      return const ApplicationListWidget();
+                                    },
+                                    separatorBuilder: (context, index) =>
+                                        UIHelpers.verticalSpaceRegular,
+                                    itemCount: 5,
+                                  ),
+                                const HolidayWidget(),
+                              ],
                             ),
                           ),
-                          UIHelpers.verticalSpaceSmall,
                         ],
                       ),
-                    );
-                  }),
+                    ),
+                  ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: TTColors.primary,
-        onPressed: () {
-          serviceLocator<AppRouter>().push(const ApplyLeaveMobileView());
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: TTColors.primary,
+              onPressed: () {
+                serviceLocator<AppRouter>().push(const ApplyLeaveMobileView());
+              },
+              child: const Icon(
+                Icons.add,
+                color: TTColors.white,
+              ),
+            ),
+          );
         },
-        child: const Icon(
-          Icons.add,
-          color: TTColors.white,
-        ),
       ),
     );
   }
-}
-
-Color? getStatusColor(String status) {
-  if (status == "Approved") {
-    return const Color.fromRGBO(226, 242, 225, 1);
-  } else if (status == "Pending" || status == "Applied") {
-    return const Color.fromRGBO(237, 240, 204, 1);
-  }
-
-  return const Color.fromRGBO(249, 224, 224, 1);
-}
-
-Color? getTextStatusColor(String status) {
-  if (status == "Approved") {
-    return const Color.fromRGBO(82, 196, 26, 1);
-  } else if (status == "Pending") {
-    return const Color.fromRGBO(125, 131, 148, 1);
-  } else if (status == "Rejected") {
-    return const Color.fromRGBO(255, 77, 79, 1);
-  }
-  return const Color.fromRGBO(125, 131, 148, 1);
 }

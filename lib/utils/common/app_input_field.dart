@@ -77,9 +77,7 @@ class _AppInputFieldState extends State<AppInputField> {
               widget.onTap!();
             }
           },
-          onTapOutside: (event) {
-            FocusManager.instance.primaryFocus?.unfocus();
-          },
+
           validator: widget.validator,
           enabled: widget.enabled,
           focusNode: widget.focusNode,

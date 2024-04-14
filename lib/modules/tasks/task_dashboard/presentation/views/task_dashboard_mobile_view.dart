@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
+import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
@@ -36,6 +37,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    print(Provider.of<CommonService>(context, listen: false).selectedMenuItem);
     bool isSameDay(DateTime date1, DateTime date2) {
       return date1.year == date2.year &&
           date1.month == date2.month &&
@@ -44,7 +46,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
 
     return PopScope(
       canPop: true,
-      onPopInvoked: (didPop) async {
+      onPopInvoked: (didPop) {
         UIHelpers.hideKeyBoard();
         serviceLocator<AppRouter>().popAndPush(const DashboardRoute());
       },

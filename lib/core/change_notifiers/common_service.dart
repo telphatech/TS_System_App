@@ -3,8 +3,8 @@ import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 
 class CommonService extends ChangeNotifier {
-  int _selectedMenuItem = 0;
-  int get selectedMenuItem => _selectedMenuItem;
+  int? _selectedMenuItem = 0;
+  int? get selectedMenuItem => _selectedMenuItem;
 
   bool isExpandedOrganization = false;
 
@@ -21,9 +21,9 @@ class CommonService extends ChangeNotifier {
     notifyListeners();
   }
 
-  setSelectedMenuItem(int index) {
+  setSelectedMenuItem(int? index, {bool notify = true}) {
     _selectedMenuItem = index;
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   final sharedPreferenceService = serviceLocator<SharedPreferenceService>();

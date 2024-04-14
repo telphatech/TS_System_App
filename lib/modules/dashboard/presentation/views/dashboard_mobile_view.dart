@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/data/models/checkin_model.dart';
@@ -17,9 +18,25 @@ import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
+import 'package:provider/provider.dart';
 
-class DashboardMobileView extends StatelessWidget {
+class DashboardMobileView extends StatefulWidget {
   const DashboardMobileView({super.key});
+
+  @override
+  State<DashboardMobileView> createState() => _DashboardMobileViewState();
+}
+
+class _DashboardMobileViewState extends State<DashboardMobileView> {
+  @override
+  void initState() {
+    Provider.of<CommonService>(context, listen: false).setSelectedMenuItem(
+      0,
+      notify: false,
+    );
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

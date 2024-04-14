@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/core/change_notifiers/common_service.dart';
+import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/utils/components/tt_string.dart';
@@ -30,6 +31,8 @@ class _MyAppState extends State<MyApp> {
   final appRouter = serviceLocator<AppRouter>();
   @override
   Widget build(BuildContext context) {
+    Log.info(
+        "==> EMP ID: ${serviceLocator<SharedPreferenceService>().empID}\n==> ROLE: ${serviceLocator<SharedPreferenceService>().role}");
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

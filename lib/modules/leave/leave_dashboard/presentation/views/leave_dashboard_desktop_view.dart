@@ -39,7 +39,11 @@ class LeaveDashboardDesktopView extends StatelessWidget {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return const LeaveTypeContainerWidget();
+                        return const LeaveTypeContainerWidget(
+                          leaveType: "",
+                          available: 0,
+                          total: 0,
+                        );
                       },
                       separatorBuilder: (context, index) =>
                           UIHelpers.horizontalSpaceSmall,
