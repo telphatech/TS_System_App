@@ -20,3 +20,14 @@ class LeaveFetchCountSuccess extends LeaveState {
   List<FetchCountAttributesItems?> fetchCountAttributesItems;
   LeaveFetchCountSuccess(this.fetchCountAttributesItems);
 }
+
+class LeaveFetchLeavesInitial extends LeaveState {}
+
+class LeaveFetchLeavesLoading extends LeaveState {}
+
+class LeaveFetchLeavesFailure extends LeaveState {}
+
+class LeaveFetchLeavesSuccess extends LeaveState {
+  List<FetchLeaveAttributesItems?> fetchLeavesAttributesItems;
+  LeaveFetchLeavesSuccess(this.fetchLeavesAttributesItems);
+}

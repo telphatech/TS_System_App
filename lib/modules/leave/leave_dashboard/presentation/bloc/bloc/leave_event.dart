@@ -8,3 +8,8 @@ class LeaveFetchCountEvent extends LeaveEvent {
   final String? memberId;
   LeaveFetchCountEvent({this.memberId});
 }
+
+class LeaveFetchLeavesEvent extends LeaveEvent {
+  final String? memberId;
+  LeaveFetchLeavesEvent({this.memberId});
+}

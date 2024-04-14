@@ -3,15 +3,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leave_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/bloc/bloc/leave_bloc.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/application_list.dart';
-import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/configuration_text_status.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/holiday_widgets.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_appbar.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_type_container_widget.dart';
@@ -145,18 +144,72 @@ class LeaveDashboardMobileView extends StatelessWidget {
                           Flexible(
                             child: TabBarView(
                               children: [
-                                ListView.separated(
-                                  itemBuilder: (context, index) {
-                                    return const ApplicationListWidget();
-                                  },
-                                  separatorBuilder: (context, index) =>
-                                      UIHelpers.verticalSpaceRegular,
-                                  itemCount: 10,
+                                BlocProvider(
+                                  create: (context) => LeaveBloc()
+                                    ..add(LeaveFetchLeavesEvent(
+                                        memberId:
+                                            sharedPreferenceService.empID)),
+                                  child: RefreshIndicator(
+                                    onRefresh: () async {
+                                      BlocProvider.of<LeaveBloc>(context).add(
+                                        LeaveFetchLeavesEvent(
+                                          memberId:
+                                              sharedPreferenceService.empID,
+                                        ),
+                                      );
+                                    },
+                                    child: BlocBuilder<LeaveBloc, LeaveState>(
+                                      builder: (context, state) {
+                                        if (state is LeaveFetchLeavesSuccess) {
+                                          return ListView.separated(
+                                            itemBuilder: (context, index) {
+                                              return ApplicationListWidget(
+                                                fetchLeavesAttributesItems:
+                                                    state.fetchLeavesAttributesItems[
+                                                        index],
+                                              );
+                                            },
+                                            separatorBuilder: (context,
+                                                    index) =>
+                                                UIHelpers.verticalSpaceRegular,
+                                            itemCount: state
+                                                .fetchLeavesAttributesItems
+                                                .length,
+                                          );
+                                        } else if (state
+                                            is LeaveFetchLeavesLoading) {
+                                          return const LoadingWidget(
+                                              width: double.infinity,
+                                              height: 200);
+                                        } else if (state
+                                            is LeaveFetchLeavesFailure) {
+                                          return FailureWidget(onTap: () {
+                                            BlocProvider.of<LeaveBloc>(context)
+                                                .add(
+                                              LeaveFetchLeavesEvent(
+                                                memberId:
+                                                    sharedPreferenceService
+                                                        .empID,
+                                              ),
+                                            );
+                                          });
+                                        } else {
+                                          return const Center(
+                                            child: Text(
+                                                AppUtils.somethingWentWrong),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
                                 ),
                                 if (sharedPreferenceService.role == "admin")
                                   ListView.separated(
                                     itemBuilder: (context, index) {
-                                      return const ApplicationListWidget();
+                                      return ApplicationListWidget(
+                                        fetchLeavesAttributesItems:
+                                            FetchLeaveAttributesItems(),
+                                      );
                                     },
                                     separatorBuilder: (context, index) =>
                                         UIHelpers.verticalSpaceRegular,

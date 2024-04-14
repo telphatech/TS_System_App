@@ -1,16 +1,33 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leave_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/configuration_text_status.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
 class ApplicationListWidget extends StatelessWidget {
+  final FetchLeaveAttributesItems? fetchLeavesAttributesItems;
   const ApplicationListWidget({
+    required this.fetchLeavesAttributesItems,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    int calculateTotalDays(DateTime fromDate, DateTime toDate) {
+      final difference = toDate.difference(fromDate).inDays;
+      return max(1, difference + 1);
+    }
+
+    final fromDay = DateFormat('dd')
+        .format(fetchLeavesAttributesItems?.leaveFrom ?? DateTime.now());
+    final toDay = DateFormat('dd')
+        .format(fetchLeavesAttributesItems?.leaveTo ?? DateTime.now());
+    final fromMonth = DateFormat('MMM')
+        .format(fetchLeavesAttributesItems?.leaveFrom ?? DateTime.now());
     return InkWell(
       onTap: () {
         // serviceLocator<AppRouter>().push(
@@ -34,12 +51,12 @@ class ApplicationListWidget extends StatelessWidget {
               children: [
                 Icon(
                   Icons.calendar_month_rounded,
-                  size: UIHelpers.screenWidth(context) * 0.06,
+                  size: UIHelpers.screenWidth(context) * 0.10,
                   color: TTColors.primary,
                 ),
                 UIHelpers.verticalSpaceTiny,
                 Text(
-                  "Casual",
+                  fetchLeavesAttributesItems?.leaveType ?? "",
                   style: TTypography.normal.copyWith(
                     fontWeight: FontWeight.w300,
                     color: TTColors.primary,
@@ -49,74 +66,40 @@ class ApplicationListWidget extends StatelessWidget {
                 ),
               ],
             ),
-            UIHelpers.horizontalSpaceSmall,
+            UIHelpers.horizontalSpaceRegular,
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.calendar_month_rounded,
-                            size: 15,
-                            color: TTColors.grey,
-                          ),
-                          UIHelpers.horizontalSpaceTiny,
-                          SizedBox(
-                            width: UIHelpers.screenWidth(context) * 0.20,
-                            child: Text(
-                              "12 - 14 Apr",
-                              style: TTypography.normal.copyWith(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 15,
-                                color: TTColors.primary,
-                                overflow: TextOverflow.clip,
-                              ),
-                            ),
-                          ),
-                        ],
+                  SizedBox(
+                    width: UIHelpers.screenWidth(context) * 0.30,
+                    child: Text(
+                      "$fromDay - $toDay $fromMonth\n${calculateTotalDays(fetchLeavesAttributesItems?.leaveFrom ?? DateTime.now(), fetchLeavesAttributesItems?.leaveTo ?? DateTime.now())} Days",
+                      style: TTypography.normal.copyWith(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15,
+                        color: TTColors.primary,
+                        overflow: TextOverflow.clip,
                       ),
-                      UIHelpers.verticalSpaceTiny,
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.calendar_month_rounded,
-                            size: 16,
-                            color: TTColors.grey,
-                          ),
-                          UIHelpers.horizontalSpaceTiny,
-                          Text(
-                            "${10} days",
-                            style: TTypography.normal.copyWith(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 16,
-                              color: TTColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
                   Container(
                     width: UIHelpers.screenWidth(context) * 0.30,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: getStatusColor("Pending"),
+                      color: getStatusColor(
+                          fetchLeavesAttributesItems?.leaveStatus ?? ""),
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Center(
                       child: Text(
-                        "Pending",
+                        fetchLeavesAttributesItems?.leaveStatus ?? "",
                         style: TTypography.normal.copyWith(
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
-                          color: getTextStatusColor("Pending"),
+                          color: getTextStatusColor(
+                              fetchLeavesAttributesItems?.leaveStatus ?? ""),
                           overflow: TextOverflow.clip,
                         ),
                       ),

@@ -14,8 +14,11 @@ import 'package:ts_system/modules/employee/view_employee/domain/usecases/invite_
 import 'package:ts_system/modules/employee/view_employee/domain/usecases/view_employee_usecases.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_bloc.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/repositories/fetch_count_repository_impl.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/data/repositories/fetch_leave_repository_impl.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/repositories/fetch_count_repository.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/repositories/fetch_leave_repository.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_count_usecase.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_leave_usecase.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/bloc/bloc/leave_bloc.dart';
 import 'package:ts_system/modules/login/employee_registration/data/repositories/employee_register_impl.dart';
 import 'package:ts_system/modules/login/employee_registration/domain/repositories/employee_register_repository.dart';
@@ -122,4 +125,10 @@ void initializeDependencies() {
       .registerSingleton<FetchCountRepository>(FetchCountRepositoryImpl());
   serviceLocator
       .registerLazySingleton<FetchCountUseCase>(() => FetchCountUseCase());
+
+  // ********* FETCH LEAVES BY MEMBER ID ******************
+  serviceLocator
+      .registerSingleton<FetchLeavesRepository>(FetchLeavesRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<FetchLeavesUseCase>(() => FetchLeavesUseCase());
 }

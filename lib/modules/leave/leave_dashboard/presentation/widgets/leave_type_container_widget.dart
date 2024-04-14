@@ -19,7 +19,9 @@ class LeaveTypeContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double percentage = double.parse("$available") / double.parse("$total");
 
-    if (percentage <= 0.0 || double.parse("${total ?? 0}") <= 0) {
+    if (percentage <= 0.0 ||
+        percentage > 1.0 ||
+        double.parse("${total ?? 0}") <= 0) {
       percentage = 0.0;
     }
     return Card(
