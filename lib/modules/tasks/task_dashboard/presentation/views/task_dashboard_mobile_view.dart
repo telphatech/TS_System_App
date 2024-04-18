@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
-import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
@@ -17,8 +16,9 @@ import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/floa
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/task_lists.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/presentation/widgets/timesheet_appbar.dart';
 import 'package:ts_system/utils/common/custom_snackbar_service.dart';
-import 'package:ts_system/utils/common_widgets/custom_progress.dart';
 import 'package:ts_system/utils/common_widgets/empty_widget.dart';
+import 'package:ts_system/utils/common_widgets/failure_widget.dart';
+import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
@@ -37,7 +37,6 @@ class _TaskDashboardState extends State<TaskDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    print(Provider.of<CommonService>(context, listen: false).selectedMenuItem);
     bool isSameDay(DateTime date1, DateTime date2) {
       return date1.year == date2.year &&
           date1.month == date2.month &&
@@ -70,8 +69,9 @@ class _TaskDashboardState extends State<TaskDashboard> {
                   .showSuccessSnackBar(context, message: state.message);
             } else if (state is DeleteTaskFailure) {
               serviceLocator<CustomSnackBarService>().showSuccessSnackBar(
-                  context,
-                  message: "Something Went Wrong!!");
+                context,
+                message: "Something Went Wrong!!",
+              );
             }
           },
           builder: (context, state) {
@@ -139,8 +139,24 @@ class _TaskDashboardState extends State<TaskDashboard> {
                             taskAttributesItems: state.taskAttributesItems);
                       } else if (state is TaskEmpty) {
                         return emptyWidget();
+                      } else if (state is TaskLoading) {
+                        return const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: LoadingWidget(
+                              width: double.infinity, height: 200),
+                        );
+                      } else if (state is TaskFailure || state is TaskError) {
+                        return FailureWidget(onTap: () {
+                          BlocProvider.of<TaskBloc>(context)
+                              .add(TaskInitialEvent(
+                            employeeUID:
+                                serviceLocator<SharedPreferenceService>().empID,
+                            dateList:
+                                DateFormat("yyyy-MM-dd").format(DateTime.now()),
+                          ));
+                        });
                       } else {
-                        return const Expanded(child: CustomProgress());
+                        return emptyWidget();
                       }
                     },
                   ),

@@ -36,30 +36,42 @@ class _LoginMobileViewState extends State<LoginMobileView> {
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
-            CustomSnackBarService().showSuccessSnackBar(context,
-                title: state.empLoginAttributesItems?.status ?? "",
-                message: state.empLoginAttributesItems?.message ?? "");
+            CustomSnackBarService().showSuccessSnackBar(
+              context,
+              title: state.empLoginAttributesItems?.status ?? "",
+              message: state.empLoginAttributesItems?.message ?? "",
+            );
+
             BlocProvider.of<LoginBloc>(context).refIdController.clear();
             BlocProvider.of<LoginBloc>(context).passwordController.clear();
+
             serviceLocator<AppRouter>().replace(const DashboardRoute());
           } else if (state is LoginError) {
-            CustomSnackBarService().showErrorSnackBar(context,
-                title: state.empLoginAttributesItems?.status ?? "",
-                message: state.empLoginAttributesItems?.message ?? "");
+            CustomSnackBarService().showErrorSnackBar(
+              context,
+              title: state.empLoginAttributesItems?.status ?? "",
+              message: state.empLoginAttributesItems?.message ?? "",
+            );
           } else if (state is InvitationCodeError) {
-            CustomSnackBarService()
-                .showErrorSnackBar(context, message: "Invalid invitation code");
+            CustomSnackBarService().showErrorSnackBar(
+              context,
+              message: "Invalid invitation code",
+            );
             BlocProvider.of<LoginBloc>(context).codeController.clear();
             serviceLocator<AppRouter>().pop();
           } else if (state is InvitationCodeFailure) {
-            CustomSnackBarService()
-                .showErrorSnackBar(context, message: "Something went Wrong!!");
+            CustomSnackBarService().showErrorSnackBar(
+              context,
+              message: "Something went Wrong!!",
+            );
             BlocProvider.of<LoginBloc>(context).codeController.clear();
             serviceLocator<AppRouter>().pop();
           } else if (state is InvitationCodeSuccess) {
             BlocProvider.of<LoginBloc>(context).codeController.clear();
-            serviceLocator<AppRouter>().replace(EmployeeRegistrationRoute(
-                invitationAttributesItems: state.invitationAttributesItems));
+            serviceLocator<AppRouter>().replace(
+              EmployeeRegistrationRoute(
+                  invitationAttributesItems: state.invitationAttributesItems),
+            );
           }
         },
         builder: (context, state) {

@@ -35,16 +35,20 @@ class _LoginDesktopViewState extends State<LoginDesktopView> {
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
-            CustomSnackBarService().showSuccessSnackBar(context,
-                title: state.empLoginAttributesItems?.status ?? "",
-                message: state.empLoginAttributesItems?.message ?? "");
+            CustomSnackBarService().showSuccessSnackBar(
+              context,
+              title: state.empLoginAttributesItems?.status ?? "",
+              message: state.empLoginAttributesItems?.message ?? "",
+            );
             BlocProvider.of<LoginBloc>(context).refIdController.clear();
             BlocProvider.of<LoginBloc>(context).passwordController.clear();
             serviceLocator<AppRouter>().replace(const DashboardRoute());
           } else if (state is LoginError) {
-            CustomSnackBarService().showErrorSnackBar(context,
-                title: state.empLoginAttributesItems?.status ?? "",
-                message: state.empLoginAttributesItems?.message ?? "");
+            CustomSnackBarService().showErrorSnackBar(
+              context,
+              title: state.empLoginAttributesItems?.status ?? "",
+              message: state.empLoginAttributesItems?.message ?? "",
+            );
           }
         },
         builder: (context, state) {

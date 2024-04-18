@@ -32,7 +32,7 @@ class DashboardDesktopView extends StatelessWidget {
                     .sharedPreferenceService
                     .name,
                 designation: "Backend Developer Intern",
-                location: "Pune, Maharshtra",
+                location: "Pune, Maharashtra",
                 empId: Provider.of<CommonService>(context)
                     .sharedPreferenceService
                     .empID,

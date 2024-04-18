@@ -3,48 +3,47 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:ts_system/config/env.dart';
+
+import 'package:ts_system/config/flavors.dart';
 import 'package:ts_system/core/network/custom_exception.dart';
 import 'package:ts_system/core/network/log.dart';
 
 class ApiProvider {
-  final _apiBaseUrl = EnvConfig.apiURL;
+  // Future<dynamic> postDataWithImage({
+  //   required String url,
+  //   required dynamic imageFile,
+  // }) async {
+  //   try {
+  //     final request =
+  //         http.MultipartRequest('POST', Uri.parse("$_apiBaseUrl$url"));
 
-  Future<dynamic> postDataWithImage({
-    required String url,
-    required dynamic imageFile,
-  }) async {
-    try {
-      final request =
-          http.MultipartRequest('POST', Uri.parse("$_apiBaseUrl$url"));
+  //     request.headers['API_KEY'] = 'TT18102023';
 
-      request.headers['API_KEY'] = 'TT18102023';
+  //     if (kIsWeb) {
+  //       request.files.add(http.MultipartFile.fromBytes(
+  //         'image',
+  //         imageFile,
+  //         filename: 'image.jpg',
+  //       ));
+  //     } else {
+  //       request.files.add(await http.MultipartFile.fromPath(
+  //         'image',
+  //         imageFile.path,
+  //         filename: 'image.jpg',
+  //       ));
+  //     }
 
-      if (kIsWeb) {
-        request.files.add(http.MultipartFile.fromBytes(
-          'image',
-          imageFile,
-          filename: 'image.jpg',
-        ));
-      } else {
-        request.files.add(await http.MultipartFile.fromPath(
-          'image',
-          imageFile.path,
-          filename: 'image.jpg',
-        ));
-      }
+  //     final streamedResponse = await request.send();
+  //     final response = await http.Response.fromStream(streamedResponse);
 
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
-
-      if (response.statusCode != 200) return null;
-      final responseJson = jsonDecode(response.body);
-      return responseJson;
-    } catch (e) {
-      Log.error("ApiProvider get failed with error: $e");
-      return null;
-    }
-  }
+  //     if (response.statusCode != 200) return null;
+  //     final responseJson = jsonDecode(response.body);
+  //     return responseJson;
+  //   } catch (e) {
+  //     Log.error("ApiProvider get failed with error: $e");
+  //     return null;
+  //   }
+  // }
 
   Future<dynamic> postDataWithFormData({
     required String url,
@@ -53,7 +52,7 @@ class ApiProvider {
   }) async {
     try {
       final request =
-          http.MultipartRequest('POST', Uri.parse("$_apiBaseUrl$url"));
+          http.MultipartRequest('POST', Uri.parse("${F.appFalvor}$url"));
 
       request.headers['API_KEY'] = 'TT18102023';
 
@@ -131,7 +130,7 @@ class ApiProvider {
       default:
         Log.error(response.body.toString());
         throw FetchDataException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+            'Error occurred while Communication with Server with StatusCode : ${response.statusCode}');
     }
   }
 }

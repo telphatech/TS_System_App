@@ -11,13 +11,12 @@ import 'package:ts_system/modules/employee/view_employee/presentation/widgets/em
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/common/custom_button.dart';
 import 'package:ts_system/utils/common_widgets/empty_widget.dart';
+import 'package:ts_system/utils/common_widgets/failure_widget.dart';
 import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
-import 'package:pluto_grid/pluto_grid.dart';
 
 class ViewEmployeeMobileView extends StatelessWidget {
-  final gridConfiguration = const PlutoGridConfiguration();
   const ViewEmployeeMobileView({super.key});
 
   @override
@@ -52,7 +51,7 @@ class ViewEmployeeMobileView extends StatelessWidget {
                               .push(const AddEmployeeMobileView());
                         },
                         backgroundColor: TTColors.primary,
-                        borderColor: TTColors.white,
+                        borderColor: TTColors.primary,
                         iconColor: TTColors.white,
                         iconData: Icons.add,
                         child: AppText.body(
@@ -72,7 +71,6 @@ class ViewEmployeeMobileView extends StatelessWidget {
                     ),
                     UIHelpers.verticalSpaceRegular,
                     EmployeeLists(
-                      gridConfiguration: gridConfiguration,
                       viewEmployeeAttributesItems:
                           state.viewEmployeeAttributesItems,
                     ),
@@ -81,6 +79,11 @@ class ViewEmployeeMobileView extends StatelessWidget {
               );
             } else if (state is ViewEmployeeEmpty) {
               return emptyWidget();
+            } else if (state is ViewEmployeeFailure) {
+              return FailureWidget(onTap: () {
+                BlocProvider.of<ViewEmployeeBloc>(context)
+                    .add(ViewEmployeeInitialEvent());
+              });
             } else {
               return Padding(
                 padding: const EdgeInsets.all(10),
