@@ -19,7 +19,6 @@ class MenuDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final commonService = Provider.of<CommonService>(context);
     final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
 
     return Padding(
@@ -66,12 +65,15 @@ class MenuDrawer extends StatelessWidget {
                 index: 0,
                 title: 'Dashboard',
                 leading: TTIcons.dashboard,
-                isSelected: commonService.selectedMenuItem == 0,
+                isSelected: Provider.of<CommonService>(context, listen: true)
+                        .selectedMenuItem ==
+                    0,
                 onTap: () {
                   Provider.of<CommonService>(context, listen: false)
                       .setSelectedMenuItem(0);
                   serviceLocator<AppRouter>().popUntil(
                       (route) => route.data?.name == DashboardRoute.name);
+                  serviceLocator<AppRouter>().pop();
                 },
               ),
               UIHelpers.verticalSpaceTiny,
@@ -80,7 +82,9 @@ class MenuDrawer extends StatelessWidget {
                   index: 1,
                   title: 'Organization',
                   leading: Icons.business_rounded,
-                  isSelected: commonService.selectedMenuItem == 1,
+                  isSelected: Provider.of<CommonService>(context, listen: true)
+                          .selectedMenuItem ==
+                      1,
                   onTap: () {
                     Provider.of<CommonService>(context, listen: false)
                         .setSelectedMenuItem(1);
@@ -91,37 +95,40 @@ class MenuDrawer extends StatelessWidget {
               UIHelpers.verticalSpaceTiny,
               if (sharedPreferenceService.role != "employee")
                 MenuTitle(
-                  index: 3,
-                  title: 'Groups',
-                  leading: Icons.groups,
-                  isSelected: commonService.selectedMenuItem == 3,
+                  index: 2,
+                  title: 'Attendance',
+                  leading: Icons.done_all_rounded,
+                  isSelected:
+                      Provider.of<CommonService>(context).selectedMenuItem == 2,
                   onTap: () {
                     Provider.of<CommonService>(context, listen: false)
-                        .setSelectedMenuItem(3);
+                        .setSelectedMenuItem(2);
                   },
                 ),
               UIHelpers.verticalSpaceTiny,
               MenuTitle(
-                index: 4,
+                index: 3,
                 title: 'Leave',
                 leading: Icons.person_remove_outlined,
-                isSelected: commonService.selectedMenuItem == 4,
+                isSelected:
+                    Provider.of<CommonService>(context).selectedMenuItem == 3,
                 onTap: () {
                   Provider.of<CommonService>(context, listen: false)
-                      .setSelectedMenuItem(4);
+                      .setSelectedMenuItem(3);
                   serviceLocator<AppRouter>()
                       .popAndPush(const LeaveDashboard());
                 },
               ),
               UIHelpers.verticalSpaceTiny,
               MenuTitle(
-                index: 5,
+                index: 4,
                 title: 'Timesheet',
                 leading: Icons.timelapse_outlined,
-                isSelected: commonService.selectedMenuItem == 5,
+                isSelected:
+                    Provider.of<CommonService>(context).selectedMenuItem == 4,
                 onTap: () {
                   Provider.of<CommonService>(context, listen: false)
-                      .setSelectedMenuItem(5);
+                      .setSelectedMenuItem(4);
                   serviceLocator<AppRouter>().popAndPush(const TaskDashboard());
                 },
               ),
@@ -137,7 +144,7 @@ class MenuDrawer extends StatelessWidget {
                   ),
                 ),
                 child: MenuTitle(
-                  index: 6,
+                  index: 5,
                   title: 'Logout',
                   isSelected: false,
                   leading: Icons.logout_outlined,

@@ -41,13 +41,13 @@ class _MyAppState extends State<MyApp> {
         stream: Connectivity().onConnectivityChanged,
         builder: (context, snapshot) {
           return snapshot.data == ConnectivityResult.none
-              ? MaterialApp(
+              ? const MaterialApp(
                   debugShowCheckedModeBanner: false,
                   home: Scaffold(
                       body: Center(
-                    child: Container(
+                    child: SizedBox(
                       width: double.infinity,
-                      child: const Text('No Internet Connection'),
+                      child: Text('No Internet Connection'),
                     ),
                   )),
                 )

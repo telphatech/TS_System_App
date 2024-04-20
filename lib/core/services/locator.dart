@@ -13,6 +13,10 @@ import 'package:ts_system/modules/employee/view_employee/domain/repositories/vie
 import 'package:ts_system/modules/employee/view_employee/domain/usecases/invite_employee_usecases.dart';
 import 'package:ts_system/modules/employee/view_employee/domain/usecases/view_employee_usecases.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/bloc/view_employee/view_employee_bloc.dart';
+import 'package:ts_system/modules/leave/apply_leave/data/repositories/apply_leave_repository_impl.dart';
+import 'package:ts_system/modules/leave/apply_leave/domain/repositories/apply_leave_repository.dart';
+import 'package:ts_system/modules/leave/apply_leave/domain/usecases/apply_leave_usecase.dart';
+import 'package:ts_system/modules/leave/apply_leave/presentation/bloc/bloc/apply_leave_bloc.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/repositories/fetch_count_repository_impl.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/repositories/fetch_leave_repository_impl.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/repositories/fetch_count_repository.dart';
@@ -119,6 +123,13 @@ void initializeDependencies() {
   serviceLocator
       .registerLazySingleton<CheckOutUseCase>(() => CheckOutUseCase());
 
+  // ************* APPLY LEAVE ****************
+  serviceLocator.registerSingleton<ApplyLeaveBloc>(ApplyLeaveBloc());
+  serviceLocator
+      .registerSingleton<ApplyLeaveRepository>(ApplyLeaveRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<ApplyLeaveUseCase>(() => ApplyLeaveUseCase());
+
   // ************* FETCH COUNT BY MEMBER ****************
   serviceLocator.registerSingleton<LeaveBloc>(LeaveBloc());
   serviceLocator
@@ -131,4 +142,8 @@ void initializeDependencies() {
       .registerSingleton<FetchLeavesRepository>(FetchLeavesRepositoryImpl());
   serviceLocator
       .registerLazySingleton<FetchLeavesUseCase>(() => FetchLeavesUseCase());
+  serviceLocator.registerSingleton<FetchLeaveDetailsRepository>(
+      FetchLeaveDetailsRepositoryImpl());
+  serviceLocator.registerLazySingleton<FetchLeaveDetailsUseCase>(
+      () => FetchLeaveDetailsUseCase());
 }

@@ -29,3 +29,28 @@ class FetchLeavesRepositoryImpl implements FetchLeavesRepository {
     }
   }
 }
+
+class FetchLeaveDetailsRepositoryImpl implements FetchLeaveDetailsRepository {
+  final _apiProvider = ApiProvider();
+
+  @override
+  Future<Either<Failure, dynamic>> getFetchLeaveDetailsByLeaveId(
+      String leaveId) async {
+    try {
+      final response = await _apiProvider.getData(
+        baseUrl: F.apiBaseUrl,
+        subUrl: "/api-fetch-leave-details-by-leave_id.php",
+        body: {
+          "leave_id": leaveId,
+        },
+      );
+      if (response == null) {
+        return Left(ServerFailure(message: AppUtils.noResponseFromServerText));
+      } else {
+        return Right(response);
+      }
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+}

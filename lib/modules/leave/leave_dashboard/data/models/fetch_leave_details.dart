@@ -1,26 +1,27 @@
 // To parse this JSON data, do
 //
-//     final fetchLeaveModel = fetchLeaveModelFromJson(jsonString);
+//     final fetchLeaveDetailsModel = fetchLeaveDetailsModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<FetchLeaveModel> fetchLeaveModelFromJson(String str) =>
-    List<FetchLeaveModel>.from(
-        json.decode(str).map((x) => FetchLeaveModel.fromJson(x)));
+FetchLeaveDetailsModel fetchLeaveDetailsModelFromJson(String str) =>
+    FetchLeaveDetailsModel.fromJson(json.decode(str));
 
-String fetchLeaveModelToJson(List<FetchLeaveModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String fetchLeaveDetailsModelToJson(FetchLeaveDetailsModel data) =>
+    json.encode(data.toJson());
 
-class FetchLeaveModel {
-  String? leaveId;
-  String? leaveType;
-  DateTime? leaveTo;
-  DateTime? leaveFrom;
-  String? leaveReason;
-  String? leaveStatus;
+class FetchLeaveDetailsModel {
+  final String? leaveId;
+  final String? empId;
+  final String? leaveType;
+  final DateTime? leaveTo;
+  final DateTime? leaveFrom;
+  final String? leaveReason;
+  final String? leaveStatus;
 
-  FetchLeaveModel({
+  FetchLeaveDetailsModel({
     this.leaveId,
+    this.empId,
     this.leaveType,
     this.leaveTo,
     this.leaveFrom,
@@ -28,9 +29,10 @@ class FetchLeaveModel {
     this.leaveStatus,
   });
 
-  factory FetchLeaveModel.fromJson(Map<String, dynamic> json) =>
-      FetchLeaveModel(
+  factory FetchLeaveDetailsModel.fromJson(Map<String, dynamic> json) =>
+      FetchLeaveDetailsModel(
         leaveId: json["leave_id"],
+        empId: json["leave_emp_id"],
         leaveType: json["leave_type"],
         leaveTo:
             json["leave_to"] == null ? null : DateTime.parse(json["leave_to"]),
@@ -43,6 +45,7 @@ class FetchLeaveModel {
 
   Map<String, dynamic> toJson() => {
         "leave_id": leaveId,
+        "leave_emp_id": empId,
         "leave_type": leaveType,
         "leave_to":
             "${leaveTo!.year.toString().padLeft(4, '0')}-${leaveTo!.month.toString().padLeft(2, '0')}-${leaveTo!.day.toString().padLeft(2, '0')}",

@@ -163,10 +163,13 @@ class LeaveDashboardMobileView extends StatelessWidget {
                                         if (state is LeaveFetchLeavesSuccess) {
                                           return ListView.separated(
                                             itemBuilder: (context, index) {
+                                              final reversed = state
+                                                  .fetchLeavesAttributesItems
+                                                  .reversed
+                                                  .toList();
                                               return ApplicationListWidget(
                                                 fetchLeavesAttributesItems:
-                                                    state.fetchLeavesAttributesItems[
-                                                        index],
+                                                    reversed[index],
                                               );
                                             },
                                             separatorBuilder: (context,
@@ -206,7 +209,7 @@ class LeaveDashboardMobileView extends StatelessWidget {
                                 if (sharedPreferenceService.role == "admin")
                                   ListView.separated(
                                     itemBuilder: (context, index) {
-                                      return ApplicationListWidget(
+                                      return const ApplicationListWidget(
                                         fetchLeavesAttributesItems:
                                             FetchLeaveAttributesItems(),
                                       );

@@ -30,6 +30,7 @@ class AppRouter extends $AppRouter {
           page: LeaveDashboard.page,
           path: '/leave',
         ),
+        AutoRoute(page: LeaveDetailsMobileView.page, path: '/leave-details'),
         AutoRoute(
           page: ApplyLeaveMobileView.page,
           path: '/apply-leave',

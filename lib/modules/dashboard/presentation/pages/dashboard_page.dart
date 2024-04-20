@@ -19,8 +19,11 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
-    Provider.of<CommonService>(context, listen: false)
-        .setSelectedMenuItem(0, notify: false);
+    print("initial");
+    Provider.of<CommonService>(context, listen: false).setSelectedMenuItem(
+      0,
+      notify: false,
+    );
     super.initState();
   }
 
@@ -33,7 +36,9 @@ class _DashboardPageState extends State<DashboardPage> {
         SystemNavigator.pop();
       },
       child: const Responsive(
-          mobile: DashboardMobileView(), desktop: DashboardDesktopView()),
+        mobile: DashboardMobileView(),
+        desktop: DashboardDesktopView(),
+      ),
     );
   }
 }

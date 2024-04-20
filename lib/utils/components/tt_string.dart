@@ -40,4 +40,5 @@ class AppUtils {
   static const String noResponseFromServerText = "No Response from Server";
 
   static const String signIn = "Sign In";
+  static const String leaveDetail = "Leave Details";
 }

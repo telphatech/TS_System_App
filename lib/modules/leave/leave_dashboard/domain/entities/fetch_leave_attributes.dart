@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class FetchLeaveAttributesItems extends Equatable {
+  final String? leaveId;
+  final String? empId;
   final String? leaveType;
   final DateTime? leaveTo;
   final DateTime? leaveFrom;
@@ -8,6 +10,8 @@ class FetchLeaveAttributesItems extends Equatable {
   final String? leaveStatus;
 
   const FetchLeaveAttributesItems({
+    this.leaveId,
+    this.empId,
     this.leaveType,
     this.leaveTo,
     this.leaveFrom,
@@ -17,6 +21,8 @@ class FetchLeaveAttributesItems extends Equatable {
 
   @override
   List<Object?> get props => [
+        leaveId,
+        empId,
         leaveType,
         leaveTo,
         leaveFrom,

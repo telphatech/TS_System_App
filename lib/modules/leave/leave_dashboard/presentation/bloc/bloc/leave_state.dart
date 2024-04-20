@@ -31,3 +31,14 @@ class LeaveFetchLeavesSuccess extends LeaveState {
   List<FetchLeaveAttributesItems?> fetchLeavesAttributesItems;
   LeaveFetchLeavesSuccess(this.fetchLeavesAttributesItems);
 }
+
+class LeaveFetchLeaveDetailsInitial extends LeaveState {}
+
+class LeaveFetchLeaveDetailsLoading extends LeaveState {}
+
+class LeaveFetchLeaveDetailsFailure extends LeaveState {}
+
+class LeaveFetchLeaveDetailsSuccess extends LeaveState {
+  FetchLeaveAttributesItems? fetchLeavesAttributesItems;
+  LeaveFetchLeaveDetailsSuccess(this.fetchLeavesAttributesItems);
+}

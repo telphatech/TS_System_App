@@ -12,3 +12,12 @@ class FetchLeavesUseCase implements UseCaseOneInput {
         .getFetchLeavesByMemberId(memberId);
   }
 }
+
+class FetchLeaveDetailsUseCase implements UseCaseOneInput {
+  @override
+  Future<Either<Failure, dynamic>> invoke(leaveId) async {
+    return await serviceLocator
+        .get<FetchLeaveDetailsRepository>()
+        .getFetchLeaveDetailsByLeaveId(leaveId);
+  }
+}

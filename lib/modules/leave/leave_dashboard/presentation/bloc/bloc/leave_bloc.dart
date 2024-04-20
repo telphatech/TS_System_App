@@ -6,6 +6,7 @@ import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_count.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_leave.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_leave_details.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_count_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leave_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_count_usecase.dart';
@@ -17,6 +18,7 @@ part 'leave_state.dart';
 class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
   List<FetchCountAttributesItems?> fetchCountAttributesItems = [];
   List<FetchLeaveAttributesItems?> fetchLeavesAttributesItems = [];
+  FetchLeaveAttributesItems? fetchLeaveDetailsAttributesItems;
 
   LeaveBloc() : super(LeaveInitial()) {
     on<LeaveEvent>((event, emit) {});
@@ -24,6 +26,40 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
     on<LeaveFetchCountEvent>(onLeaveInitialEvent);
 
     on<LeaveFetchLeavesEvent>(onLeaveFetchLeaves);
+
+    on<LeaveFetchLeaveDetailsEvent>(onLeaveFetchLeaveDetails);
+  }
+
+  FutureOr<void> onLeaveFetchLeaveDetails(
+      LeaveFetchLeaveDetailsEvent event, Emitter<LeaveState> emit) async {
+    emit(LeaveFetchLeaveDetailsLoading());
+
+    final repository = serviceLocator<FetchLeaveDetailsUseCase>();
+    final response = await repository.invoke(event.leaveId);
+
+    if (response.isLeft) {
+      emit(LeaveFetchLeaveDetailsFailure());
+    } else {
+      try {
+        final model =
+            fetchLeaveDetailsModelFromJson(jsonEncode(response.right));
+
+        fetchLeaveDetailsAttributesItems = FetchLeaveAttributesItems(
+          leaveId: model.leaveId ?? "",
+          empId: model.empId ?? "",
+          leaveType: model.leaveType ?? "",
+          leaveTo: model.leaveTo ?? DateTime.now(),
+          leaveFrom: model.leaveFrom ?? DateTime.now(),
+          leaveReason: model.leaveReason ?? "",
+          leaveStatus: model.leaveStatus ?? "",
+        );
+
+        emit(LeaveFetchLeaveDetailsSuccess(fetchLeaveDetailsAttributesItems));
+      } catch (e) {
+        emit(LeaveFetchLeaveDetailsFailure());
+        Log.debug(e.toString());
+      }
+    }
   }
 
   FutureOr<void> onLeaveFetchLeaves(
@@ -41,6 +77,7 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
 
         fetchLeavesAttributesItems = model
             .map((e) => FetchLeaveAttributesItems(
+                  leaveId: e.leaveId ?? "",
                   leaveType: e.leaveType ?? "",
                   leaveTo: e.leaveTo ?? DateTime.now(),
                   leaveFrom: e.leaveFrom ?? DateTime.now(),

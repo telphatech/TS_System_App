@@ -13,3 +13,8 @@ class LeaveFetchLeavesEvent extends LeaveEvent {
   final String? memberId;
   LeaveFetchLeavesEvent({this.memberId});
 }
+
+class LeaveFetchLeaveDetailsEvent extends LeaveEvent {
+  final String? leaveId;
+  LeaveFetchLeaveDetailsEvent({this.leaveId});
+}

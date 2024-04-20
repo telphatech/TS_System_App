@@ -18,7 +18,9 @@ class LeaveTypeContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double percentage = double.parse("$available") / double.parse("$total");
-
+    print(available);
+    print(total);
+    print(percentage);
     if (percentage <= 0.0 ||
         percentage > 1.0 ||
         double.parse("${total ?? 0}") <= 0) {
@@ -75,7 +77,7 @@ class LeaveTypeContainerWidget extends StatelessWidget {
             UIHelpers.verticalSpaceMedium,
             Expanded(
               child: Text(
-                leaveName(leaveType ?? ""),
+                leaveType ?? "",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TTypography.normal.copyWith(

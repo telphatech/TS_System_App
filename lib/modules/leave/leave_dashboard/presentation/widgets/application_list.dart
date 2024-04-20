@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/config/router/app_router.gr.dart';
+import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leave_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/configuration_text_status.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
@@ -30,9 +33,8 @@ class ApplicationListWidget extends StatelessWidget {
         .format(fetchLeavesAttributesItems?.leaveFrom ?? DateTime.now());
     return InkWell(
       onTap: () {
-        // serviceLocator<AppRouter>().push(
-        //     LeaveDetailsView(
-        //         uid: leave.uId ?? ""));
+        serviceLocator<AppRouter>().popAndPush(LeaveDetailsMobileView(
+            uId: fetchLeavesAttributesItems?.leaveId ?? ""));
       },
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 11, 07, 12),
