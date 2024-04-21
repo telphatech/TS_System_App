@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/data/repositories/checkin_repository_impl.dart';
 import 'package:ts_system/modules/dashboard/domain/repositories/checkin_repository.dart';
@@ -53,6 +54,9 @@ void initializeDependencies() {
   // ************* AUTO ROUTER ****************
   serviceLocator.registerSingleton<AppRouter>(AppRouter());
 
+  // ************ COMMON SERVICE ********************
+  // serviceLocator.registerFactory(() => CommonService());
+
   // ************* SHARED PREFERENCES ****************
   serviceLocator
       .registerSingleton<SharedPreferenceService>(SharedPreferenceService());
@@ -60,6 +64,9 @@ void initializeDependencies() {
   // ************* CUSTOM SNACKBAR ****************
   serviceLocator
       .registerSingleton<CustomSnackBarService>(CustomSnackBarService());
+
+  // ************ Common Service *****************
+  serviceLocator.registerSingleton(CommonService());
 
   // ************* TASKS ****************
   serviceLocator.registerSingleton<TaskBloc>(TaskBloc());
@@ -138,12 +145,18 @@ void initializeDependencies() {
       .registerLazySingleton<FetchCountUseCase>(() => FetchCountUseCase());
 
   // ********* FETCH LEAVES BY MEMBER ID ******************
-  serviceLocator
-      .registerSingleton<FetchLeavesRepository>(FetchLeavesRepositoryImpl());
-  serviceLocator
-      .registerLazySingleton<FetchLeavesUseCase>(() => FetchLeavesUseCase());
+  serviceLocator.registerSingleton<FetchLeavesByMemberIdRepository>(
+      FetchLeavesByMemberIdRepositoryImpl());
+  serviceLocator.registerLazySingleton<FetchLeavesByMemberIdUseCase>(
+      () => FetchLeavesByMemberIdUseCase());
+
   serviceLocator.registerSingleton<FetchLeaveDetailsRepository>(
       FetchLeaveDetailsRepositoryImpl());
   serviceLocator.registerLazySingleton<FetchLeaveDetailsUseCase>(
       () => FetchLeaveDetailsUseCase());
+
+  serviceLocator
+      .registerSingleton<FetchLeavesRepository>(FetchLeavesRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<FetchLeavesUseCase>(() => FetchLeavesUseCase());
 }

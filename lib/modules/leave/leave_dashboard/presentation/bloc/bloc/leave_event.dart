@@ -9,10 +9,12 @@ class LeaveFetchCountEvent extends LeaveEvent {
   LeaveFetchCountEvent({this.memberId});
 }
 
-class LeaveFetchLeavesEvent extends LeaveEvent {
+class LeaveFetchLeavesByMemberIdEvent extends LeaveEvent {
   final String? memberId;
-  LeaveFetchLeavesEvent({this.memberId});
+  LeaveFetchLeavesByMemberIdEvent({this.memberId});
 }
+
+class LeaveFetchLeavesEvent extends LeaveEvent {}
 
 class LeaveFetchLeaveDetailsEvent extends LeaveEvent {
   final String? leaveId;

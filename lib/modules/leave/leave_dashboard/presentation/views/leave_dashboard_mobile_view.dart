@@ -8,13 +8,13 @@ import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
-import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leave_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/bloc/bloc/leave_bloc.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/application_list.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/holiday_widgets.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_appbar.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/leave_type_container_widget.dart';
 import 'package:ts_system/utils/common/app_text.dart';
+import 'package:ts_system/utils/common_widgets/empty_widget.dart';
 import 'package:ts_system/utils/common_widgets/failure_widget.dart';
 import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
@@ -146,13 +146,13 @@ class LeaveDashboardMobileView extends StatelessWidget {
                               children: [
                                 BlocProvider(
                                   create: (context) => LeaveBloc()
-                                    ..add(LeaveFetchLeavesEvent(
+                                    ..add(LeaveFetchLeavesByMemberIdEvent(
                                         memberId:
                                             sharedPreferenceService.empID)),
                                   child: RefreshIndicator(
                                     onRefresh: () async {
                                       BlocProvider.of<LeaveBloc>(context).add(
-                                        LeaveFetchLeavesEvent(
+                                        LeaveFetchLeavesByMemberIdEvent(
                                           memberId:
                                               sharedPreferenceService.empID,
                                         ),
@@ -160,7 +160,8 @@ class LeaveDashboardMobileView extends StatelessWidget {
                                     },
                                     child: BlocBuilder<LeaveBloc, LeaveState>(
                                       builder: (context, state) {
-                                        if (state is LeaveFetchLeavesSuccess) {
+                                        if (state
+                                            is LeaveFetchLeaveByMemberIdSuccess) {
                                           return ListView.separated(
                                             itemBuilder: (context, index) {
                                               final reversed = state
@@ -168,6 +169,7 @@ class LeaveDashboardMobileView extends StatelessWidget {
                                                   .reversed
                                                   .toList();
                                               return ApplicationListWidget(
+                                                isRequest: false,
                                                 fetchLeavesAttributesItems:
                                                     reversed[index],
                                               );
@@ -180,16 +182,19 @@ class LeaveDashboardMobileView extends StatelessWidget {
                                                 .length,
                                           );
                                         } else if (state
-                                            is LeaveFetchLeavesLoading) {
+                                            is LeaveFetchLeaveByMemberIdEmpty) {
+                                          return emptyWidget();
+                                        } else if (state
+                                            is LeaveFetchLeaveByMemberIdLoading) {
                                           return const LoadingWidget(
                                               width: double.infinity,
                                               height: 200);
                                         } else if (state
-                                            is LeaveFetchLeavesFailure) {
+                                            is LeaveFetchLeaveByMemberIdFailure) {
                                           return FailureWidget(onTap: () {
                                             BlocProvider.of<LeaveBloc>(context)
                                                 .add(
-                                              LeaveFetchLeavesEvent(
+                                              LeaveFetchLeavesByMemberIdEvent(
                                                 memberId:
                                                     sharedPreferenceService
                                                         .empID,
@@ -197,26 +202,72 @@ class LeaveDashboardMobileView extends StatelessWidget {
                                             );
                                           });
                                         } else {
-                                          return const Center(
-                                            child: Text(
-                                                AppUtils.somethingWentWrong),
-                                          );
+                                          return const LoadingWidget(
+                                              width: double.infinity,
+                                              height: 200);
                                         }
                                       },
                                     ),
                                   ),
                                 ),
                                 if (sharedPreferenceService.role == "admin")
-                                  ListView.separated(
-                                    itemBuilder: (context, index) {
-                                      return const ApplicationListWidget(
-                                        fetchLeavesAttributesItems:
-                                            FetchLeaveAttributesItems(),
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) =>
-                                        UIHelpers.verticalSpaceRegular,
-                                    itemCount: 5,
+                                  BlocProvider(
+                                    create: (context) => LeaveBloc()
+                                      ..add(LeaveFetchLeavesEvent()),
+                                    child: RefreshIndicator(
+                                      onRefresh: () async {
+                                        BlocProvider.of<LeaveBloc>(context).add(
+                                          LeaveFetchLeavesEvent(),
+                                        );
+                                      },
+                                      child: BlocBuilder<LeaveBloc, LeaveState>(
+                                        builder: (context, state) {
+                                          if (state
+                                              is LeaveFetchLeavesSuccess) {
+                                            return ListView.separated(
+                                              itemBuilder: (context, index) {
+                                                final reversed = state
+                                                    .fetchLeavesAttributesItems
+                                                    .reversed
+                                                    .toList();
+                                                return ApplicationListWidget(
+                                                  isRequest: true,
+                                                  fetchLeavesAttributesItems:
+                                                      reversed[index],
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (context, index) => UIHelpers
+                                                      .verticalSpaceRegular,
+                                              itemCount: state
+                                                  .fetchLeavesAttributesItems
+                                                  .length,
+                                            );
+                                          } else if (state
+                                              is LeaveFetchLeavesEmpty) {
+                                            return emptyWidget();
+                                          } else if (state
+                                              is LeaveFetchLeavesLoading) {
+                                            return const LoadingWidget(
+                                                width: double.infinity,
+                                                height: 200);
+                                          } else if (state
+                                              is LeaveFetchLeavesFailure) {
+                                            return FailureWidget(onTap: () {
+                                              BlocProvider.of<LeaveBloc>(
+                                                      context)
+                                                  .add(
+                                                LeaveFetchLeavesEvent(),
+                                              );
+                                            });
+                                          } else {
+                                            return const LoadingWidget(
+                                                width: double.infinity,
+                                                height: 200);
+                                          }
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 const HolidayWidget(),
                               ],

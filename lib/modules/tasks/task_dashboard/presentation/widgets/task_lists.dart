@@ -99,7 +99,13 @@ class TaskLists extends StatelessWidget {
                                 },
                               ),
                             ),
-                            UIHelpers.verticalSpaceMedium,
+                            UIHelpers.verticalSpaceSmall,
+                            Text(
+                              selectionColor: TTColors.primary,
+                              item?.tmshDescription ?? "",
+                              style: TTypography.normal
+                                  .copyWith(color: TTColors.black),
+                            ),
                             Text(
                                 "${DateFormat("hh:mm a").format(item?.tmshStartTime ?? DateTime.now())} - ${DateFormat("hh:mm a").format(item?.tmshEndTime ?? DateTime.now())}",
                                 style: TTypography.normal.copyWith(

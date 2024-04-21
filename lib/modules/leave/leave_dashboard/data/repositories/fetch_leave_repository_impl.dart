@@ -9,6 +9,28 @@ class FetchLeavesRepositoryImpl implements FetchLeavesRepository {
   final _apiProvider = ApiProvider();
 
   @override
+  Future<Either<Failure, dynamic>> getFetchLeaves() async {
+    try {
+      final response = await _apiProvider.getData(
+        baseUrl: F.apiBaseUrl,
+        subUrl: "/api-leave-fetch.php",
+      );
+      if (response == null) {
+        return Left(ServerFailure(message: AppUtils.noResponseFromServerText));
+      } else {
+        return Right(response);
+      }
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+}
+
+class FetchLeavesByMemberIdRepositoryImpl
+    implements FetchLeavesByMemberIdRepository {
+  final _apiProvider = ApiProvider();
+
+  @override
   Future<Either<Failure, dynamic>> getFetchLeavesByMemberId(
       String memberId) async {
     try {

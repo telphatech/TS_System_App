@@ -5,16 +5,18 @@ import 'package:intl/intl.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
-import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leave_attributes.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leaves_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/widgets/configuration_text_status.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
 class ApplicationListWidget extends StatelessWidget {
-  final FetchLeaveAttributesItems? fetchLeavesAttributesItems;
-  const ApplicationListWidget({
+  final FetchLeavesAttributesItems? fetchLeavesAttributesItems;
+  bool isRequest = false;
+  ApplicationListWidget({
     required this.fetchLeavesAttributesItems,
+    required this.isRequest,
     super.key,
   });
 
@@ -34,6 +36,7 @@ class ApplicationListWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         serviceLocator<AppRouter>().popAndPush(LeaveDetailsMobileView(
+            isRequest: isRequest,
             uId: fetchLeavesAttributesItems?.leaveId ?? ""));
       },
       child: Container(

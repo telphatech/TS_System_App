@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class FetchLeaveAttributesItems extends Equatable {
+class FetchLeaveByMemberIdAttributesItems extends Equatable {
   final String? leaveId;
   final String? empId;
   final String? leaveType;
@@ -9,7 +9,7 @@ class FetchLeaveAttributesItems extends Equatable {
   final String? leaveReason;
   final String? leaveStatus;
 
-  const FetchLeaveAttributesItems({
+  const FetchLeaveByMemberIdAttributesItems({
     this.leaveId,
     this.empId,
     this.leaveType,

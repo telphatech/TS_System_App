@@ -4,14 +4,14 @@
 
 import 'dart:convert';
 
-List<FetchLeaveModel> fetchLeaveModelFromJson(String str) =>
-    List<FetchLeaveModel>.from(
-        json.decode(str).map((x) => FetchLeaveModel.fromJson(x)));
+List<FetchLeaveByMemberIdModel> fetchLeaveByMemberIdModelFromJson(String str) =>
+    List<FetchLeaveByMemberIdModel>.from(
+        json.decode(str).map((x) => FetchLeaveByMemberIdModel.fromJson(x)));
 
-String fetchLeaveModelToJson(List<FetchLeaveModel> data) =>
+String fetchLeaveByMemberIdModelToJson(List<FetchLeaveByMemberIdModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class FetchLeaveModel {
+class FetchLeaveByMemberIdModel {
   String? leaveId;
   String? leaveType;
   DateTime? leaveTo;
@@ -19,7 +19,7 @@ class FetchLeaveModel {
   String? leaveReason;
   String? leaveStatus;
 
-  FetchLeaveModel({
+  FetchLeaveByMemberIdModel({
     this.leaveId,
     this.leaveType,
     this.leaveTo,
@@ -28,8 +28,8 @@ class FetchLeaveModel {
     this.leaveStatus,
   });
 
-  factory FetchLeaveModel.fromJson(Map<String, dynamic> json) =>
-      FetchLeaveModel(
+  factory FetchLeaveByMemberIdModel.fromJson(Map<String, dynamic> json) =>
+      FetchLeaveByMemberIdModel(
         leaveId: json["leave_id"],
         leaveType: json["leave_type"],
         leaveTo:

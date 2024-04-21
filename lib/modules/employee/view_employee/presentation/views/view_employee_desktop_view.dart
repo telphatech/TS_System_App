@@ -38,8 +38,6 @@ class ViewEmployeeDesktopView extends StatelessWidget {
           body: BlocConsumer<ViewEmployeeBloc, ViewEmployeeState>(
             listener: (context, state) {},
             builder: (context, state) {
-              print("view: $state");
-
               return SingleChildScrollView(
                 child: Container(
                   width: double.infinity,

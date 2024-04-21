@@ -20,8 +20,10 @@ import 'package:ts_system/utils/components/ui_helpers.dart';
 @RoutePage()
 class LeaveDetailsMobileView extends StatefulWidget {
   final String? uId;
+  final bool? isRequest;
 
-  const LeaveDetailsMobileView({super.key, required this.uId});
+  const LeaveDetailsMobileView(
+      {super.key, required this.uId, required this.isRequest});
 
   @override
   State<LeaveDetailsMobileView> createState() => _LeaveDetailsMobileViewState();
@@ -61,16 +63,27 @@ class _LeaveDetailsMobileViewState extends State<LeaveDetailsMobileView> {
           builder: (context, state) {
             if (state is LeaveFetchLeaveDetailsSuccess) {
               status =
-                  state.fetchLeavesAttributesItems?.leaveStatus ?? "Applied";
+                  state.fetchLeavesByMemberIdAttributesItems?.leaveStatus ??
+                      "Applied";
               return SingleChildScrollView(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
                 child: Column(
                   children: [
                     AppInputField(
+                      label: 'Employee Id',
+                      readOnly: true,
+                      controller: TextEditingController(
+                          text: state.fetchLeavesByMemberIdAttributesItems
+                                  ?.empId ??
+                              ""),
+                    ),
+                    UIHelpers.verticalSpaceSmall,
+                    AppInputField(
                       label: 'Leave Type',
                       readOnly: true,
                       controller: TextEditingController(
-                          text: state.fetchLeavesAttributesItems?.leaveType ??
+                          text: state.fetchLeavesByMemberIdAttributesItems
+                                  ?.leaveType ??
                               ""),
                     ),
                     UIHelpers.verticalSpaceSmall,
@@ -78,18 +91,20 @@ class _LeaveDetailsMobileViewState extends State<LeaveDetailsMobileView> {
                       label: 'Leave From',
                       readOnly: true,
                       controller: TextEditingController(
-                          text: DateFormat('dd MMM yyyy').format(
-                              state.fetchLeavesAttributesItems?.leaveFrom ??
-                                  DateTime.now())),
+                          text: DateFormat('dd MMM yyyy').format(state
+                                  .fetchLeavesByMemberIdAttributesItems
+                                  ?.leaveFrom ??
+                              DateTime.now())),
                     ),
                     UIHelpers.verticalSpaceSmall,
                     AppInputField(
                       label: 'Leave To',
                       readOnly: true,
                       controller: TextEditingController(
-                          text: DateFormat('dd MMM yyyy').format(
-                              state.fetchLeavesAttributesItems?.leaveTo ??
-                                  DateTime.now())),
+                          text: DateFormat('dd MMM yyyy').format(state
+                                  .fetchLeavesByMemberIdAttributesItems
+                                  ?.leaveTo ??
+                              DateTime.now())),
                     ),
                     UIHelpers.verticalSpaceSmall,
                     AppInputField(
@@ -97,7 +112,8 @@ class _LeaveDetailsMobileViewState extends State<LeaveDetailsMobileView> {
                       maxLines: 5,
                       readOnly: true,
                       controller: TextEditingController(
-                          text: state.fetchLeavesAttributesItems?.leaveReason ??
+                          text: state.fetchLeavesByMemberIdAttributesItems
+                                  ?.leaveReason ??
                               ""),
                     ),
                     UIHelpers.verticalSpaceSmall,
@@ -105,10 +121,12 @@ class _LeaveDetailsMobileViewState extends State<LeaveDetailsMobileView> {
                         selectedValue: status,
                         isMenu: true,
                         isEnable:
-                            serviceLocator<SharedPreferenceService>().role !=
-                                    "employee" &&
-                                state.fetchLeavesAttributesItems?.leaveStatus ==
-                                    "applied",
+                            serviceLocator<SharedPreferenceService>().role ==
+                                    "admin" &&
+                                widget.isRequest == true &&
+                                state.fetchLeavesByMemberIdAttributesItems
+                                        ?.leaveStatus ==
+                                    "Applied",
                         items: const ["Applied", "Approved", "Rejected"],
                         onChanged: (value) {
                           setState(() {
@@ -143,9 +161,7 @@ class _LeaveDetailsMobileViewState extends State<LeaveDetailsMobileView> {
                 child: LoadingWidget(width: double.infinity, height: 200),
               );
             }
-            return const Center(
-              child: Text('Something went wrong!!'),
-            );
+            return const LoadingWidget(width: double.infinity, height: 200);
           },
         ),
       ),

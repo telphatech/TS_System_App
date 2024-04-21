@@ -5,10 +5,12 @@ import 'package:bloc/bloc.dart';
 import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_count.dart';
-import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_leave.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_leave_by_member_id.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_leave_details.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_leaves.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_count_attributes.dart';
-import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leave_attributes.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leave_by_memberid_attributes.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leaves_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_count_usecase.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_leave_usecase.dart';
 
@@ -17,13 +19,17 @@ part 'leave_state.dart';
 
 class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
   List<FetchCountAttributesItems?> fetchCountAttributesItems = [];
-  List<FetchLeaveAttributesItems?> fetchLeavesAttributesItems = [];
-  FetchLeaveAttributesItems? fetchLeaveDetailsAttributesItems;
+  List<FetchLeavesAttributesItems?> fetchLeavesAttributesItems = [];
+  List<FetchLeaveByMemberIdAttributesItems?>
+      fetchLeaveByMemberIdAttributesItems = [];
+  FetchLeaveByMemberIdAttributesItems? fetchLeaveDetailsAttributesItems;
 
   LeaveBloc() : super(LeaveInitial()) {
     on<LeaveEvent>((event, emit) {});
 
     on<LeaveFetchCountEvent>(onLeaveInitialEvent);
+
+    on<LeaveFetchLeavesByMemberIdEvent>(onLeaveFetchLeaveByMemberId);
 
     on<LeaveFetchLeavesEvent>(onLeaveFetchLeaves);
 
@@ -44,7 +50,7 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
         final model =
             fetchLeaveDetailsModelFromJson(jsonEncode(response.right));
 
-        fetchLeaveDetailsAttributesItems = FetchLeaveAttributesItems(
+        fetchLeaveDetailsAttributesItems = FetchLeaveByMemberIdAttributesItems(
           leaveId: model.leaveId ?? "",
           empId: model.empId ?? "",
           leaveType: model.leaveType ?? "",
@@ -64,19 +70,57 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
 
   FutureOr<void> onLeaveFetchLeaves(
       LeaveFetchLeavesEvent event, Emitter<LeaveState> emit) async {
-    emit(LeaveFetchLeavesLoading());
+    emit(LeaveFetchLeaveByMemberIdLoading());
 
     final repository = serviceLocator<FetchLeavesUseCase>();
-    final response = await repository.invoke(event.memberId);
+    final response = await repository.invoke();
 
     if (response.isLeft) {
       emit(LeaveFetchLeavesFailure());
     } else {
       try {
-        final model = fetchLeaveModelFromJson(jsonEncode(response.right));
+        final model = fetchLeavesModelFromJson(jsonEncode(response.right));
 
         fetchLeavesAttributesItems = model
-            .map((e) => FetchLeaveAttributesItems(
+            .map((e) => FetchLeavesAttributesItems(
+                  leaveId: e.leaveId ?? "",
+                  leaveEmpId: e.leaveEmpId ?? "",
+                  leaveType: e.leaveType ?? "",
+                  leaveTo: e.leaveTo ?? DateTime.now(),
+                  leaveFrom: e.leaveFrom ?? DateTime.now(),
+                  leaveReason: e.leaveReason ?? "",
+                  leaveStatus: e.leaveStatus ?? "",
+                ))
+            .toList();
+
+        if (fetchLeavesAttributesItems.isEmpty) {
+          emit(LeaveFetchLeavesEmpty());
+        } else {
+          emit(LeaveFetchLeavesSuccess(fetchLeavesAttributesItems));
+        }
+      } catch (e) {
+        emit(LeaveFetchLeavesFailure());
+        Log.debug(e.toString());
+      }
+    }
+  }
+
+  FutureOr<void> onLeaveFetchLeaveByMemberId(
+      LeaveFetchLeavesByMemberIdEvent event, Emitter<LeaveState> emit) async {
+    emit(LeaveFetchLeaveByMemberIdLoading());
+
+    final repository = serviceLocator<FetchLeavesByMemberIdUseCase>();
+    final response = await repository.invoke(event.memberId);
+
+    if (response.isLeft) {
+      emit(LeaveFetchLeaveByMemberIdFailure());
+    } else {
+      try {
+        final model =
+            fetchLeaveByMemberIdModelFromJson(jsonEncode(response.right));
+
+        fetchLeavesAttributesItems = model
+            .map((e) => FetchLeavesAttributesItems(
                   leaveId: e.leaveId ?? "",
                   leaveType: e.leaveType ?? "",
                   leaveTo: e.leaveTo ?? DateTime.now(),
@@ -86,9 +130,13 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
                 ))
             .toList();
 
-        emit(LeaveFetchLeavesSuccess(fetchLeavesAttributesItems));
+        if (fetchLeavesAttributesItems.isEmpty) {
+          emit(LeaveFetchLeaveByMemberIdEmpty());
+        } else {
+          emit(LeaveFetchLeaveByMemberIdSuccess(fetchLeavesAttributesItems));
+        }
       } catch (e) {
-        emit(LeaveFetchLeavesFailure());
+        emit(LeaveFetchLeaveByMemberIdFailure());
         Log.debug(e.toString());
       }
     }

@@ -4,11 +4,6 @@ import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
 class ProfileHeaderWidget extends StatelessWidget {
-  final String profilePic;
-  final String name;
-  final String location;
-  final String empId;
-  final String designation;
   const ProfileHeaderWidget({
     super.key,
     required this.profilePic,
@@ -17,6 +12,12 @@ class ProfileHeaderWidget extends StatelessWidget {
     required this.empId,
     required this.designation,
   });
+
+  final String designation;
+  final String empId;
+  final String location;
+  final String name;
+  final String profilePic;
 
   @override
   Widget build(BuildContext context) {

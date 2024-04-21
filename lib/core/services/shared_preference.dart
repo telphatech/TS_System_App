@@ -4,10 +4,10 @@ class SharedPreferenceService {
   late SharedPreferences _sharedPreferences;
 
   SharedPreferencesService() {
-    initialise();
+    initialize();
   }
 
-  Future<void> initialise() async {
+  Future<void> initialize() async {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 

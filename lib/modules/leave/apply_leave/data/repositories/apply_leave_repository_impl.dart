@@ -20,8 +20,6 @@ class ApplyLeaveRepositoryImpl extends ApplyLeaveRepository {
         baseUrl: F.apiBaseUrl,
         body: body.toJson(),
       );
-
-      print("IMP: $response");
     } catch (e) {
       return Left(
         ServerFailure(

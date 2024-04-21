@@ -18,9 +18,6 @@ class LeaveTypeContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double percentage = double.parse("$available") / double.parse("$total");
-    print(available);
-    print(total);
-    print(percentage);
     if (percentage <= 0.0 ||
         percentage > 1.0 ||
         double.parse("${total ?? 0}") <= 0) {
@@ -33,7 +30,7 @@ class LeaveTypeContainerWidget extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: TTColors.darkContainer,
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(5),
         ),
         child: Column(
           children: [
@@ -90,16 +87,5 @@ class LeaveTypeContainerWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String leaveName(String type) {
-    if (type == "casual") {
-      return "Casual";
-    } else if (type == "sick") {
-      return "Sick";
-    } else if (type == "unleave") {
-      return "Earned";
-    }
-    return '';
   }
 }

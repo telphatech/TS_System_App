@@ -6,7 +6,6 @@ import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
-import 'package:ts_system/modules/dashboard/presentation/widgets/menu_title.dart';
 import 'package:ts_system/responsive.dart';
 import 'package:ts_system/utils/common/app_text.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
@@ -14,9 +13,14 @@ import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
-class MenuDrawer extends StatelessWidget {
+class MenuDrawer extends StatefulWidget {
   const MenuDrawer({Key? key}) : super(key: key);
 
+  @override
+  State<MenuDrawer> createState() => _MenuDrawerState();
+}
+
+class _MenuDrawerState extends State<MenuDrawer> {
   @override
   Widget build(BuildContext context) {
     final sharedPreferenceService = serviceLocator<SharedPreferenceService>();
@@ -61,74 +65,86 @@ class MenuDrawer extends StatelessWidget {
                 ),
               ),
               UIHelpers.listDividerWhite,
-              MenuTitle(
-                index: 0,
-                title: 'Dashboard',
-                leading: TTIcons.dashboard,
-                isSelected: Provider.of<CommonService>(context, listen: true)
-                        .selectedMenuItem ==
-                    0,
+              ListTile(
+                selected:
+                    Provider.of<CommonService>(context).selectedMenuItem == 0,
+                contentPadding: const EdgeInsets.only(left: 8),
+                selectedTileColor: const Color.fromRGBO(255, 255, 255, 0.5),
+                title: Text(
+                  'Dashboard',
+                  style: TTypography.normal.copyWith(color: TTColors.white),
+                ),
+                leading: const Icon(
+                  TTIcons.dashboard,
+                  color: TTColors.white,
+                ),
                 onTap: () {
                   Provider.of<CommonService>(context, listen: false)
-                      .setSelectedMenuItem(0);
+                      .setSelectedMenuItem(0, notify: false);
                   serviceLocator<AppRouter>().popUntil(
                       (route) => route.data?.name == DashboardRoute.name);
-                  serviceLocator<AppRouter>().pop();
                 },
               ),
               UIHelpers.verticalSpaceTiny,
               if (sharedPreferenceService.role != "employee")
-                MenuTitle(
-                  index: 1,
-                  title: 'Organization',
-                  leading: Icons.business_rounded,
-                  isSelected: Provider.of<CommonService>(context, listen: true)
-                          .selectedMenuItem ==
-                      1,
+                ListTile(
+                  selected:
+                      Provider.of<CommonService>(context).selectedMenuItem == 1,
+                  contentPadding: const EdgeInsets.only(left: 8),
+                  selectedTileColor: const Color.fromRGBO(255, 255, 255, 0.5),
+                  title: Text(
+                    'Organization',
+                    style: TTypography.normal.copyWith(color: TTColors.white),
+                  ),
+                  leading: const Icon(
+                    Icons.business_rounded,
+                    color: TTColors.white,
+                  ),
                   onTap: () {
                     Provider.of<CommonService>(context, listen: false)
-                        .setSelectedMenuItem(1);
+                        .setSelectedMenuItem(1, notify: false);
                     serviceLocator<AppRouter>()
                         .popAndPush(const ViewEmployeeRoute());
                   },
                 ),
               UIHelpers.verticalSpaceTiny,
-              if (sharedPreferenceService.role != "employee")
-                MenuTitle(
-                  index: 2,
-                  title: 'Attendance',
-                  leading: Icons.done_all_rounded,
-                  isSelected:
-                      Provider.of<CommonService>(context).selectedMenuItem == 2,
-                  onTap: () {
-                    Provider.of<CommonService>(context, listen: false)
-                        .setSelectedMenuItem(2);
-                  },
+              ListTile(
+                selected:
+                    Provider.of<CommonService>(context).selectedMenuItem == 2,
+                contentPadding: const EdgeInsets.only(left: 8),
+                selectedTileColor: const Color.fromRGBO(255, 255, 255, 0.5),
+                title: Text(
+                  'Leave',
+                  style: TTypography.normal.copyWith(color: TTColors.white),
                 ),
-              UIHelpers.verticalSpaceTiny,
-              MenuTitle(
-                index: 3,
-                title: 'Leave',
-                leading: Icons.person_remove_outlined,
-                isSelected:
-                    Provider.of<CommonService>(context).selectedMenuItem == 3,
+                leading: const Icon(
+                  Icons.person_remove_rounded,
+                  color: TTColors.white,
+                ),
                 onTap: () {
                   Provider.of<CommonService>(context, listen: false)
-                      .setSelectedMenuItem(3);
+                      .setSelectedMenuItem(2, notify: false);
                   serviceLocator<AppRouter>()
                       .popAndPush(const LeaveDashboard());
                 },
               ),
               UIHelpers.verticalSpaceTiny,
-              MenuTitle(
-                index: 4,
-                title: 'Timesheet',
-                leading: Icons.timelapse_outlined,
-                isSelected:
-                    Provider.of<CommonService>(context).selectedMenuItem == 4,
+              ListTile(
+                selected:
+                    Provider.of<CommonService>(context).selectedMenuItem == 3,
+                contentPadding: const EdgeInsets.only(left: 8),
+                selectedTileColor: const Color.fromRGBO(255, 255, 255, 0.5),
+                title: Text(
+                  'Timesheet',
+                  style: TTypography.normal.copyWith(color: TTColors.white),
+                ),
+                leading: const Icon(
+                  Icons.timelapse_outlined,
+                  color: TTColors.white,
+                ),
                 onTap: () {
                   Provider.of<CommonService>(context, listen: false)
-                      .setSelectedMenuItem(4);
+                      .setSelectedMenuItem(3, notify: false);
                   serviceLocator<AppRouter>().popAndPush(const TaskDashboard());
                 },
               ),
@@ -143,11 +159,17 @@ class MenuDrawer extends StatelessWidget {
                     color: TTColors.white.withOpacity(0.5),
                   ),
                 ),
-                child: MenuTitle(
-                  index: 5,
-                  title: 'Logout',
-                  isSelected: false,
-                  leading: Icons.logout_outlined,
+                child: ListTile(
+                  contentPadding: const EdgeInsets.only(left: 8),
+                  selectedTileColor: const Color.fromRGBO(255, 255, 255, 0.5),
+                  title: Text(
+                    'Logout',
+                    style: TTypography.normal.copyWith(color: TTColors.white),
+                  ),
+                  leading: const Icon(
+                    Icons.logout_outlined,
+                    color: TTColors.white,
+                  ),
                   onTap: () {
                     showDialog(
                         context: context,
@@ -156,11 +178,8 @@ class MenuDrawer extends StatelessWidget {
                               content: const Text('Do you want to logout?'),
                               actions: [
                                 TextButton(
-                                  onPressed: () {
-                                    serviceLocator<AppRouter>().pop();
-                                    sharedPreferenceService.clearLoginData();
-                                    serviceLocator<AppRouter>()
-                                        .replace(const SplashRouteMobileView());
+                                  onPressed: () async {
+                                    await deleteAndLogout();
                                   },
                                   child: AppText.body(
                                     'Yes',
@@ -186,5 +205,10 @@ class MenuDrawer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> deleteAndLogout() async {
+    await serviceLocator<SharedPreferenceService>().clearLoginData();
+    serviceLocator<AppRouter>().replace(const SplashRouteMobileView());
   }
 }
