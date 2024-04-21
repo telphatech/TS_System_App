@@ -136,7 +136,8 @@ class _TaskDashboardState extends State<TaskDashboard> {
                     builder: (context, state) {
                       if (state is TaskSuccess) {
                         return TaskLists(
-                            taskAttributesItems: state.taskAttributesItems);
+                            taskAttributesItems:
+                                state.taskAttributesItems.reversed.toList());
                       } else if (state is TaskEmpty) {
                         return emptyWidget();
                       } else if (state is TaskLoading) {
@@ -166,7 +167,7 @@ class _TaskDashboardState extends State<TaskDashboard> {
                   ? TaskDashboardFloatingButton(
                       onTap: () {
                         serviceLocator<AppRouter>()
-                            .push(const AddTaskMobileView());
+                            .push(AddTaskMobileView(isEditing: false));
                       },
                     )
                   : null,

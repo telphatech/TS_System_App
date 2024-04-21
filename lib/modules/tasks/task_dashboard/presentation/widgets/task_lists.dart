@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/services/locator.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
 import 'package:ts_system/modules/tasks/task_dashboard/domain/entities/task_attributes_item.dart';
@@ -127,7 +129,10 @@ class TaskLists extends StatelessWidget {
                         PopupMenuButton<String>(
                           onSelected: (value) async {
                             if (value == 'edit') {
-                              // widget.onEditTaskDetailsTap!();
+                              serviceLocator<AppRouter>().push(
+                                  AddTaskMobileView(
+                                      isEditing: true,
+                                      taskAttributesItems: item));
                             } else if (value == 'delete') {
                               BlocProvider.of<TaskBloc>(context)
                                   .add(OnDeleteTask(tmshId: item?.tmshId));

@@ -82,6 +82,10 @@ void initializeDependencies() {
   serviceLocator.registerSingleton<AddTaskBloc>(AddTaskBloc());
   serviceLocator.registerSingleton<AddTaskRepository>(AddTaskRepositoryImpl());
   serviceLocator.registerLazySingleton<AddTaskUseCase>(() => AddTaskUseCase());
+  serviceLocator
+      .registerSingleton<UpdateTaskRepository>(UpdateTaskRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<UpdateTaskUseCase>(() => UpdateTaskUseCase());
 
   // ************* VIEW EMPLOYEE ****************
   serviceLocator.registerSingleton<ViewEmployeeBloc>(ViewEmployeeBloc());

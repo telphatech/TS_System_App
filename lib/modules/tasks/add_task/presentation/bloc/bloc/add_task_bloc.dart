@@ -4,8 +4,12 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ts_system/config/router/app_router.dart';
+import 'package:ts_system/config/router/app_router.gr.dart';
 import 'package:ts_system/core/network/log.dart';
 import 'package:ts_system/core/services/locator.dart';
+import 'package:ts_system/modules/dashboard/data/models/response_model.dart';
+import 'package:ts_system/modules/dashboard/domain/entities/response_attributes.dart';
 import 'package:ts_system/modules/tasks/add_task/data/models/group_model.dart';
 import 'package:ts_system/modules/tasks/add_task/domain/usecases/add_task_usecase.dart';
 import 'package:ts_system/modules/tasks/add_task/domain/entities/group_attributes_item.dart';
@@ -21,9 +25,9 @@ class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
   final TextEditingController taskDescController = TextEditingController();
   final TextEditingController totalDurationController = TextEditingController();
   bool automaticTimeSelection = false;
+  ResponseAttributesItems? responseAttributesItems;
   final formKey = GlobalKey<FormState>();
   List<GroupAttributesItems?> groupAttributesItems = [];
-  String groupId = "1";
 
   List<String> generateTimeSlots() {
     return List.generate((24 * 60) ~/ 15, (index) {
@@ -88,6 +92,7 @@ class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
 
   AddTaskBloc() : super(AddTaskInitial()) {
     on<AddTaskInitialEvent>(onAddTaskInitialEvent);
+    on<UpdateTaskInitialEvent>(onUpdateTaskInitialEvent);
     on<GroupEvent>(onGroupEvent);
     totalDurationController.text = AppUtils.zeroDuration;
     startTimeController.text = generateTimeSlots()[0];
@@ -121,6 +126,43 @@ class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
     }
   }
 
+  FutureOr<void> onUpdateTaskInitialEvent(
+      UpdateTaskInitialEvent event, Emitter<AddTaskState> emit) async {
+    emit(UpdateTaskLoading());
+
+    final repository = serviceLocator<UpdateTaskUseCase>();
+    final response = await repository.invoke(event.updateTaskModel);
+
+    if (response.isLeft) {
+      emit(UpdateTaskFailure());
+    } else {
+      try {
+        final model = responseModelFromJson(jsonEncode(response.right));
+
+        responseAttributesItems = ResponseAttributesItems(
+          message: model.message ?? "",
+          status: model.message ?? "",
+        );
+
+        if (response.right["status"] == "success") {
+          taskNameController.clear();
+          taskDescController.clear();
+
+          emit(UpdateTaskSuccess(
+              responseAttributesItems: responseAttributesItems));
+          serviceLocator<AppRouter>().replace(const TaskDashboard());
+        } else {
+          emit(UpdateTaskError(
+              responseAttributesItems: responseAttributesItems));
+          print("error");
+        }
+      } catch (e) {
+        emit(UpdateTaskFailure());
+        Log.error(e.toString());
+      }
+    }
+  }
+
   FutureOr<void> onAddTaskInitialEvent(
       AddTaskInitialEvent event, Emitter<AddTaskState> emit) async {
     emit(AddTaskLoading());
@@ -132,17 +174,25 @@ class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
       emit(AddTaskFailure());
     } else {
       try {
+        final model = responseModelFromJson(jsonEncode(response.right));
+
+        responseAttributesItems = ResponseAttributesItems(
+          message: model.message ?? "",
+          status: model.message ?? "",
+        );
+
         if (response.right["status"] == "success") {
           taskNameController.clear();
           taskDescController.clear();
           startTimeController.clear();
           endTimeController.clear();
           totalDurationController.text = AppUtils.zeroDuration;
-          emit(AddTaskSuccess(
-              response.right["message"], response.right["status"]));
+
+          emit(
+              AddTaskSuccess(responseAttributesItems: responseAttributesItems));
+          serviceLocator<AppRouter>().replace(const TaskDashboard());
         } else {
-          emit(AddTaskError(
-              response.right["message"], response.right["status"]));
+          emit(AddTaskError(responseAttributesItems: responseAttributesItems));
         }
       } catch (e) {
         emit(AddTaskFailure());

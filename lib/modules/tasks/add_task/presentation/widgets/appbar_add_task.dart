@@ -7,8 +7,10 @@ import 'package:ts_system/utils/components/tt_icons.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 
 class AddTaskAppbar extends StatelessWidget {
+  final bool? isEditing;
   const AddTaskAppbar({
     super.key,
+    required this.isEditing,
   });
 
   @override
@@ -21,7 +23,7 @@ class AddTaskAppbar extends StatelessWidget {
           serviceLocator<AppRouter>().replace(const TaskDashboard());
         },
       ),
-      title: Text('Add Task',
+      title: Text(isEditing == true ? 'Update Task' : 'Add Task',
           style: TTypography.normal.copyWith(
               fontWeight: FontWeight.w700,
               color: TTColors.white,
