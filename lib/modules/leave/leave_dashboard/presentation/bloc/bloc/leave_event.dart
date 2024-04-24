@@ -16,6 +16,8 @@ class LeaveFetchLeavesByMemberIdEvent extends LeaveEvent {
 
 class LeaveFetchLeavesEvent extends LeaveEvent {}
 
+class HolidaysEvent extends LeaveEvent {}
+
 class LeaveFetchLeaveDetailsEvent extends LeaveEvent {
   final String? leaveId;
   LeaveFetchLeaveDetailsEvent({this.leaveId});

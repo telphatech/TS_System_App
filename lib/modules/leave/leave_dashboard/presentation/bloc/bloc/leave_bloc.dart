@@ -8,11 +8,14 @@ import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_count.
 import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_leave_by_member_id.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_leave_details.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/models/fetch_leaves.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/data/models/holidays.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_count_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leave_by_memberid_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/fetch_leaves_attributes.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/entities/holidays_attributes.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_count_usecase.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_leave_usecase.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/hoilday_usecase.dart';
 
 part 'leave_event.dart';
 part 'leave_state.dart';
@@ -20,6 +23,7 @@ part 'leave_state.dart';
 class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
   List<FetchCountAttributesItems?> fetchCountAttributesItems = [];
   List<FetchLeavesAttributesItems?> fetchLeavesAttributesItems = [];
+  List<HolidaysAttributesItems?> holidaysAttributesItems = [];
   List<FetchLeaveByMemberIdAttributesItems?>
       fetchLeaveByMemberIdAttributesItems = [];
   FetchLeaveByMemberIdAttributesItems? fetchLeaveDetailsAttributesItems;
@@ -34,6 +38,39 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
     on<LeaveFetchLeavesEvent>(onLeaveFetchLeaves);
 
     on<LeaveFetchLeaveDetailsEvent>(onLeaveFetchLeaveDetails);
+
+    on<HolidaysEvent>(onHolidays);
+  }
+
+  FutureOr<void> onHolidays(
+      HolidaysEvent event, Emitter<LeaveState> emit) async {
+    emit(HolidaysLoading());
+
+    final repository = serviceLocator<HolidaysUseCase>();
+    final response = await repository.invoke();
+
+    if (response.isLeft) {
+      emit(HolidaysFailure());
+    } else {
+      try {
+        final model = holidaysFromJson(jsonEncode(response.right));
+        holidaysAttributesItems = model
+            .map((e) => HolidaysAttributesItems(
+                  holidayId: e.holidayId ?? "",
+                  holidayOccasion: e.holidayOccasion ?? "",
+                  holidayDate: e.holidayDate ?? DateTime.now(),
+                ))
+            .toList();
+
+        if (holidaysAttributesItems.isEmpty) {
+          emit(HolidaysEmpty());
+        } else {
+          emit(HolidaysSuccess(holidaysAttributesItems));
+        }
+      } catch (e) {
+        emit(HolidaysFailure());
+      }
+    }
   }
 
   FutureOr<void> onLeaveFetchLeaveDetails(
