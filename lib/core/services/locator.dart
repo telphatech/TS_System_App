@@ -20,10 +20,13 @@ import 'package:ts_system/modules/leave/apply_leave/domain/usecases/apply_leave_
 import 'package:ts_system/modules/leave/apply_leave/presentation/bloc/bloc/apply_leave_bloc.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/repositories/fetch_count_repository_impl.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/data/repositories/fetch_leave_repository_impl.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/data/repositories/holidays_repository_impl.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/repositories/fetch_count_repository.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/repositories/fetch_leave_repository.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/repositories/holidays_repository.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_count_usecase.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/fetch_leave_usecase.dart';
+import 'package:ts_system/modules/leave/leave_dashboard/domain/usecases/hoilday_usecase.dart';
 import 'package:ts_system/modules/leave/leave_dashboard/presentation/bloc/bloc/leave_bloc.dart';
 import 'package:ts_system/modules/login/employee_registration/data/repositories/employee_register_impl.dart';
 import 'package:ts_system/modules/login/employee_registration/domain/repositories/employee_register_repository.dart';
@@ -147,6 +150,12 @@ void initializeDependencies() {
       .registerSingleton<FetchCountRepository>(FetchCountRepositoryImpl());
   serviceLocator
       .registerLazySingleton<FetchCountUseCase>(() => FetchCountUseCase());
+
+  // ********* HOLIDAYS ******************
+  serviceLocator
+      .registerSingleton<HolidaysRepository>(HolidaysRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<HolidaysUseCase>(() => HolidaysUseCase());
 
   // ********* FETCH LEAVES BY MEMBER ID ******************
   serviceLocator.registerSingleton<FetchLeavesByMemberIdRepository>(

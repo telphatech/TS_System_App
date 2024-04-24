@@ -57,3 +57,16 @@ class LeaveFetchLeaveDetailsSuccess extends LeaveState {
   FetchLeaveByMemberIdAttributesItems? fetchLeavesByMemberIdAttributesItems;
   LeaveFetchLeaveDetailsSuccess(this.fetchLeavesByMemberIdAttributesItems);
 }
+
+class HolidaysInitial extends LeaveState {}
+
+class HolidaysLoading extends LeaveState {}
+
+class HolidaysEmpty extends LeaveState {}
+
+class HolidaysFailure extends LeaveState {}
+
+class HolidaysSuccess extends LeaveState {
+  List<HolidaysAttributesItems?> holidaysAttributesItems;
+  HolidaysSuccess(this.holidaysAttributesItems);
+}
