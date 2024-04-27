@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:ts_system/modules/configuration_system/presentation/bloc/view_timesheet/view_timesheet_bloc.dart';
+import 'package:ts_system/modules/configuration_system/presentation/bloc/view_leave/view_leave_bloc.dart';
 import 'package:ts_system/utils/common/app_input_field.dart';
 import 'package:ts_system/utils/common_widgets/empty_widget.dart';
 import 'package:ts_system/utils/common_widgets/failure_widget.dart';
@@ -11,33 +11,32 @@ import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
-class ViewTimesheetReport extends StatelessWidget {
-  const ViewTimesheetReport({super.key});
+class ViewLeaveReport extends StatelessWidget {
+  const ViewLeaveReport({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          ViewTimesheetBloc()..add(ViewTimesheetReportInitialEvent()),
+      create: (context) => ViewLeaveBloc()..add(ViewLeaveInitialEvent()),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             UIHelpers.verticalSpaceSmall,
-            BlocBuilder<ViewTimesheetBloc, ViewTimesheetState>(
+            BlocBuilder<ViewLeaveBloc, ViewLeaveState>(
               builder: (context, state) {
-                if (state is ViewTimesheetFailure) {
+                if (state is ViewLeaveFailure) {
                   return FailureWidget(onTap: () {
-                    BlocProvider.of<ViewTimesheetBloc>(context)
-                        .add(ViewTimesheetReportInitialEvent());
+                    BlocProvider.of<ViewLeaveBloc>(context)
+                        .add(ViewLeaveInitialEvent());
                   });
-                } else if (state is ViewTimesheetEmpty) {
+                } else if (state is ViewLeaveEmpty) {
                   return emptyWidget();
-                } else if (state is ViewTimesheetLoading) {
+                } else if (state is ViewLeaveLoading) {
                   return LoadingWidget(
                       width: UIHelpers.screenWidth(context),
                       height: UIHelpers.screenHeight(context) * 0.8);
-                } else if (state is ViewTimesheetSuccess) {
+                } else if (state is ViewLeaveSuccess) {
                   return SizedBox(
                     width: UIHelpers.screenWidth(context),
                     height: UIHelpers.screenHeight(context) * 0.8,
@@ -85,61 +84,55 @@ class ViewTimesheetReport extends StatelessWidget {
                         ),
                         PlutoColumn(
                           backgroundColor: TTColors.primary,
-                          title: 'Date',
-                          field: 'date',
+                          title: 'Leave Type',
+                          field: 'leaveType',
                           type: PlutoColumnType.text(),
                         ),
                         PlutoColumn(
                           backgroundColor: TTColors.primary,
-                          title: 'Group Name',
-                          field: 'group',
+                          title: 'Leave From',
+                          field: 'leaveFrom',
                           type: PlutoColumnType.text(),
                         ),
                         PlutoColumn(
                           backgroundColor: TTColors.primary,
-                          title: 'Task Name',
-                          field: 'task',
+                          title: 'Leave To',
+                          field: 'leaveTo',
                           type: PlutoColumnType.text(),
                         ),
                         PlutoColumn(
                           backgroundColor: TTColors.primary,
-                          title: 'Task Description',
-                          field: 'desc',
+                          title: 'Reason',
+                          field: 'reason',
                           type: PlutoColumnType.text(),
                         ),
                         PlutoColumn(
-                          title: 'Start Time',
-                          field: 'start',
                           backgroundColor: TTColors.primary,
-                          type: PlutoColumnType.text(),
-                        ),
-                        PlutoColumn(
-                          title: 'End Time',
-                          field: 'end',
-                          backgroundColor: TTColors.primary,
-                          type: PlutoColumnType.text(),
+                          title: 'Status',
+                          field: 'status',
+                          type: PlutoColumnType.select(
+                              ['pending', 'approved', 'rejected'],
+                              defaultValue: 'pending'),
                         ),
                       ],
-                      rows: state.viewTimesheetReport.reversed
+                      rows: state.viewLeaveReportList.reversed
                           .map((e) => PlutoRow(
                                 cells: {
-                                  'action': PlutoCell(value: e?.tmshId ?? ""),
-                                  'id': PlutoCell(value: e?.tmshMemberId ?? ""),
-                                  'name': PlutoCell(value: e?.tmshId ?? ""),
-                                  'date': PlutoCell(
+                                  'action': PlutoCell(value: e?.leaveId ?? ""),
+                                  'id': PlutoCell(value: e?.leaveEmpId ?? ""),
+                                  'name': PlutoCell(value: e?.empName ?? ""),
+                                  'leaveType':
+                                      PlutoCell(value: e?.leaveType ?? ""),
+                                  'leaveFrom': PlutoCell(
                                       value: DateFormat('dd MMM yyyy').format(
-                                          e?.tmshDate ?? DateTime.now())),
-                                  'group':
-                                      PlutoCell(value: e?.tmshGroupId ?? ""),
-                                  'task': PlutoCell(value: e?.tmshTitle ?? ""),
-                                  'desc': PlutoCell(
-                                      value: e?.tmshDescription ?? ""),
-                                  'start': PlutoCell(
-                                      value: DateFormat('hh:mm a').format(
-                                          e?.tmshStartTime ?? DateTime.now())),
-                                  'end': PlutoCell(
-                                      value: DateFormat('hh:mm a').format(
-                                          e?.tmshEndTime ?? DateTime.now())),
+                                          e?.leaveFrom ?? DateTime.now())),
+                                  'leaveTo': PlutoCell(
+                                      value: DateFormat('dd MMM yyyy').format(
+                                          e?.leaveTo ?? DateTime.now())),
+                                  'reason':
+                                      PlutoCell(value: e?.leaveReason ?? ""),
+                                  'status':
+                                      PlutoCell(value: e?.leaveStatus ?? ""),
                                 },
                               ))
                           .toList(),
@@ -196,50 +189,42 @@ void openRightSideModal(BuildContext context, List<String> rowData) {
                           ),
                           UIHelpers.verticalSpaceSmall,
                           AppInputField(
-                            label: 'Date',
+                            label: 'Leave Type',
                             readOnly: true,
                             controller: TextEditingController(
                                 text: rowData[3].toString()),
                           ),
                           UIHelpers.verticalSpaceSmall,
                           AppInputField(
-                            label: 'Group Name',
+                            label: 'Leave From',
                             readOnly: true,
                             controller: TextEditingController(
                                 text: rowData[4].toString()),
                           ),
                           UIHelpers.verticalSpaceSmall,
                           AppInputField(
-                            label: 'Task Name',
+                            label: 'Leave To',
                             readOnly: true,
                             controller: TextEditingController(
                                 text: rowData[5].toString()),
                           ),
                           UIHelpers.verticalSpaceSmall,
                           AppInputField(
-                            label: 'Description',
-                            maxLines: 3,
+                            label: 'Reason',
                             readOnly: true,
                             controller: TextEditingController(
                                 text: rowData[6].toString()),
                           ),
                           UIHelpers.verticalSpaceSmall,
                           AppInputField(
-                            label: 'Start Time',
+                            label: 'Status',
                             readOnly: true,
                             controller: TextEditingController(
                                 text: rowData[7].toString()),
                           ),
                           UIHelpers.verticalSpaceSmall,
-                          AppInputField(
-                            label: 'End Time',
-                            readOnly: true,
-                            controller: TextEditingController(
-                                text: rowData[8].toString()),
-                          ),
-                          UIHelpers.verticalSpaceSmall,
                         ],
-                      ))), // Replace with your content
+                      ))),
             ),
           ),
         ],

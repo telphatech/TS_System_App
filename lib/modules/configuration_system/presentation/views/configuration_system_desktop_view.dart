@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:ts_system/modules/configuration_system/presentation/widgets/view_attendance_report.dart';
+import 'package:ts_system/modules/configuration_system/presentation/widgets/view_employee_report.dart';
+import 'package:ts_system/modules/configuration_system/presentation/widgets/view_leave_report.dart';
 import 'package:ts_system/modules/configuration_system/presentation/widgets/view_timesheet_report.dart';
 import 'package:ts_system/modules/dashboard/presentation/widgets/menu_drawer.dart';
 import 'package:ts_system/modules/employee/view_employee/presentation/widgets/desktop_app_bar.dart';
 import 'package:ts_system/utils/common/app_input_field.dart';
 import 'package:ts_system/utils/common/custom_dropdown.dart';
+import 'package:ts_system/utils/common_widgets/loading_widget.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 
@@ -17,7 +21,7 @@ class ConfigurationSystemDesktopView extends StatefulWidget {
 
 class _ConfigurationSystemDesktopViewState
     extends State<ConfigurationSystemDesktopView> {
-  String _selectedMenuItem = "Timesheet Reports";
+  String _selectedMenuItem = "Employees Details";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,80 +63,16 @@ class _ConfigurationSystemDesktopViewState
       case "Timesheet Reports":
         return const ViewTimesheetReport();
       case "Attendance Reports":
-        return const Text('Attendance Reports content');
+        return const ViewAttendanceReport();
       case "Leave Reports":
-        return const Text('Leave Reports content');
+        return const ViewLeaveReport();
       case "Employees Details":
-        return Column(
-          children: [
-            const AppInputField(
-              hint: 'Enter Name',
-              label: 'Name',
-            ),
-            UIHelpers.verticalSpaceSmall,
-            SizedBox(
-              width: double.infinity,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  headingRowColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      return TTColors.primary.withOpacity(0.8);
-                    },
-                  ),
-                  border: TableBorder.all(width: 1, color: TTColors.primary),
-                  columns: const <DataColumn>[
-                    DataColumn(
-                        label: Text(
-                      'Employee ID',
-                      style: TextStyle(color: TTColors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Name',
-                      style: TextStyle(color: TTColors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Role',
-                      style: TextStyle(color: TTColors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Position',
-                      style: TextStyle(color: TTColors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Email',
-                      style: TextStyle(color: TTColors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Status',
-                      style: TextStyle(color: TTColors.white),
-                    )),
-                  ],
-                  rows: List<DataRow>.generate(
-                    20,
-                    (index) => const DataRow(
-                      cells: <DataCell>[
-                        DataCell(Text("")),
-                        DataCell(Text("")),
-                        DataCell(Text("")),
-                        DataCell(Text("")),
-                        DataCell(Text("")),
-                        DataCell(Text("")),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
+        return const ViewEmployeeReport();
       default:
-        return Container();
+        return const LoadingWidget(
+          width: double.infinity,
+          height: 500,
+        );
     }
   }
 }

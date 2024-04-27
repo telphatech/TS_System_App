@@ -114,6 +114,27 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 contentPadding: const EdgeInsets.only(left: 8),
                 selectedTileColor: const Color.fromRGBO(255, 255, 255, 0.5),
                 title: Text(
+                  'Attendance',
+                  style: TTypography.normal.copyWith(color: TTColors.white),
+                ),
+                leading: const Icon(
+                  Icons.today_rounded,
+                  color: TTColors.white,
+                ),
+                onTap: () {
+                  Provider.of<CommonService>(context, listen: false)
+                      .setSelectedMenuItem(2, notify: false);
+                  serviceLocator<AppRouter>()
+                      .popAndPush(const LeaveDashboard());
+                },
+              ),
+              UIHelpers.verticalSpaceTiny,
+              ListTile(
+                selected:
+                    Provider.of<CommonService>(context).selectedMenuItem == 2,
+                contentPadding: const EdgeInsets.only(left: 8),
+                selectedTileColor: const Color.fromRGBO(255, 255, 255, 0.5),
+                title: Text(
                   'Leave',
                   style: TTypography.normal.copyWith(color: TTColors.white),
                 ),

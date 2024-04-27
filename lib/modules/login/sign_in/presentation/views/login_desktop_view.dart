@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/config/router/app_router.gr.dart';
@@ -11,6 +12,7 @@ import 'package:ts_system/utils/common/custom_snackbar_service.dart';
 import 'package:ts_system/utils/common/text_style.dart';
 import 'package:ts_system/utils/components/tt_colors.dart';
 import 'package:ts_system/utils/components/tt_icons.dart';
+import 'package:ts_system/utils/components/tt_string.dart';
 import 'package:ts_system/utils/components/tt_typography.dart';
 import 'package:ts_system/utils/components/ui_helpers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -208,7 +210,28 @@ class _LoginDesktopViewState extends State<LoginDesktopView> {
                                 backgroundColor: TTColors.primary,
                                 borderColor: TTColors.primary,
                                 iconColor: TTColors.white,
-                                child: const Text('Sign In'),
+                                child: SizedBox(
+                                  child: BlocBuilder<LoginBloc, LoginState>(
+                                    builder: (context, state) {
+                                      if (state is LoginLoading) {
+                                        return LoadingAnimationWidget
+                                            .horizontalRotatingDots(
+                                                color: TTColors.white,
+                                                size: UIHelpers.screenWidth(
+                                                        context) *
+                                                    0.05);
+                                      } else {
+                                        return Text(
+                                          AppUtils.signIn,
+                                          style: TTypography.normal.copyWith(
+                                              color: TTColors.white,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w700),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
                           ),

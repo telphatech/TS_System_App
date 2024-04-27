@@ -20,6 +20,7 @@ class ViewEmployeeBloc extends Bloc<ViewEmployeeEvent, ViewEmployeeState> {
   final TextEditingController emailController = TextEditingController();
   String? role;
   String? position;
+  String? reportingManager;
 
   List<String> roleList = ["admin", "employee", "manager"];
   List<String> statusList = ["onjob", "resigned"];

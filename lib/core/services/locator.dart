@@ -2,10 +2,18 @@ import 'package:get_it/get_it.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
+import 'package:ts_system/modules/configuration_system/data/repositories/view_attendance_report_repository_impl.dart';
+import 'package:ts_system/modules/configuration_system/data/repositories/view_leave_repository_impl.dart';
 import 'package:ts_system/modules/configuration_system/data/repositories/view_timesheet_report_repository_impl.dart';
+import 'package:ts_system/modules/configuration_system/domain/repositories/view_attendance_report_repository.dart';
+import 'package:ts_system/modules/configuration_system/domain/repositories/view_leave_repository.dart';
 import 'package:ts_system/modules/configuration_system/domain/repositories/view_timesheet_report_repository.dart';
+import 'package:ts_system/modules/configuration_system/domain/usecases/view_attendance_report_usecase.dart';
+import 'package:ts_system/modules/configuration_system/domain/usecases/view_leave_usecase.dart';
 import 'package:ts_system/modules/configuration_system/domain/usecases/view_timesheet_report_usecase.dart';
-import 'package:ts_system/modules/configuration_system/presentation/bloc/bloc/view_timesheet_bloc.dart';
+import 'package:ts_system/modules/configuration_system/presentation/bloc/view_attendance/view_attendance_bloc.dart';
+import 'package:ts_system/modules/configuration_system/presentation/bloc/view_leave/view_leave_bloc.dart';
+import 'package:ts_system/modules/configuration_system/presentation/bloc/view_timesheet/view_timesheet_bloc.dart';
 import 'package:ts_system/modules/dashboard/data/repositories/checkin_repository_impl.dart';
 import 'package:ts_system/modules/dashboard/domain/repositories/checkin_repository.dart';
 import 'package:ts_system/modules/dashboard/domain/repositories/checkout_repository.dart';
@@ -161,6 +169,20 @@ void initializeDependencies() {
       ViewTimesheetReportRepositoryImpl());
   serviceLocator.registerLazySingleton<ViewTimesheetReportUseCase>(
       () => ViewTimesheetReportUseCase());
+
+  // ************* VIEW ATTENDANCE REPORT ****************
+  serviceLocator.registerSingleton<ViewAttendanceBloc>(ViewAttendanceBloc());
+  serviceLocator.registerSingleton<ViewAttendanceReportRepository>(
+      ViewAttendanceReportRepositoryImpl());
+  serviceLocator.registerLazySingleton<ViewAttendanceReportUseCase>(
+      () => ViewAttendanceReportUseCase());
+
+  // ************* VIEW ATTENDANCE REPORT ****************
+  serviceLocator.registerSingleton<ViewLeaveBloc>(ViewLeaveBloc());
+  serviceLocator
+      .registerSingleton<ViewLeaveRepository>(ViewLeaveRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<ViewLeaveUseCase>(() => ViewLeaveUseCase());
 
   // ********* HOLIDAYS ******************
   serviceLocator
