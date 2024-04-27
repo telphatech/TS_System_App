@@ -86,7 +86,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 },
               ),
               UIHelpers.verticalSpaceTiny,
-              if (sharedPreferenceService.role != "employee")
+              if (sharedPreferenceService.role == "admin")
                 ListTile(
                   selected:
                       Provider.of<CommonService>(context).selectedMenuItem == 1,
@@ -104,7 +104,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                     Provider.of<CommonService>(context, listen: false)
                         .setSelectedMenuItem(1, notify: false);
                     serviceLocator<AppRouter>()
-                        .popAndPush(const ViewEmployeeRoute());
+                        .popAndPush(const ConfigurationSystemRoute());
                   },
                 ),
               UIHelpers.verticalSpaceTiny,

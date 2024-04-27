@@ -23,6 +23,7 @@ class TTIcons {
   static const IconData stop = Icons.stop_circle_outlined;
   static const IconData time = Icons.access_time_filled_rounded;
   static const IconData arrowback = Icons.arrow_back_ios_new;
+  static const IconData arrowLeft = Icons.arrow_forward_ios_rounded;
   static const IconData check = Icons.check;
   static const IconData filter = Icons.filter_list;
   static const IconData taskcheck = Icons.assignment_turned_in_rounded;

@@ -2,6 +2,10 @@ import 'package:get_it/get_it.dart';
 import 'package:ts_system/config/router/app_router.dart';
 import 'package:ts_system/core/change_notifiers/common_service.dart';
 import 'package:ts_system/core/services/shared_preference.dart';
+import 'package:ts_system/modules/configuration_system/data/repositories/view_timesheet_report_repository_impl.dart';
+import 'package:ts_system/modules/configuration_system/domain/repositories/view_timesheet_report_repository.dart';
+import 'package:ts_system/modules/configuration_system/domain/usecases/view_timesheet_report_usecase.dart';
+import 'package:ts_system/modules/configuration_system/presentation/bloc/bloc/view_timesheet_bloc.dart';
 import 'package:ts_system/modules/dashboard/data/repositories/checkin_repository_impl.dart';
 import 'package:ts_system/modules/dashboard/domain/repositories/checkin_repository.dart';
 import 'package:ts_system/modules/dashboard/domain/repositories/checkout_repository.dart';
@@ -150,6 +154,13 @@ void initializeDependencies() {
       .registerSingleton<FetchCountRepository>(FetchCountRepositoryImpl());
   serviceLocator
       .registerLazySingleton<FetchCountUseCase>(() => FetchCountUseCase());
+
+  // ************* VIEW TIMESHEET REPORT ****************
+  serviceLocator.registerSingleton<ViewTimesheetBloc>(ViewTimesheetBloc());
+  serviceLocator.registerSingleton<ViewTimesheetReportRepository>(
+      ViewTimesheetReportRepositoryImpl());
+  serviceLocator.registerLazySingleton<ViewTimesheetReportUseCase>(
+      () => ViewTimesheetReportUseCase());
 
   // ********* HOLIDAYS ******************
   serviceLocator

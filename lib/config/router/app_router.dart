@@ -13,6 +13,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: LeaveDashboard.page),
         AutoRoute(page: LeaveDetailsMobileView.page),
         AutoRoute(page: ApplyLeaveMobileView.page),
+        AutoRoute(page: ConfigurationSystemRoute.page),
         AutoRoute(page: ViewEmployeeRoute.page),
         AutoRoute(page: AddEmployeeMobileView.page),
         AutoRoute(page: EmployeeRegistrationRoute.page),

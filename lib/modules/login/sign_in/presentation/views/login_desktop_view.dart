@@ -182,12 +182,14 @@ class _LoginDesktopViewState extends State<LoginDesktopView> {
                                             refId: BlocProvider.of<LoginBloc>(
                                                     context)
                                                 .refIdController
-                                                .text,
+                                                .text
+                                                .trim(),
                                             password:
                                                 BlocProvider.of<LoginBloc>(
                                                         context)
                                                     .passwordController
-                                                    .text));
+                                                    .text
+                                                    .trim()));
                                   } else if (state is LoginError) {
                                     CustomSnackBarService().showErrorSnackBar(
                                         context,
